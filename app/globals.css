@@ -116,3 +116,84 @@
  [data-reveal].reveal-pending{opacity:1;transform:none}
  .project-card,.project-art{transform:none!important;transition:none!important}
 }
+
+
+/* DXJ Labs V3: mobile-first clarity and denser editorial rhythm */
+html{scroll-padding-top:82px}
+.site-header{box-shadow:0 4px 20px #0002}
+.project-card:focus-within{border-color:var(--lime)}
+.project-card .round-arrow{color:var(--lime)}
+.project-card .round-arrow:hover{color:var(--bg)}
+@media (max-width:800px){
+  html{scroll-padding-top:72px}
+  .statement-grid,.contact-grid{padding-top:64px;padding-bottom:64px}
+  .work-section,.approach-section{padding:64px 0}
+  .section-heading{margin-bottom:30px}
+  .hero-main{padding:36px 0 24px}
+  .hero-art{height:310px}
+  .statement{margin-bottom:28px}
+  .manifesto p{margin:42px 0 55px}
+}
+@media (max-width:540px){
+  html{scroll-padding-top:65px}
+  .header-inner{height:64px}
+  .site-nav{top:64px}
+  .brand{gap:9px}
+  .brand-symbol{width:34px;height:34px;font-size:17px}
+  .brand-symbol span{font-size:10px}
+  .brand-name{font-size:19px}
+  .brand-name small{font-size:6px;top:22px;letter-spacing:.02em}
+  .mobile-toggle{padding:9px 12px;font-size:12px}
+  .hero-topline{padding:16px 0}
+  .hero-main{padding:27px 0 16px}
+  .hero h1{font-size:clamp(54px,13.4vw,69px);margin-bottom:20px}
+  .hero-lede{font-size:14px;line-height:1.55;margin-bottom:22px}
+  .eyebrow{margin-bottom:16px}
+  .hero-art{height:250px}
+  .hero-bottom{padding:14px 0}
+  .orbit-a{width:215px;height:105px}
+  .orbit-b{width:170px;height:225px}
+  .orbit-c{width:240px;height:235px}
+  .core-ring{width:98px;height:98px}
+  .core-ring>span{font-size:28px}
+  .core-ring small{font-size:6px}
+  .core-ring::before{width:122px;height:122px;margin:-61px 0 0 -61px}
+  .signal-panel-a{top:8%;left:0}
+  .signal-panel-b{bottom:2%;right:0}
+  .studio-ticker .ticker-set{padding-top:12px;padding-bottom:12px}
+  .statement-grid,.contact-grid{padding-top:46px;padding-bottom:48px;gap:20px}
+  .statement{font-size:clamp(28px,7.2vw,37px);line-height:1.16;margin-bottom:24px}
+  .statement-bottom p{font-size:13px;line-height:1.65}
+  .signature{display:none}
+  .work-section,.approach-section{padding:48px 0 56px}
+  .section-heading{margin-bottom:24px;gap:12px}
+  .section-heading h2{font-size:clamp(38px,10vw,48px);margin-bottom:12px}
+  .section-heading p{font-size:13px;line-height:1.6}
+  .work-grid{gap:16px}
+  .project-art,.project-card:last-child .project-art{height:215px}
+  .project-art-top{top:14px;left:15px;right:15px}
+  .visual-footer{bottom:13px;left:15px}
+  .shield-outer{transform:scale(.75)}
+  .art-vinss .shield-outer{scale:.75}
+  .carel-halo{scale:.75}
+  .art-carel strong{font-size:88px}
+  .art-grow .sun{width:125px;height:125px;top:30px;right:60px}
+  .art-grow .grow-mark{font-size:88px}
+  .project-meta{padding:17px 18px 21px}
+  .project-title-row{margin-top:15px}
+  .project-title-row h3{font-size:30px}
+  .project-meta>p{font-size:12px;line-height:1.6;margin-top:9px}
+  .work-footnote{font-size:9px;margin-top:17px}
+  .approach-heading{margin-bottom:25px}
+  .capability{padding:16px 0;min-height:0}
+  .capability h3{font-size:19px}
+  .capability p{font-size:12px;line-height:1.5}
+  .manifesto{padding-top:25px;padding-bottom:25px}
+  .manifesto p{font-size:clamp(42px,10.3vw,55px);margin:37px 0 40px}
+  .manifesto-bottom{font-size:7px}
+  .contact-grid h2{font-size:clamp(48px,12vw,64px);margin-bottom:17px}
+  .contact-grid>div>p:not(.eyebrow){font-size:13px;line-height:1.6}
+  .contact-cta{margin-top:25px;padding:17px 0;font-size:18px}
+  .footer-inner{gap:12px;padding-top:25px;padding-bottom:25px}
+  .footer-logo{font-size:24px}
+}
