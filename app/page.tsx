@@ -1,171 +1,267 @@
-import Script from "next/script";
+import type { Metadata } from "next";
 import Link from "next/link";
-import PlatformHeader from "../components/PlatformHeader";
-import PlatformFooter from "../components/PlatformFooter";
+import Script from "next/script";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
-import { articles, activities } from "../lib/platform";
-import { vinssContracts, contractExplorerUrl, evidenceUrls } from "../lib/evidence";
+import { activities, publishedArticles } from "../lib/platform";
+import "./homepage.css";
 
 export const revalidate = 300;
+export const metadata: Metadata = {
+  title: "DXJ Labs — Multi-Chain Product Studio",
+  description: "DXJ Labs builds privacy-first Web3 products and explores AI, finance, and interactive experiences across blockchain networks. Explore projects, public development progress, and research.",
+};
 
-const chainStages = [
-  { name: "Starknet Mainnet", state: "Documented deployment", detail: "VINSS contracts & CAREL integrations" },
-  { name: "Starknet Sepolia", state: "Development / testing", detail: "CAREL testing workflows" },
-  { name: "Additional networks", state: "Architecture / planned", detail: "Adapters are evaluated per product" },
-];
+function Arrow() {
+  return <span className="dxj-arrow" aria-hidden="true">↗</span>;
+}
 
-function UpArrow() { return <span aria-hidden="true" className="real-arrow">↗</span>; }
+function StudioNav() {
+  return (
+    <header className="dxj-nav nav">
+      <Link className="dxj-logo" href="/" aria-label="DXJ Labs homepage">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
+      <nav className="dxj-nav-links" aria-label="Site navigation">
+        <Link href="/ecosystem">Ecosystem</Link>
+        <Link href="/activities">Activities</Link>
+        <Link href="/blog">Journal</Link>
+        <Link href="/analytics">Analytics</Link>
+        <Link href="/investors">Investors</Link>
+      </nav>
+      <Link href="/ecosystem" className="dxj-nav-action">Explore projects <Arrow /></Link>
+      <details className="dxj-mobile-menu">
+        <summary aria-label="Toggle navigation">Menu <span aria-hidden="true">☰</span></summary>
+        <nav aria-label="Mobile navigation">
+          <Link href="/ecosystem">Ecosystem</Link>
+          <Link href="/activities">Activities</Link>
+          <Link href="/blog">Blog & Research</Link>
+          <Link href="/analytics">Analytics</Link>
+          <Link href="/investors">Investor Overview</Link>
+          <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+      </details>
+    </header>
+  );
+}
+
+function NetworkGraphic() {
+  return (
+    <svg className="dxj-network-art" viewBox="0 0 620 590" role="img" aria-label="DXJ Labs connected to privacy, intelligent finance, and future blockchain products">
+      <defs>
+        <radialGradient id="dxj-node-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#d2fca1" stopOpacity=".36"/><stop offset="100%" stopColor="#d2fca1" stopOpacity="0"/></radialGradient>
+        <linearGradient id="dxj-connect-line" x1="0" x2="1"><stop stopColor="#bdea8c" stopOpacity=".35"/><stop offset="1" stopColor="#bdea8c" stopOpacity=".85"/></linearGradient>
+      </defs>
+      <circle cx="307" cy="298" r="242" fill="none" stroke="#b4df9c" opacity=".15" strokeWidth="1.4"/>
+      <circle cx="307" cy="298" r="184" fill="none" stroke="#a7d693" opacity=".28" strokeDasharray="4 11" strokeWidth="1.2"/>
+      <circle cx="307" cy="298" r="117" fill="none" stroke="#a7d693" opacity=".45" strokeWidth="1.4"/>
+      <circle cx="307" cy="298" r="160" fill="url(#dxj-node-glow)"/>
+      <path d="M307 298 L145 157 M307 298 L487 193 M307 298 L458 455 M307 298 L155 445" stroke="url(#dxj-connect-line)" strokeWidth="2.3" fill="none"/>
+      <circle cx="307" cy="298" r="74" fill="#bce990"/>
+      <circle cx="307" cy="298" r="61" fill="#d9f6b8" stroke="#173c25" strokeWidth="1"/>
+      <text x="307" y="310" fontFamily="Arial,sans-serif" fontSize="39" fill="#173622" fontWeight="800" textAnchor="middle">DXJ</text>
+      <circle cx="145" cy="157" r="37" fill="#203e2a" stroke="#d1f2a6" strokeWidth="2"/>
+      <path d="M130 150 V144 A15 15 0 0 1 160 144 V150 M127 149 H163 V168 H127 Z" fill="none" stroke="#d2f5b3" strokeWidth="2.3"/>
+      <circle cx="487" cy="193" r="37" fill="#283d36" stroke="#d1f2a6" strokeWidth="2"/>
+      <path d="M487 171 L493 184 L507 186 L497 196 L500 210 L487 204 L474 210 L477 196 L467 186 L481 184 Z" fill="none" stroke="#d9f7ba" strokeWidth="2"/>
+      <circle cx="458" cy="455" r="19" fill="#6e985c" stroke="#d1f2a6"/>
+      <circle cx="155" cy="445" r="19" fill="#6e985c" stroke="#d1f2a6"/>
+      <text x="145" y="105" textAnchor="middle" fill="#e6f5e1" fontFamily="Arial,sans-serif" fontSize="17" fontWeight="700">VINSS</text>
+      <text x="487" y="136" textAnchor="middle" fill="#e6f5e1" fontFamily="Arial,sans-serif" fontSize="17" fontWeight="700">CAREL</text>
+      <text x="477" y="502" textAnchor="middle" fill="#bcd9b8" fontFamily="Arial,sans-serif" fontSize="12">FUTURE NETWORKS</text>
+      <text x="155" y="489" textAnchor="middle" fill="#bcd9b8" fontFamily="Arial,sans-serif" fontSize="12">RESEARCH</text>
+    </svg>
+  );
+}
+
+function VinssGraphic() {
+  return (
+    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Illustrative VINSS encrypted deal room interface">
+      <rect width="590" height="310" rx="7" fill="#e9f0e6"/>
+      <rect x="0" width="590" height="41" rx="7" fill="#cddfc8"/>
+      <circle cx="22" cy="21" r="5" fill="#56885b"/><circle cx="39" cy="21" r="5" fill="#789a74"/><circle cx="56" cy="21" r="5" fill="#a1b69c"/>
+      <text x="85" y="26" fill="#24422f" fontFamily="Arial,sans-serif" fontSize="13" fontWeight="700">VINSS / SECURE WORKSPACE</text>
+      <rect x="0" y="41" width="149" height="269" fill="#d7e5d3"/>
+      <text x="19" y="77" fontSize="10" fill="#527357" fontFamily="Arial,sans-serif">WORKSPACE</text>
+      <rect x="12" y="94" width="125" height="32" fill="#b4d1ab" rx="3"/>
+      <text x="25" y="114" fontSize="13" fill="#1d4530" fontFamily="Arial,sans-serif" fontWeight="700">Overview</text>
+      <text x="25" y="154" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Messages</text>
+      <text x="25" y="189" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Agreements</text>
+      <text x="25" y="224" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Settlement</text>
+      <text x="179" y="81" fontSize="12" fontFamily="Arial,sans-serif" fill="#577b5d">DEAL ROOM  /  001</text>
+      <text x="179" y="127" fontSize="31" fontWeight="700" fontFamily="Arial,sans-serif" fill="#1a3c27">Private by design.</text>
+      <text x="179" y="151" fontSize="13" fontFamily="Arial,sans-serif" fill="#365842">A workspace for confidential agreements</text>
+      <rect x="179" y="178" width="177" height="72" rx="3" fill="#fff" stroke="#bdd3b9"/>
+      <rect x="368" y="178" width="194" height="72" rx="3" fill="#fff" stroke="#bdd3b9"/>
+      <text x="192" y="201" fontSize="11" fill="#486b4e" fontFamily="Arial,sans-serif">AGREEMENT</text>
+      <text x="192" y="230" fontSize="15" fontWeight="700" fill="#1e452d" fontFamily="Arial,sans-serif">Pending review</text>
+      <text x="381" y="201" fontSize="11" fill="#486b4e" fontFamily="Arial,sans-serif">SESSION</text>
+      <text x="381" y="230" fontSize="15" fontWeight="700" fill="#1e452d" fontFamily="Arial,sans-serif">Encrypted room</text>
+      <rect x="179" y="266" width="383" height="29" rx="3" fill="#d4e5d0"/>
+      <text x="193" y="285" fontSize="12" fill="#2c593a" fontFamily="Arial,sans-serif">Proposal ready for review</text>
+    </svg>
+  );
+}
+
+function CarelGraphic() {
+  return (
+    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Illustrative CAREL AI financial research interface">
+      <rect width="590" height="310" fill="#252133" rx="7"/>
+      <circle cx="460" cy="105" r="91" fill="#554765" opacity=".4"/>
+      <circle cx="460" cy="105" r="60" fill="none" stroke="#a78dc2" strokeWidth="1.5" opacity=".7"/>
+      <path d="M460 55 V155 M410 105 H510 M424 69 L496 141 M424 141 L496 69" stroke="#e2b9fb" strokeWidth="1.6"/>
+      <text x="31" y="46" fill="#eedafa" fontFamily="Arial,sans-serif" fontSize="25" fontWeight="700">carel ✳</text>
+      <text x="31" y="93" fill="#ceb5e6" fontFamily="Arial,sans-serif" fontSize="11">RESEARCH / INTELLIGENCE</text>
+      <text x="31" y="158" fill="#f3e6ff" fontFamily="Arial,sans-serif" fontSize="38" fontWeight="700">Insights,</text>
+      <text x="31" y="202" fill="#f3e6ff" fontFamily="Arial,sans-serif" fontSize="38" fontWeight="700">not noise.</text>
+      <rect x="31" y="245" rx="4" width="528" height="43" fill="#e2d0f0"/>
+      <text x="49" y="272" fill="#4c3960" fontFamily="Arial,sans-serif" fontSize="14">Explore an AI research workflow</text>
+      <text x="534" y="272" fill="#4c3960" fontFamily="Arial,sans-serif" fontSize="23" textAnchor="end">↗</text>
+    </svg>
+  );
+}
 
 export default async function Home() {
-  const data = await getConsoleSnapshot();
-  const tracked = data.repositories.filter(repo => repo.config.slug === "vinss" || repo.config.slug === "carel");
-  const recentCommits = tracked.flatMap(repo => repo.commits.slice(0, 2)).sort((a,b) => (b.date || "").localeCompare(a.date || "")).slice(0, 3);
-  const studioArticle = articles.find(a => a.status === "published");
-  const activity = activities[0];
+  const snapshot = await getConsoleSnapshot();
+  const vinss = snapshot.repositories.find(item => item.config.slug === "vinss");
+  const carel = snapshot.repositories.find(item => item.config.slug === "carel");
+  const latest = snapshot.commits.slice(0, 2);
+  const article = publishedArticles[0] ?? null;
+  const activity = activities[0] ?? null;
 
   return (
-    <div className="rebrand-app" id="top">
-      <PlatformHeader />
-      <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive" />
-      <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive" />
-      <main id="main-content">
-        <section className="real-hero" aria-labelledby="real-hero-title">
-          <div className="layout">
-            <div className="real-hero-meta"><span><i /> DXJ LABS / ECOSYSTEM</span><span>INDEPENDENT PRODUCT STUDIO — EST. 2026</span></div>
-            <div className="real-hero-grid">
-              <div className="real-hero-story">
-                <p className="real-overline">01 / WE BUILD THE INFRASTRUCTURE AND THE EXPERIENCE</p>
-                <h1 id="real-hero-title">More than<br />an idea.<br /><em>On-chain.</em></h1>
-                <p className="real-hero-intro">A multi-chain Web3 product studio creating privacy infrastructure, agentic finance, and the next generation of digital experiences.</p>
-                <div className="real-hero-actions">
-                  <Link href="#products" className="real-button real-button-primary">Explore our products <UpArrow /></Link>
-                  <Link href="/ecosystem" className="real-button-text">Ecosystem directory <UpArrow /></Link>
-                </div>
-                <div className="real-hero-location"><span>BASED IN EAST KALIMANTAN, INDONESIA</span><span>SCROLL TO EXPLORE ↓</span></div>
-              </div>
+    <main id="main-content" className="dxj-home">
+      <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive"/>
+      <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive"/>
 
-              <div className="real-hero-intel">
-                <div className="real-intel-top"><span>DXJ / PRODUCT STATUS</span><span className="real-indicator"><i /> PUBLIC RECORDS</span></div>
-                <div className="real-intel-center">
-                  <div className="real-intel-orbit" aria-hidden="true"><span>DXJ</span><i className="real-satellite one"/><i className="real-satellite two"/><i className="real-satellite three"/></div>
-                  <div className="real-intel-heading"><span>OUR ECOSYSTEM</span><h2>Build.<br/>Verify.<br/><em>Expand.</em></h2></div>
-                </div>
-                <div className="real-product-status-grid">
-                  <Link href="/ecosystem/vinss" className="real-status-tile">
-                    <span>01 / PRIVACY</span><strong>VINSS</strong><small>Starknet Mainnet · documented</small><span className="real-status-arrow">↗</span>
-                  </Link>
-                  <a href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer" className="real-status-tile">
-                    <span>02 / AGENTIC DEFI</span><strong>CAREL</strong><small>Public application available</small><span className="real-status-arrow">↗</span>
-                  </a>
-                </div>
-                <div className="real-intel-bottom"><span>RECORDS LINK TO OFFICIAL SOURCES</span><span>V1.0 / WEB3 ECOSYSTEM</span></div>
+      <section id="top" className="dxj-screen dxj-hero hero" data-enter>
+        <div className="wrap dxj-wrap dxj-hero-wrap">
+          <StudioNav />
+          <div className="dxj-split dxj-hero-body">
+            <div className="dxj-hero-copy">
+              <p className="dxj-kicker"><span className="dxj-live-dot"/> EAST KALIMANTAN · INDONESIA / PRODUCT STUDIO</p>
+              <h1>Building<br/><em>useful Web3.</em></h1>
+              <p className="dxj-lead">Privacy products. Intelligent finance. Experimental experiences. One independent studio building across blockchain networks.</p>
+              <div className="dxj-actions">
+                <Link className="btn btn--primary btn--xl dxj-button" href="/ecosystem">Explore our ecosystem <Arrow /></Link>
+                <Link className="dxj-text-link" href="/activities">See the build log <Arrow /></Link>
               </div>
+              <p className="dxj-small-note">VINSS & CAREL · ACTIVE DEVELOPMENT DIRECTIONS</p>
+            </div>
+            <div className="dxj-hero-visual">
+              <NetworkGraphic />
+              <div className="dxj-evidence-label"><span>DXJ / SYSTEM MAP</span><span>VISUAL CONCEPT</span></div>
             </div>
           </div>
-        </section>
+          <div className="dxj-hero-foot"><span>01 / PRODUCT STUDIO</span><span>SCROLL TO EXPLORE ↓</span></div>
+        </div>
+      </section>
 
-        <section className="real-proofline" aria-label="DXJ Labs public evidence">
-          <div className="layout real-proofline-inner">
-            <div><strong>02</strong><span>Official product<br/>repositories</span></div>
-            <div><strong>07</strong><span>VINSS mainnet contracts<br/>listed in repository</span></div>
-            <div><strong>01</strong><span>CAREL public<br/>application</span></div>
-            <a href={evidenceUrls.vinssMainnet} target="_blank" rel="noopener noreferrer">Source-linked proof <UpArrow /></a>
-          </div>
-        </section>
-
-        <section className="real-products" id="products">
-          <div className="layout">
-            <div className="real-section-top"><div><p className="real-overline">02 / OUR PRODUCTS</p><h2>Technology made<br/><em>tangible.</em></h2></div><p>Different products. Different technical challenges. One standard: make the progress inspectable.</p></div>
-            <article className="real-vinss">
-              <div className="real-vinss-content">
-                <div className="real-project-topline"><span>01 / PRIVACY INFRASTRUCTURE</span><span className="real-project-state"><i/> MAINNET DEPLOYMENT DOCUMENTED</span></div>
-                <div className="real-project-mark">V<span>◈</span></div>
-                <h3>VINSS</h3>
-                <p className="real-project-lead">The private deal room for the on-chain economy.</p>
-                <p className="real-project-body">From encrypted conversation to structured offers and shielded escrow—one connected deal lifecycle with verifiable settlement evidence.</p>
-                <div className="real-deal-lifecycle" aria-label="VINSS lifecycle: message, offer, escrow, settlement">
-                  <span>MESSAGE</span><b>→</b><span>OFFER</span><b>→</b><span>ESCROW</span><b>→</b><span>PROOF</span>
-                </div>
-                <div className="real-project-actions">
-                  <Link href="/ecosystem/vinss" className="real-button real-button-lime">Explore VINSS <UpArrow /></Link>
-                  <a href={evidenceUrls.vinssRepo} target="_blank" rel="noopener noreferrer" className="real-quiet-link">Technical repository <UpArrow /></a>
-                </div>
-                <p className="real-project-footnote">Mainnet status and contracts are documented by the product team. Always verify on an independent explorer.</p>
-              </div>
-              <div className="real-vinss-evidence">
-                <div className="real-evidence-header"><span>VINSS / DEPLOYMENT RECORDS</span><span>STARKNET MAINNET</span></div>
-                <div className="real-evidence-banner"><span><i/> CONTRACT REGISTRY</span><strong>07</strong><small>Distinct addresses published by VINSS</small></div>
-                <div className="real-contract-list">
-                  {vinssContracts.map((contract,i) => (
-                    <a href={contractExplorerUrl(contract.address)} target="_blank" rel="noopener noreferrer" key={contract.address} className="real-contract">
-                      <span>{String(i+1).padStart(2,"0")}</span><div><strong>{contract.name}</strong><small>{contract.purpose} / {contract.address.slice(0,10)}…{contract.address.slice(-6)}</small></div><i aria-hidden="true">↗</i>
-                    </a>
-                  ))}
-                </div>
-                <div className="real-evidence-footer"><span>SOURCE: OFFICIAL VINSS README</span><a href={evidenceUrls.vinssSprint} target="_blank" rel="noopener noreferrer">View sprint evidence ↗</a></div>
+      <section id="work" className="dxj-screen dxj-work">
+        <div className="wrap dxj-wrap dxj-section-wrap">
+          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>Projects taking shape.</h2></div><Link className="dxj-text-link" href="/ecosystem">All projects <Arrow /></Link></div>
+          <div className="dxj-projects">
+            <article className="dxj-product">
+              <VinssGraphic />
+              <div className="dxj-project-details">
+                <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
+                <a href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
               </div>
             </article>
-
-            <article className="real-carel">
-              <div className="real-carel-copy">
-                <div className="real-project-topline"><span>02 / AGENTIC FINANCE</span><span className="real-project-state"><i/> PUBLIC APP</span></div>
-                <div className="real-carel-glyph" aria-hidden="true">✳</div>
-                <h3>CAREL<span>®</span></h3>
-                <p className="real-project-lead">DeFi, directed by intent.</p>
-                <p className="real-project-body">A goal-driven financial interface that routes supported swaps, lending, staking and privacy workflows through explicit review and wallet approval.</p>
-                <div className="real-carel-integrations"><span>AVNU</span><span>Vesu</span><span>Endur</span><span>STRK20</span></div>
-                <div className="real-project-actions">
-                  <a className="real-button real-button-dark" href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer">Open CAREL app <UpArrow /></a>
-                  <Link href="/ecosystem/carel" className="real-quiet-link">Product details <UpArrow /></Link>
-                </div>
-                <p className="real-project-footnote">Public application URL and integrations are cited in the official CAREL repository.</p>
-              </div>
-              <div className="real-carel-visual">
-                <div className="real-browser-toolbar"><span className="real-browser-dots"><i/><i/><i/></span><span>carel-v2-mock.vercel.app</span><a href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer" aria-label="Open CAREL app">↗</a></div>
-                <div className="real-browser-window" role="img" aria-label="Screenshot area of the published CAREL application">
-                  <div className="real-browser-fallback"><strong>carel<span>✳</span></strong><p>Agentic DeFi execution</p><small>OPEN THE PUBLIC APPLICATION TO EXPLORE</small></div>
-                </div>
-                <div className="real-browser-bottom"><span>PUBLIC PRODUCT EXPERIENCE</span><span>CAREL / DXJ LABS</span></div>
+            <article className="dxj-product">
+              <CarelGraphic />
+              <div className="dxj-project-details">
+                <div><span className="dxj-project-category">AI · FINANCIAL RESEARCH</span><h3>CAREL</h3><p>Exploring AI-assisted research and digital financial interfaces.</p></div>
+                <a href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
               </div>
             </article>
-            <div className="real-candidate"><div><span className="real-overline">EXPERIMENTAL / NOT YET AN OFFICIAL DXJ LABS RELEASE</span><h3>Growhaven <span>↗</span></h3><p>A personal game prototype under validation. No blockchain deployment or game token is claimed.</p></div><Link href="/ecosystem/growhaven">Read prototype status <UpArrow /></Link></div>
           </div>
-        </section>
+          <p className="dxj-disclaimer">Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
+        </div>
+      </section>
 
-        <section className="real-buildfeed" id="buildfeed">
-          <div className="layout">
-            <div className="real-buildfeed-head"><div><p className="real-overline">03 / TRANSPARENT DEVELOPMENT</p><h2>Not just promises.<br/><em>Public commits.</em></h2></div><Link href="/activities" className="real-text-action">Full activity log <UpArrow /></Link></div>
-            <div className="real-buildfeed-grid">
-              <div className="real-feed-statement"><span className="real-green-dot"/> FROM THE DXJ LABS GITHUB ORGANIZATION <p>We publish source-linked development signals. This is engineering activity, not user adoption, token trading volume, or revenue.</p><div><strong>{data.repositories.filter(repo=>repo.metadata).length}/{data.repositories.length}</strong><span>Public sources accessible at last data fetch</span></div></div>
-              <div className="real-feed-list">
-                {recentCommits.length ? recentCommits.map(commit=><a href={commit.url} key={commit.sha+commit.slug} target="_blank" rel="noopener noreferrer" className="real-feed-item"><div><span>{commit.project.toUpperCase()} / {readableDate(commit.date)}</span><strong>{commit.title}</strong><small>{commit.author} · {commit.shortSha}</small></div><span aria-hidden="true">↗</span></a>) : <div className="real-feed-empty">GitHub is temporarily unavailable. <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Browse source repositories ↗</a></div>}
-                <div className="real-feed-source">SOURCE: GITHUB REST API · 5-MIN CACHE · NO FAKE DATA</div>
+      <section id="multichain" className="dxj-screen dxj-multichain" data-moment="word-highlight">
+        <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
+          <div className="dxj-multi-copy">
+            <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
+            <h2 className="mo-wh__text">Different products deserve different infrastructure. DXJ Labs builds across networks with <strong>real utility</strong> as the starting point.</h2>
+            <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
+          </div>
+          <div className="dxj-multi-visual">
+            <NetworkGraphic />
+            <div className="dxj-multi-sources">
+              <span>STARKNET · DEVELOPMENT</span>
+              <span>MULTI-CHAIN · PLANNED</span>
+              <span>DXJ TOKEN · NOT ISSUED</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="activity" className="dxj-screen dxj-publishing">
+        <div className="wrap dxj-wrap dxj-section-wrap">
+          <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>Proof in the work.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
+          <div className="dxj-publishing-grid">
+            <article className="dxj-activity-feature">
+              <svg viewBox="0 0 480 160" role="img" aria-label="Source code and development illustration" className="dxj-publishing-art">
+                <rect x="20" y="21" width="440" height="121" rx="6" fill="#20402a"/>
+                <path d="M134 46 L95 81 L134 116 M210 46 L249 81 L210 116 M189 41 L156 120" fill="none" stroke="#d0f1b0" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M314 55 H425 M314 82 H403 M314 109 H425" fill="none" stroke="#81b16e" strokeWidth="6" strokeLinecap="round"/>
+              </svg>
+              <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>Recent source changes.</h3>
+                {latest.length ? <div className="dxj-commits">{latest.map(item => <a href={item.url} key={item.sha} target="_blank" rel="noopener noreferrer"><span>{item.project} · {readableDate(item.date)}</span>{item.title}<Arrow /></a>)}</div> : <p>Public GitHub activity is temporarily unavailable. See the linked repositories for updates.</p>}
+              </div>
+            </article>
+            <article className="dxj-journal-feature">
+              <svg viewBox="0 0 480 160" role="img" aria-label="Technical journal illustration" className="dxj-publishing-art">
+                <rect x="28" y="17" width="180" height="122" rx="5" fill="#cce4b9"/>
+                <rect x="244" y="17" width="208" height="122" rx="5" fill="#b6d4a5"/>
+                <path d="M55 45 H180 M55 69 H165 M55 93 H183 M55 117 H133" stroke="#375e3c" strokeWidth="7" strokeLinecap="square"/>
+                <circle cx="344" cy="78" r="40" stroke="#3c6d43" strokeWidth="7" fill="none"/>
+                <path d="M344 38 V118 M304 78 H384" stroke="#3c6d43" strokeWidth="5"/>
+              </svg>
+              <div><p className="dxj-project-category">JOURNAL / RESEARCH</p><h3>{article?.title || "Research from the studio"}</h3><p>{article?.excerpt || "Engineering notes and research will appear as they're published."}</p>
+                <Link href={article ? "/blog/" + article.slug : "/blog"}>Read the journal <Arrow /></Link>
+              </div>
+            </article>
+          </div>
+          <div className="dxj-update-foot">{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
+        </div>
+      </section>
+
+      <section id="investors" className="dxj-screen dxj-closing">
+        <div className="wrap dxj-wrap dxj-closing-wrap">
+          <div className="dxj-split dxj-closing-main">
+            <div>
+              <p className="dxj-section-no">05 / TRANSPARENCY & PARTNERSHIPS</p>
+              <h2>Progress you<br/><em>can trace.</em></h2>
+              <p>Explore our development progress today. Verified cross-chain metrics, financial reports, and private investor access will be published when their data sources and controls are ready.</p>
+              <div className="dxj-actions">
+                <Link className="btn btn--primary btn--xl dxj-button" href="/analytics">View public metrics <Arrow /></Link>
+                <Link className="dxj-text-link dxj-link-light" href="/investors">Investor overview <Arrow /></Link>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="real-manifesto" data-moment="word-highlight">
-          <div className="layout"><span className="real-overline">OUR ECOSYSTEM IS NOT LIMITED TO ONE CHAIN</span><p className="mo-wh__text">Different products will live on different networks. DXJ Labs connects the experience, while every deployment and metric must remain <strong>verifiable at the source.</strong></p><Link href="/ecosystem" className="real-text-action">Explore our network strategy <UpArrow /></Link></div>
-        </section>
-
-        <section className="real-beyond">
-          <div className="layout">
-            <div className="real-section-top"><div><p className="real-overline">04 / MORE THAN PRODUCTS</p><h2>Inside the <em>studio.</em></h2></div><p>Follow what we build, what we learn, and the information we share with our ecosystem.</p></div>
-            <div className="real-beyond-grid">
-              <Link href="/activities" className="real-beyond-card"><span>01 / ACTIVITY</span><span className="real-card-symbol">↗</span><h3>Development<br/>& events.</h3><p>{activity?.summary || "Documented project updates and upcoming activities."}</p><strong>View activities <UpArrow /></strong></Link>
-              <Link href="/blog" className="real-beyond-card"><span>02 / PUBLICATIONS</span><span className="real-card-symbol">≡</span><h3>Blog<br/>& research.</h3><p>{studioArticle?.excerpt || "Technical writing and research from DXJ Labs."}</p><strong>Read the journal <UpArrow /></strong></Link>
-              <Link href="/investors" className="real-beyond-card real-investor-card"><span>03 / INVESTOR INFORMATION</span><span className="real-card-symbol">◈</span><h3>Proof<br/>& progress.</h3><p>Public project evidence and reporting methodology. Private investor records are not available yet.</p><strong>Investor overview <UpArrow /></strong></Link>
+            <div className="dxj-transparency-visual">
+              <svg viewBox="0 0 470 345" role="img" aria-label="Verifiable code updates and analytics provenance diagram">
+                <rect x="27" y="22" width="416" height="298" fill="#193a28" stroke="#658e6a" rx="5" strokeWidth="2"/>
+                <text x="52" y="60" fill="#d8efca" fontFamily="Arial,sans-serif" fontSize="16" fontWeight="700">PUBLIC DEVELOPMENT DATA</text>
+                <text x="52" y="100" fill="#b0d3aa" fontFamily="Arial,sans-serif" fontSize="13">VERIFIABLE GITHUB SOURCES</text>
+                <path d="M55 135 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="173" fill="#effae6" fontFamily="Arial,sans-serif" fontSize="24" fontWeight="700">VINSS</text>
+                <text x="322" y="173" fill="#bbeba1" fontFamily="Arial,sans-serif" fontSize="14">SOURCE ↗</text>
+                <path d="M55 193 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="230" fill="#effae6" fontFamily="Arial,sans-serif" fontSize="24" fontWeight="700">CAREL</text>
+                <text x="322" y="230" fill="#bbeba1" fontFamily="Arial,sans-serif" fontSize="14">SOURCE ↗</text>
+                <path d="M55 249 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="285" fill="#b0d3aa" fontFamily="Arial,sans-serif" fontSize="13">BLOCKCHAIN METRICS: NOT CONNECTED</text>
+              </svg>
             </div>
           </div>
-        </section>
-
-        <section className="real-network-table">
-          <div className="layout"><div className="real-network-heading"><div><p className="real-overline">05 / NETWORK ROADMAP</p><h2>Built to cross<br/><em>boundaries.</em></h2></div><p>Each integration is labeled according to what its project documents—not what a concept diagram suggests.</p></div><div className="real-networks">{chainStages.map((n,i)=><div key={n.name}><span>{String(i+1).padStart(2,"0")}</span><strong>{n.name}</strong><em>{n.state}</em><small>{n.detail}</small></div>)}</div></div>
-        </section>
-      </main>
-      <section className="real-final-cta"><div className="layout"><span>DXJ LABS / INDEPENDENT PRODUCT STUDIO</span><h2>Ideas are easy.<br/><em>Building is the point.</em></h2><div><Link href="/ecosystem">Explore our ecosystem <UpArrow /></Link><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Follow the build <UpArrow /></a></div><p>DXJ token is not issued. No investment returns, token prices or confidential investor data are claimed.</p></div></section>
-      <PlatformFooter />
-    </div>
+          <footer className="dxj-last-line">
+            <Link href="/" className="dxj-logo">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
+            <span>Independent studio · East Kalimantan, Indonesia</span>
+            <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GitHub <Arrow /></a>
+            <Link href="#top">Back to top ↑</Link>
+          </footer>
+        </div>
+      </section>
+    </main>
   );
 }
