@@ -1,222 +1,171 @@
-import PlatformHeader from "../components/PlatformHeader";
-import HeroSignal from "../components/HeroSignal";
 import Script from "next/script";
+import Link from "next/link";
+import PlatformHeader from "../components/PlatformHeader";
+import PlatformFooter from "../components/PlatformFooter";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
 import { articles, activities } from "../lib/platform";
+import { vinssContracts, contractExplorerUrl, evidenceUrls } from "../lib/evidence";
 
 export const revalidate = 300;
 
-function Arrow({ diagonal = false }: { diagonal?: boolean }) {
-  return <span aria-hidden="true" className="arrow-glyph">{diagonal ? "↗" : "→"}</span>;
-}
+const chainStages = [
+  { name: "Starknet Mainnet", state: "Documented deployment", detail: "VINSS contracts & CAREL integrations" },
+  { name: "Starknet Sepolia", state: "Development / testing", detail: "CAREL testing workflows" },
+  { name: "Additional networks", state: "Architecture / planned", detail: "Adapters are evaluated per product" },
+];
 
-function Brand() {
-  return (
-    <a href="#top" className="brand" aria-label="DXJ Labs, back to top">
-      <span className="brand-monogram" aria-hidden="true"><span>D</span><i /></span>
-      <span className="brand-wordmark">DXJ<span>LABS</span><small>INDEPENDENT PRODUCT STUDIO</small></span>
-    </a>
-  );
-}
-
-function VinssPreview() {
-  return (
-    <div className="product-screen vinss-screen" aria-label="Concept visualization of a VINSS private deal room">
-      <div className="screen-topbar"><span className="screen-dots"><i /><i /><i /></span><span>VINSS / WORKSPACE</span><span className="screen-security">◈ PRIVATE SESSION</span></div>
-      <div className="deal-body">
-        <aside className="deal-sidebar">
-          <span className="ui-kicker">WORKSPACE</span>
-          <span className="sidebar-line active">◇ &nbsp; Overview</span>
-          <span className="sidebar-line">≡ &nbsp; Messages</span>
-          <span className="sidebar-line">▣ &nbsp; Agreements</span>
-          <span className="sidebar-line">⬡ &nbsp; Settlement</span>
-          <div className="sidebar-bottom">● &nbsp; Connected securely</div>
-        </aside>
-        <div className="deal-main">
-          <div className="deal-top"><span>DEAL ROOM <b> / 001</b></span><span className="status-chip">● IN PROGRESS</span></div>
-          <h3>Private by design.</h3>
-          <p>One place to discuss, agree, and settle.</p>
-          <div className="deal-metric-row"><div><small>AGREEMENT</small><strong>Pending review</strong></div><div><small>WORKSPACE</small><strong>Encrypted room</strong></div></div>
-          <div className="deal-message"><span className="message-avatar">V</span><div><small>SECURE MESSAGE · JUST NOW</small><p>Proposal details are ready for your review.</p></div><span className="message-check">✓✓</span></div>
-          <div className="deal-compose"><span>Write a private message...</span><b>↑</b></div>
-        </div>
-      </div>
-      <span className="screen-disclaimer">ILLUSTRATIVE INTERFACE · NOT A LIVE PRODUCT SCREENSHOT</span>
-    </div>
-  );
-}
-
-function CarelPreview() {
-  return (
-    <div className="product-screen carel-screen" aria-label="Concept visualization of an AI-assisted financial interface">
-      <div className="carel-ui-top"><span className="carel-ui-brand">carel <i>✳</i></span><span>RESEARCH INTERFACE / 02</span></div>
-      <div className="carel-ui-card">
-        <span className="carel-orbit-icon">✳</span>
-        <span className="ui-kicker">INTELLIGENCE LAYER</span>
-        <h3>Insights, not noise.</h3>
-        <p>What would you like to understand today?</p>
-        <div className="carel-prompt"><span>Analyze this market pattern</span><b>↗</b></div>
-      </div>
-      <div className="carel-ui-bottom"><span><i /> SYSTEM EXPLORATION</span><span>AI / EXPERIMENT</span></div>
-      <span className="screen-disclaimer">ILLUSTRATIVE INTERFACE</span>
-    </div>
-  );
-}
-
-function GrowhavenPreview() {
-  return (
-    <div className="product-screen grow-screen" aria-label="Concept visualization of the Growhaven game world">
-      <div className="grow-hud"><span>GROWHAVEN <i>✦</i></span><span>WORLD / 001</span></div>
-      <div className="grow-scene" aria-hidden="true">
-        <span className="grow-sun" /><span className="grow-hill hill-one" /><span className="grow-hill hill-two" />
-        <div className="grow-garden">
-          {Array.from({ length: 12 }, (_, i) => <span key={i} className={"grow-plot plot-" + (i % 4)}><i /></span>)}
-        </div>
-      </div>
-      <div className="grow-bottom"><span>◈ &nbsp; BUILD YOUR OWN LITTLE WORLD</span><span>EXPLORATION · V0.1</span></div>
-      <span className="screen-disclaimer">ILLUSTRATIVE CONCEPT VISUAL</span>
-    </div>
-  );
-}
+function UpArrow() { return <span aria-hidden="true" className="real-arrow">↗</span>; }
 
 export default async function Home() {
-  const snapshot = await getConsoleSnapshot();
-  const featuredRepos = snapshot.repositories.filter(repo => repo.config.slug === "vinss" || repo.config.slug === "carel");
-  const article = articles.find(item => item.status === "published");
+  const data = await getConsoleSnapshot();
+  const tracked = data.repositories.filter(repo => repo.config.slug === "vinss" || repo.config.slug === "carel");
+  const recentCommits = tracked.flatMap(repo => repo.commits.slice(0, 2)).sort((a,b) => (b.date || "").localeCompare(a.date || "")).slice(0, 3);
+  const studioArticle = articles.find(a => a.status === "published");
   const activity = activities[0];
+
   return (
-    <main id="main-content">
+    <div className="rebrand-app" id="top">
       <PlatformHeader />
       <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive" />
       <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive" />
+      <main id="main-content">
+        <section className="real-hero" aria-labelledby="real-hero-title">
+          <div className="layout">
+            <div className="real-hero-meta"><span><i /> DXJ LABS / ECOSYSTEM</span><span>INDEPENDENT PRODUCT STUDIO — EST. 2026</span></div>
+            <div className="real-hero-grid">
+              <div className="real-hero-story">
+                <p className="real-overline">01 / WE BUILD THE INFRASTRUCTURE AND THE EXPERIENCE</p>
+                <h1 id="real-hero-title">More than<br />an idea.<br /><em>On-chain.</em></h1>
+                <p className="real-hero-intro">A multi-chain Web3 product studio creating privacy infrastructure, agentic finance, and the next generation of digital experiences.</p>
+                <div className="real-hero-actions">
+                  <Link href="#products" className="real-button real-button-primary">Explore our products <UpArrow /></Link>
+                  <Link href="/ecosystem" className="real-button-text">Ecosystem directory <UpArrow /></Link>
+                </div>
+                <div className="real-hero-location"><span>BASED IN EAST KALIMANTAN, INDONESIA</span><span>SCROLL TO EXPLORE ↓</span></div>
+              </div>
 
-      <section className="hero" data-enter>
-        <div className="layout hero-grid">
-          <div className="hero-copy">
-            <p className="eyebrow"><span className="status-indicator" /> MULTI-CHAIN WEB3 PRODUCT STUDIO <span className="eyebrow-index">/ EAST KALIMANTAN, INDONESIA</span></p>
-            <h1>Web3 products.<br /><em>One studio.</em></h1>
-            <p className="hero-description">DXJ Labs develops VINSS and CAREL across emerging technology. Explore each product, its blockchain plans, and development activity sourced from GitHub.</p>
-            <div className="hero-actions">
-              <a className="button-primary btn btn--primary btn--xl" href="/ecosystem">View our products <Arrow diagonal /></a>
-              <a className="button-text" href="/activities">See development updates <Arrow /></a>
+              <div className="real-hero-intel">
+                <div className="real-intel-top"><span>DXJ / PRODUCT STATUS</span><span className="real-indicator"><i /> PUBLIC RECORDS</span></div>
+                <div className="real-intel-center">
+                  <div className="real-intel-orbit" aria-hidden="true"><span>DXJ</span><i className="real-satellite one"/><i className="real-satellite two"/><i className="real-satellite three"/></div>
+                  <div className="real-intel-heading"><span>OUR ECOSYSTEM</span><h2>Build.<br/>Verify.<br/><em>Expand.</em></h2></div>
+                </div>
+                <div className="real-product-status-grid">
+                  <Link href="/ecosystem/vinss" className="real-status-tile">
+                    <span>01 / PRIVACY</span><strong>VINSS</strong><small>Starknet Mainnet · documented</small><span className="real-status-arrow">↗</span>
+                  </Link>
+                  <a href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer" className="real-status-tile">
+                    <span>02 / AGENTIC DEFI</span><strong>CAREL</strong><small>Public application available</small><span className="real-status-arrow">↗</span>
+                  </a>
+                </div>
+                <div className="real-intel-bottom"><span>RECORDS LINK TO OFFICIAL SOURCES</span><span>V1.0 / WEB3 ECOSYSTEM</span></div>
+              </div>
             </div>
-            <div className="hero-bottomline"><span>VINSS</span><span>CAREL</span><span>PUBLIC BUILD LOG</span><span className="hero-bottom-no">2026 / DXJ LABS</span></div>
           </div>
-          <div className="hero-showcase hero-source-showcase">
-            <div className="hero-feed-top"><span>DXJ / ECOSYSTEM SIGNAL</span><span>DESIGNED TO EVOLVE ↗</span></div>
-            <HeroSignal projects={featuredRepos.map(repo => ({
-              name: repo.config.label,
-              slug: repo.config.slug,
-              category: repo.config.slug === "vinss" ? "PRIVACY / WEB3" : "AI / FINANCE",
-              stage: repo.config.slug === "vinss" ? "IN DEVELOPMENT" : "EXPLORATION",
-              headline: repo.commits[0]?.title ?? null,
-              commitUrl: repo.commits[0]?.url ?? null,
-              updated: readableDate(repo.commits[0]?.date || null),
-              repositoryUrl: "https://github.com/" + repo.config.owner + "/" + repo.config.name,
-              available: !!repo.metadata && !!repo.commits[0],
-            }))} />
-            <div className="hero-feed-note"><span>BUILDING ACROSS NETWORKS</span><span>NO FICTIONAL CHAIN ACTIVITY</span></div>
+        </section>
+
+        <section className="real-proofline" aria-label="DXJ Labs public evidence">
+          <div className="layout real-proofline-inner">
+            <div><strong>02</strong><span>Official product<br/>repositories</span></div>
+            <div><strong>07</strong><span>VINSS mainnet contracts<br/>listed in repository</span></div>
+            <div><strong>01</strong><span>CAREL public<br/>application</span></div>
+            <a href={evidenceUrls.vinssMainnet} target="_blank" rel="noopener noreferrer">Source-linked proof <UpArrow /></a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <div className="expertise-ribbon" aria-label="Focus areas"><div className="layout expertise-inner"><span>PRODUCT ENGINEERING</span><i>✳</i><span>PRIVACY &amp; WEB3</span><i>✳</i><span>AI &amp; EXPERIMENTATION</span><i>✳</i><span>INTERACTIVE WORLDS</span></div></div>
+        <section className="real-products" id="products">
+          <div className="layout">
+            <div className="real-section-top"><div><p className="real-overline">02 / OUR PRODUCTS</p><h2>Technology made<br/><em>tangible.</em></h2></div><p>Different products. Different technical challenges. One standard: make the progress inspectable.</p></div>
+            <article className="real-vinss">
+              <div className="real-vinss-content">
+                <div className="real-project-topline"><span>01 / PRIVACY INFRASTRUCTURE</span><span className="real-project-state"><i/> MAINNET DEPLOYMENT DOCUMENTED</span></div>
+                <div className="real-project-mark">V<span>◈</span></div>
+                <h3>VINSS</h3>
+                <p className="real-project-lead">The private deal room for the on-chain economy.</p>
+                <p className="real-project-body">From encrypted conversation to structured offers and shielded escrow—one connected deal lifecycle with verifiable settlement evidence.</p>
+                <div className="real-deal-lifecycle" aria-label="VINSS lifecycle: message, offer, escrow, settlement">
+                  <span>MESSAGE</span><b>→</b><span>OFFER</span><b>→</b><span>ESCROW</span><b>→</b><span>PROOF</span>
+                </div>
+                <div className="real-project-actions">
+                  <Link href="/ecosystem/vinss" className="real-button real-button-lime">Explore VINSS <UpArrow /></Link>
+                  <a href={evidenceUrls.vinssRepo} target="_blank" rel="noopener noreferrer" className="real-quiet-link">Technical repository <UpArrow /></a>
+                </div>
+                <p className="real-project-footnote">Mainnet status and contracts are documented by the product team. Always verify on an independent explorer.</p>
+              </div>
+              <div className="real-vinss-evidence">
+                <div className="real-evidence-header"><span>VINSS / DEPLOYMENT RECORDS</span><span>STARKNET MAINNET</span></div>
+                <div className="real-evidence-banner"><span><i/> CONTRACT REGISTRY</span><strong>07</strong><small>Distinct addresses published by VINSS</small></div>
+                <div className="real-contract-list">
+                  {vinssContracts.map((contract,i) => (
+                    <a href={contractExplorerUrl(contract.address)} target="_blank" rel="noopener noreferrer" key={contract.address} className="real-contract">
+                      <span>{String(i+1).padStart(2,"0")}</span><div><strong>{contract.name}</strong><small>{contract.purpose} / {contract.address.slice(0,10)}…{contract.address.slice(-6)}</small></div><i aria-hidden="true">↗</i>
+                    </a>
+                  ))}
+                </div>
+                <div className="real-evidence-footer"><span>SOURCE: OFFICIAL VINSS README</span><a href={evidenceUrls.vinssSprint} target="_blank" rel="noopener noreferrer">View sprint evidence ↗</a></div>
+              </div>
+            </article>
 
-      <div className="platform-proof-band" aria-label="Verified product information">
-        <div className="layout platform-proof-grid">
-          <div><strong>02</strong><span>Official product repositories<br />VINSS + CAREL</span></div>
-          <div><strong>{snapshot.repositories.filter(r => r.metadata).length}/{snapshot.repositories.length}</strong><span>Tracked public repositories<br />accessible from GitHub</span></div>
-          <div><strong>5 min</strong><span>GitHub data refresh interval<br />with source links</span></div>
-          <a href="/ecosystem">Explore the ecosystem <span aria-hidden="true">↗</span></a>
-        </div>
-      </div>
-
-      <section className="work-section" id="work">
-        <div className="layout">
-          <div className="section-intro">
-            <div><p className="section-tag">01 / SELECTED WORK</p><h2>Products in <em>development.</em></h2></div>
-            <p>Real ideas in different stages of development. We&apos;re more interested in building useful things than pretending every experiment is a finished product.</p>
+            <article className="real-carel">
+              <div className="real-carel-copy">
+                <div className="real-project-topline"><span>02 / AGENTIC FINANCE</span><span className="real-project-state"><i/> PUBLIC APP</span></div>
+                <div className="real-carel-glyph" aria-hidden="true">✳</div>
+                <h3>CAREL<span>®</span></h3>
+                <p className="real-project-lead">DeFi, directed by intent.</p>
+                <p className="real-project-body">A goal-driven financial interface that routes supported swaps, lending, staking and privacy workflows through explicit review and wallet approval.</p>
+                <div className="real-carel-integrations"><span>AVNU</span><span>Vesu</span><span>Endur</span><span>STRK20</span></div>
+                <div className="real-project-actions">
+                  <a className="real-button real-button-dark" href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer">Open CAREL app <UpArrow /></a>
+                  <Link href="/ecosystem/carel" className="real-quiet-link">Product details <UpArrow /></Link>
+                </div>
+                <p className="real-project-footnote">Public application URL and integrations are cited in the official CAREL repository.</p>
+              </div>
+              <div className="real-carel-visual">
+                <div className="real-browser-toolbar"><span className="real-browser-dots"><i/><i/><i/></span><span>carel-v2-mock.vercel.app</span><a href={evidenceUrls.carelApp} target="_blank" rel="noopener noreferrer" aria-label="Open CAREL app">↗</a></div>
+                <div className="real-browser-window" role="img" aria-label="Screenshot area of the published CAREL application">
+                  <div className="real-browser-fallback"><strong>carel<span>✳</span></strong><p>Agentic DeFi execution</p><small>OPEN THE PUBLIC APPLICATION TO EXPLORE</small></div>
+                </div>
+                <div className="real-browser-bottom"><span>PUBLIC PRODUCT EXPERIENCE</span><span>CAREL / DXJ LABS</span></div>
+              </div>
+            </article>
+            <div className="real-candidate"><div><span className="real-overline">EXPERIMENTAL / NOT YET AN OFFICIAL DXJ LABS RELEASE</span><h3>Growhaven <span>↗</span></h3><p>A personal game prototype under validation. No blockchain deployment or game token is claimed.</p></div><Link href="/ecosystem/growhaven">Read prototype status <UpArrow /></Link></div>
           </div>
+        </section>
 
-          <article className="featured-project">
-            <div className="featured-copy">
-              <div className="project-overline"><span>01 — FEATURED BUILD</span><span className="project-stage"><i /> IN DEVELOPMENT</span></div>
-              <div><p className="project-category">PRIVACY / WEB3 / DIGITAL TRUST</p><div className="featured-wordmark">VINSS<span>↗</span></div><p>Private deal rooms for conversations, agreements, and settlement. Exploring how digital trust can work without giving up privacy.</p><a className="project-action" href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">View the project <Arrow diagonal /></a></div>
-              <div className="project-bottom-index">DXJ LABS <span>/</span> PRODUCT EXPERIMENT 001</div>
+        <section className="real-buildfeed" id="buildfeed">
+          <div className="layout">
+            <div className="real-buildfeed-head"><div><p className="real-overline">03 / TRANSPARENT DEVELOPMENT</p><h2>Not just promises.<br/><em>Public commits.</em></h2></div><Link href="/activities" className="real-text-action">Full activity log <UpArrow /></Link></div>
+            <div className="real-buildfeed-grid">
+              <div className="real-feed-statement"><span className="real-green-dot"/> FROM THE DXJ LABS GITHUB ORGANIZATION <p>We publish source-linked development signals. This is engineering activity, not user adoption, token trading volume, or revenue.</p><div><strong>{data.repositories.filter(repo=>repo.metadata).length}/{data.repositories.length}</strong><span>Public sources accessible at last data fetch</span></div></div>
+              <div className="real-feed-list">
+                {recentCommits.length ? recentCommits.map(commit=><a href={commit.url} key={commit.sha+commit.slug} target="_blank" rel="noopener noreferrer" className="real-feed-item"><div><span>{commit.project.toUpperCase()} / {readableDate(commit.date)}</span><strong>{commit.title}</strong><small>{commit.author} · {commit.shortSha}</small></div><span aria-hidden="true">↗</span></a>) : <div className="real-feed-empty">GitHub is temporarily unavailable. <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Browse source repositories ↗</a></div>}
+                <div className="real-feed-source">SOURCE: GITHUB REST API · 5-MIN CACHE · NO FAKE DATA</div>
+              </div>
             </div>
-            <div className="featured-visual"><VinssPreview /></div>
-          </article>
-
-          <div className="secondary-project-grid">
-            <article className="secondary-project card-carel">
-              <CarelPreview />
-              <div className="secondary-project-body"><div className="project-overline"><span>02 / AI &amp; FINANCE</span><span className="project-stage"><i /> EXPERIMENTAL</span></div><h3>CAREL</h3><p>Exploring intelligent interfaces and new ways to navigate decentralized finance.</p><a className="project-action" href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">View repository <Arrow diagonal /></a></div>
-            </article>
-            <article className="secondary-project card-grow">
-              <GrowhavenPreview />
-              <div className="secondary-project-body"><div className="project-overline"><span>03 / GAMES &amp; EXPERIENCES</span><span className="project-stage"><i /> PROTOTYPE</span></div><h3>Growhaven</h3><p>An experimental game world built around playful ideas, exploration, and iteration.</p><span className="project-action muted-action">Prototype in development <Arrow /></span></div>
-            </article>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="taste-moment-section" id="multichain" data-moment="word-highlight">
-        <div className="layout">
-          <p className="taste-moment-label">MULTI-CHAIN / ONE PRODUCT STANDARD</p>
-          <p className="mo-wh__text">Privacy, intelligent finance, and interactive worlds need different tools. DXJ Labs builds across networks, but every product earns its place through <strong>working code</strong> and verifiable progress.</p>
-          <a className="taste-moment-action" href="/ecosystem">View network plans <Arrow diagonal /></a>
-        </div>
-      </section>
+        <section className="real-manifesto" data-moment="word-highlight">
+          <div className="layout"><span className="real-overline">OUR ECOSYSTEM IS NOT LIMITED TO ONE CHAIN</span><p className="mo-wh__text">Different products will live on different networks. DXJ Labs connects the experience, while every deployment and metric must remain <strong>verifiable at the source.</strong></p><Link href="/ecosystem" className="real-text-action">Explore our network strategy <UpArrow /></Link></div>
+        </section>
 
-      <section className="home-journal-section" id="updates">
-        <div className="layout">
-          <div className="home-journal-head"><div><p className="section-tag">02 / PUBLISHING & ACTIVITY</p><h2>Studio journal &amp; activity.</h2></div><p>Follow documented development, research, and what happens across DXJ Labs.</p></div>
-          <div className="home-journal-grid">
-            {article && <a className="home-journal-card" href={"/blog/" + article.slug}><span>BLOG / {article.category.toUpperCase()}</span><svg className="journal-mark" role="img" aria-label="Research and writing" viewBox="0 0 72 72"><path d="M12 22 H60 M12 37 H49 M12 52 H55" stroke="currentColor" strokeWidth="5" strokeLinecap="square" fill="none"/><path d="M12 9 H60" stroke="currentColor" strokeWidth="1" fill="none"/></svg><h3>{article.title}</h3><p>{article.excerpt}</p><div><time dateTime={article.publishedAt}>{article.publishedAt}</time><b>Read article ↗</b></div></a>}
-            {activity && <a className="home-journal-card home-journal-card-activity" href="/activities"><span>ACTIVITY / {activity.category.toUpperCase()}</span><svg className="journal-mark" role="img" aria-label="Development activity" viewBox="0 0 72 72"><path d="M13 20 L29 36 L13 52 M35 54 H61" stroke="currentColor" strokeWidth="5" fill="none" strokeLinecap="square"/><circle cx="59" cy="18" r="5" fill="currentColor"/></svg><h3>{activity.title}</h3><p>{activity.summary}</p><div><time dateTime={activity.date}>{activity.date}</time><b>See activity ↗</b></div></a>}
+        <section className="real-beyond">
+          <div className="layout">
+            <div className="real-section-top"><div><p className="real-overline">04 / MORE THAN PRODUCTS</p><h2>Inside the <em>studio.</em></h2></div><p>Follow what we build, what we learn, and the information we share with our ecosystem.</p></div>
+            <div className="real-beyond-grid">
+              <Link href="/activities" className="real-beyond-card"><span>01 / ACTIVITY</span><span className="real-card-symbol">↗</span><h3>Development<br/>& events.</h3><p>{activity?.summary || "Documented project updates and upcoming activities."}</p><strong>View activities <UpArrow /></strong></Link>
+              <Link href="/blog" className="real-beyond-card"><span>02 / PUBLICATIONS</span><span className="real-card-symbol">≡</span><h3>Blog<br/>& research.</h3><p>{studioArticle?.excerpt || "Technical writing and research from DXJ Labs."}</p><strong>Read the journal <UpArrow /></strong></Link>
+              <Link href="/investors" className="real-beyond-card real-investor-card"><span>03 / INVESTOR INFORMATION</span><span className="real-card-symbol">◈</span><h3>Proof<br/>& progress.</h3><p>Public project evidence and reporting methodology. Private investor records are not available yet.</p><strong>Investor overview <UpArrow /></strong></Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="studio-section" id="studio">
-        <div className="layout studio-grid">
-          <div className="studio-left"><p className="section-tag">03 / ABOUT DXJ LABS</p><div className="studio-network-visual" data-visual aria-label="Research, development and validation as connected stages">
-            <svg viewBox="0 0 360 360" role="img" aria-label="Research connected to build and validation">
-              <circle cx="180" cy="180" r="145" fill="none" stroke="#87aa77" strokeWidth="1.5" strokeDasharray="3 10" />
-              <circle cx="180" cy="180" r="91" fill="none" stroke="#739d71" strokeWidth="1.5" />
-              <path d="M180 180 L73 90 M180 180 L286 97 M180 180 L267 286" stroke="#477c55" strokeWidth="2" fill="none" />
-              <circle cx="180" cy="180" r="36" fill="#294a31" />
-              <circle cx="73" cy="90" r="13" fill="#81aa6e" />
-              <circle cx="286" cy="97" r="13" fill="#81aa6e" />
-              <circle cx="267" cy="286" r="13" fill="#81aa6e" />
-              <text x="180" y="187" textAnchor="middle" fontSize="15" fill="#e6f5da" fontWeight="bold">DXJ</text>
-              <text x="70" y="64" textAnchor="middle" fontSize="11" fill="#47784c">RESEARCH</text>
-              <text x="292" y="72" textAnchor="middle" fontSize="11" fill="#47784c">BUILD</text>
-              <text x="271" y="314" textAnchor="middle" fontSize="11" fill="#47784c">VALIDATE</text>
-            </svg>
-          </div></div>
-          <div className="studio-right"><h2>The DXJ Labs<br /><em>studio.</em></h2><p>DXJ Labs is an independent product studio based in East Kalimantan, Indonesia. We move between research, product design, engineering, and experimentation to turn promising ideas into working systems.</p><div className="studio-facts"><div><span>LOCATION</span><strong>East Kalimantan, Indonesia</strong></div><div><span>WAY OF WORKING</span><strong>Research → Build → Validate</strong></div><div><span>FOCUS</span><strong>Products, not pitch decks</strong></div></div></div>
-        </div>
-      </section>
-
-      <section className="approach-section" id="approach">
-        <div className="layout approach-grid">
-          <div><p className="section-tag">04 / OUR APPROACH</p><h2>Our product<br /><em>process.</em></h2><svg className="approach-flow-visual" viewBox="0 0 420 116" role="img" aria-label="Research to prototype to validation workflow"><path d="M40 58 H380" stroke="#b7c9aa" strokeWidth="2" fill="none" strokeDasharray="6 7"/><circle cx="50" cy="58" r="28" fill="#304e34"/><circle cx="210" cy="58" r="28" fill="#638c56"/><circle cx="370" cy="58" r="28" fill="#c8f376" stroke="#6b9057"/><text x="50" y="63" textAnchor="middle" fontSize="15" fill="#f8fff1">01</text><text x="210" y="63" textAnchor="middle" fontSize="15" fill="#f8fff1">02</text><text x="370" y="63" textAnchor="middle" fontSize="15" fill="#28442b">03</text></svg></div>
-          <div className="approach-steps">
-            <div><span>01</span><h3>Research the problem</h3><p>Start with a problem worth understanding, not a trend worth chasing.</p></div>
-            <div><span>02</span><h3>Prototype the product</h3><p>Prototype early. Make the idea concrete enough to test and learn from.</p></div>
-            <div><span>03</span><h3>Validate with evidence</h3><p>Improve through feedback, useful constraints, and honest iteration.</p></div>
-          <a className="approach-cta" href="/ecosystem">View the projects <Arrow diagonal /></a></div>
-        </div>
-      </section>
-
-      <footer className="footer" id="contact">
-        <div className="layout">
-          <div className="footer-top"><p className="section-tag">05 / STAY CURIOUS</p><p>NEW IDEAS. REAL EXPERIMENTS.</p></div>
-          <div className="footer-feature"><p className="footer-callout">Follow<br /><em>our work.</em></p><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" aria-label="Explore DXJ Labs on GitHub"><Arrow diagonal /></a></div>
-          <p className="footer-disclosure">Product visuals are illustrative concepts, not live application screenshots. Token issuance and investor data remain in planning.</p><div className="footer-end"><Brand /><p>Independent product studio<br />East Kalimantan, Indonesia</p><div><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span>© {new Date().getFullYear()} DXJ LABS</span></div>
-        </div>
-      </footer>
-    </main>
+        <section className="real-network-table">
+          <div className="layout"><div className="real-network-heading"><div><p className="real-overline">05 / NETWORK ROADMAP</p><h2>Built to cross<br/><em>boundaries.</em></h2></div><p>Each integration is labeled according to what its project documents—not what a concept diagram suggests.</p></div><div className="real-networks">{chainStages.map((n,i)=><div key={n.name}><span>{String(i+1).padStart(2,"0")}</span><strong>{n.name}</strong><em>{n.state}</em><small>{n.detail}</small></div>)}</div></div>
+        </section>
+      </main>
+      <section className="real-final-cta"><div className="layout"><span>DXJ LABS / INDEPENDENT PRODUCT STUDIO</span><h2>Ideas are easy.<br/><em>Building is the point.</em></h2><div><Link href="/ecosystem">Explore our ecosystem <UpArrow /></Link><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Follow the build <UpArrow /></a></div><p>DXJ token is not issued. No investment returns, token prices or confidential investor data are claimed.</p></div></section>
+      <PlatformFooter />
+    </div>
   );
 }
