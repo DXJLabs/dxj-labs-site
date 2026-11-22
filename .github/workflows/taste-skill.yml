@@ -94,9 +94,9 @@ jobs:
             echo "- Multi-viewport consistency exit: $CONSISTENCY_EXIT (0 = no FAIL)"
             echo "- Breakpoints: 1440, 1024, 768, 390"
             echo ""
-            echo "```"
+            echo "~~~"
             tail -n 34 taste-audit/gate.log
-            echo "```"
+            echo "~~~"
           } >> "$GITHUB_STEP_SUMMARY"
           if [[ "$GATE_EXIT" -ne 0 || "$CONSISTENCY_EXIT" -ne 0 ]]; then
             echo "::warning::Taste Skill audit reported findings. Inspect artifact logs and screenshots."
