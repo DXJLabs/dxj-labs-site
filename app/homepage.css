@@ -434,3 +434,22 @@
 @media(max-width:365px) {
   .dxj-home #multichain .mo-wh__text { font-size:35px; }
 }
+
+
+/* Browser-accessibility correction: clip visually without creating a nested
+   scroll container that steals keyboard focus from the document viewport. */
+.dxj-home .dxj-screen { overflow:clip; }
+@media(min-width:651px) and (max-width:880px) {
+  .dxj-home #top .dxj-hero-body {
+    grid-template-rows:1fr;
+    align-content:stretch;
+    align-items:stretch;
+  }
+  .dxj-home #top .dxj-hero-copy { align-self:center; }
+  .dxj-home #top .dxj-hero-visual {
+    height:100%;
+    max-height:none;
+    aspect-ratio:auto;
+    align-self:stretch;
+  }
+}
