@@ -184,7 +184,7 @@ export default async function Home() {
         <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
           <div className="dxj-multi-copy">
             <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
-            <h2 className="mo-wh__text">Across networks, DXJ Labs designs products around <strong>real utility</strong> and accountable progress.</h2>
+            <h2 className="mo-wh__text">DXJ Labs builds across multiple networks. <strong>Real utility comes first.</strong> Public progress makes every product accountable.</h2>
             <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
           </div>
           <div className="dxj-multi-visual">
