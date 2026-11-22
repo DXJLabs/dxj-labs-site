@@ -1,0 +1,89 @@
+/* DXJ Labs / public ecosystem pages — editorial extension to V4 */
+.platform-header .site-nav{gap:18px;font-size:12px}
+.platform-header .nav-cta{gap:22px;padding:13px 18px}
+.platform-main{background:var(--cream);min-height:65vh}
+.platform-hero{padding:92px 0 86px;border-bottom:1px solid var(--line)}
+.platform-hero-meta{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font:10px var(--mono);letter-spacing:.035em;color:#568052;margin-bottom:42px}
+.platform-hero-meta span:last-child{color:#7f8b7e}
+.platform-hero h1{font-size:clamp(65px,8vw,126px);line-height:.95;letter-spacing:-.095em;max-width:1150px;margin:0;font-weight:800}
+.platform-hero>p{font-size:clamp(16px,1.6vw,20px);line-height:1.75;color:#636f65;max-width:760px;margin:30px 0 0}
+.platform-section{padding:73px 0 94px;border-bottom:1px solid var(--line)}
+.platform-section-heading{display:flex;justify-content:space-between;align-items:baseline;gap:25px;margin-bottom:33px}
+.platform-section-heading h2{font-size:clamp(37px,4vw,59px);line-height:1.1;letter-spacing:-.07em;margin:0}
+.platform-section-heading>span{font:10px var(--mono);color:#667c68;text-transform:uppercase}
+.ecosystem-list{border-top:1px solid var(--line)}
+.ecosystem-item{display:grid;grid-template-columns:17% 36% 31% 16%;gap:0;border-bottom:1px solid var(--line);padding:31px 0 36px;align-items:start}
+.ecosystem-item-number{font:10px var(--mono);color:#668062;margin-top:13px}
+.ecosystem-item-main{padding-right:35px}
+.ecosystem-item-main h3{font-size:clamp(40px,4.5vw,68px);line-height:1;letter-spacing:-.078em;margin:0 0 18px}
+.ecosystem-item-main p{font-size:14px;line-height:1.65;color:#647065;max-width:385px;margin:0 0 21px}
+.platform-status{display:inline-flex;align-items:center;gap:8px;width:max-content;border:1px solid #a2b49e;padding:7px 11px;border-radius:30px;font:10px var(--mono);color:#476745;white-space:nowrap;text-transform:capitalize}
+.platform-status:before{content:"";display:inline-block;width:6px;height:6px;background:#668e57;border-radius:50%}
+.info-label{display:block;font:9px var(--mono);color:#859486;margin-bottom:12px;letter-spacing:.06em}
+.chain-row{position:relative;border-top:1px solid #d2dbce;padding:12px 8px 13px 0;margin-right:24px;display:grid;grid-template-columns:1fr auto;gap:8px}
+.chain-row strong{font-size:13px}
+.chain-row>span{font:9px var(--mono);color:#618258;text-transform:uppercase}
+.chain-row small{grid-column:1 / -1;font-size:11px;line-height:1.5;color:#7b897d}
+.token-summary{border-top:1px solid #d2dbce;padding:15px 10px 0 0;margin-top:7px}
+.token-summary strong{display:block;font-size:14px}
+.token-summary small{display:block;color:#788477;font-size:11px;line-height:1.5;margin-top:6px}
+.ecosystem-item-action{justify-self:end;padding-top:13px}
+.ecosystem-item-action a{display:flex;gap:15px;align-items:center;padding-bottom:7px;border-bottom:1px solid var(--ink);font-size:12px;font-weight:700;white-space:nowrap}
+.token-explainer,.platform-empty-section{display:grid;grid-template-columns:48% 52%;gap:30px;align-items:start}
+.token-explainer h2,.platform-empty-section h2{font-size:clamp(45px,5.1vw,74px);line-height:1.04;letter-spacing:-.075em;margin:0}
+.token-explainer h2 em,.platform-empty-section h2 em{font-family:var(--serif);font-weight:400;color:#527549}
+.token-explainer>div:last-child,.platform-empty-section>div:last-child{max-width:560px}
+.token-explainer p,.platform-empty-section p{font-size:17px;line-height:1.7;color:#59675c;margin:24px 0 0}
+.platform-fineprint{font-size:12px!important;line-height:1.7!important;color:#79847c!important}
+.activity-list,.article-list{border-top:1px solid var(--line)}
+.activity-row{display:grid;grid-template-columns:17% 1fr auto;gap:28px;align-items:start;border-bottom:1px solid var(--line);padding:37px 0 41px}
+.activity-row time{font:12px var(--mono);color:#657764;padding-top:8px}
+.activity-kind{font:10px var(--mono);color:#5d8650;letter-spacing:.05em}
+.activity-row h3,.article-row h3{font-size:clamp(28px,3.8vw,50px);line-height:1.1;letter-spacing:-.06em;margin:13px 0}
+.activity-row p,.article-row p{font-size:15px;line-height:1.7;max-width:715px;color:#667367;margin:0}
+.platform-inline-link{display:inline-block;border-bottom:1px solid var(--ink);font-weight:700;font-size:12px;margin-top:19px;padding-bottom:8px}
+.article-row{display:grid;grid-template-columns:17% 1fr;padding:42px 0 54px;border-bottom:1px solid var(--line);gap:30px}
+.article-number{font:12px var(--mono);color:#658265}
+.article-row h3>a{transition:color .2s}.article-row h3>a:hover{color:#528049}
+.article-byline{display:block;font:9px var(--mono);margin-top:25px;color:#8b978b}
+.category-pills{display:flex;align-content:flex-start;flex-wrap:wrap;gap:9px}
+.category-pills span{padding:13px 16px;border:1px solid #bdccbb;background:#e8eee2;border-radius:2px;font:12px var(--mono)}
+.platform-article{display:grid;grid-template-columns:25% 1fr;gap:65px;border-bottom:1px solid var(--line);padding:62px 0 80px}
+.platform-article-meta{display:flex;flex-direction:column;gap:17px;font:10px var(--mono);color:#738774}
+.platform-article-body{max-width:830px}
+.platform-article-body p{font-size:clamp(18px,1.8vw,23px);line-height:1.8;letter-spacing:-.016em;margin:0 0 34px;color:#334238}
+.platform-article-body p:first-child:first-letter{font-family:var(--serif);font-size:2.5em;float:left;line-height:.8;margin:8px 9px 0 0;color:#527744}
+.platform-back{padding:34px 0 70px;font-weight:700;font-size:13px}
+.metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.metric-card{border:1px solid #c9d5c4;background:#ebece4;min-height:292px;padding:30px;display:flex;flex-direction:column}
+.metric-card>span{font:11px var(--mono);color:#6b806b}.metric-card strong{font-size:86px;line-height:1;margin:23px 0 12px;color:#9ba99a;font-weight:400;font-family:var(--serif)}
+.metric-card p{font-weight:700;font-size:15px;margin:0 0 16px}.metric-card small{font-size:12px;line-height:1.65;color:#79867a;max-width:460px}
+.investor-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.investor-grid>a{border:1px solid #c6d2c3;background:#edf0e8;padding:27px 24px 32px;min-height:273px;transition:transform .25s,background .25s}
+.investor-grid>a:hover{transform:translateY(-4px);background:#e0ead6}
+.investor-grid>a>span{font:10px var(--mono);color:#658763}
+.investor-grid h3{font-size:clamp(23px,2.5vw,35px);letter-spacing:-.05em;line-height:1.14;margin:52px 0 14px}
+.investor-grid p{color:#68766a;font-size:13px;line-height:1.6;max-width:250px}
+.detail-panel{display:grid;grid-template-columns:45% 55%;gap:55px}
+.detail-intro h2{font-size:55px;letter-spacing:-.07em;line-height:1.1;margin:0 0 20px;text-transform:capitalize}
+.detail-intro p{font-size:15px;line-height:1.7;color:#69756b;max-width:380px}
+.detail-content h3{font-size:24px;letter-spacing:-.045em;margin:0 0 20px}
+.detail-content h3:not(:first-child){margin-top:39px}
+.detail-content>p{line-height:1.65;color:#566458;max-width:550px}
+.platform-footer{background:#111b15;color:#ecf3e7;padding:48px 0 37px}
+.platform-footer-inner{display:grid;grid-template-columns:38% 1fr auto;gap:55px}
+.platform-footer strong{font-size:22px;letter-spacing:-.07em}.platform-footer strong span{color:var(--lime)}
+.platform-footer p{font-size:12px;line-height:1.8;color:#9aaf9b;max-width:310px}
+.platform-footer nav{display:grid;grid-template-columns:1fr 1fr;gap:13px 35px;font-size:12px}
+.platform-footer nav a:hover,.platform-footer-end a:hover{color:var(--lime)}
+.platform-footer-end{display:flex;flex-direction:column;justify-content:space-between;gap:30px;text-align:right}
+.platform-footer-end a{font-size:12px}
+.platform-footer-end small{color:#829c88;font:10px var(--mono)}
+.platform-home-links{padding:36px 0 39px;background:#ecf0e5;border-top:1px solid #d9e2d6}
+.platform-home-links>div{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.platform-home-links a{padding:15px 13px;border:1px solid #d5e0d1;display:flex;justify-content:space-between;gap:5px;font-size:12px;font-weight:700;transition:background .2s}
+.platform-home-links a:hover{background:var(--lime)}
+@media(max-width:1160px){.platform-header .site-nav{gap:12px;font-size:11px}.platform-header .nav-cta{gap:10px;padding:12px}.platform-footer-inner{gap:28px}.ecosystem-item{grid-template-columns:15% 37% 34% 14%}.ecosystem-item-action a{font-size:10px}}
+@media(max-width:1050px){.platform-header .menu-toggle{display:flex;align-items:center;gap:12px;background:transparent;border:1px solid var(--line);padding:11px 13px;font-size:12px;font-weight:700}.platform-header .menu-glyph{font-size:19px}.platform-header .site-nav{display:none;position:absolute;top:89px;left:0;right:0;background:var(--cream);padding:20px 40px;box-shadow:0 14px 34px #0d160e24;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}.platform-header .site-nav.is-open{display:flex}.platform-header .site-nav a:not(.nav-cta){padding:13px 0;border-bottom:1px solid var(--line)}.platform-header .site-nav .nav-cta{margin-top:12px;justify-content:space-between}.ecosystem-item{grid-template-columns:1fr 1.5fr;gap:25px}.ecosystem-item-number{grid-column:1 / -1}.ecosystem-item-info{grid-column:1}.ecosystem-item-action{grid-column:2;justify-self:start;padding-top:10px}.investor-grid{grid-template-columns:1fr 1fr}.platform-footer-inner{grid-template-columns:1fr 1fr}.platform-footer-end{grid-column:1/-1;flex-direction:row;text-align:left}}
+@media(max-width:800px){.platform-header .site-nav{top:76px}.platform-hero{padding:64px 0}.platform-hero-meta{margin-bottom:31px}.platform-hero h1{font-size:clamp(59px,10vw,90px)}.platform-section{padding:53px 0 65px}.platform-section-heading h2{font-size:44px}.token-explainer,.platform-empty-section,.detail-panel{grid-template-columns:1fr;gap:28px}.activity-row{grid-template-columns:120px 1fr}.activity-row>.platform-status{grid-column:2}.platform-article{grid-template-columns:1fr;gap:25px}.platform-article-meta{flex-direction:row}.platform-home-links>div{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.platform-header .site-nav{top:68px;padding:20px}.platform-hero{padding:45px 0 49px}.platform-hero-meta{font-size:9px;margin-bottom:25px}.platform-hero-meta span:last-child{display:none}.platform-hero h1{font-size:clamp(54px,12vw,78px);letter-spacing:-.08em}.platform-hero>p{font-size:15px;margin-top:21px;line-height:1.65}.platform-section{padding:44px 0 57px}.platform-section-heading{display:block;margin-bottom:23px}.platform-section-heading h2{font-size:37px}.platform-section-heading>span{display:block;margin-top:12px}.ecosystem-item{grid-template-columns:1fr;gap:17px;padding:25px 0 30px}.ecosystem-item-number,.ecosystem-item-info,.ecosystem-item-action{grid-column:auto}.ecosystem-item-number{margin:0}.ecosystem-item-main{padding:0}.ecosystem-item-main h3{font-size:50px;margin-bottom:10px}.ecosystem-item-main p{font-size:13px;margin-bottom:14px}.chain-row{margin-right:0}.ecosystem-item-action{padding-top:5px}.token-explainer h2,.platform-empty-section h2{font-size:47px}.token-explainer p,.platform-empty-section p{font-size:15px;margin-top:18px}.activity-row{grid-template-columns:1fr;gap:11px;padding:27px 0 32px}.activity-row time{font-size:10px;padding:0}.activity-row>.platform-status{grid-column:auto}.activity-row h3,.article-row h3{font-size:32px}.activity-row p,.article-row p{font-size:13px}.article-row{grid-template-columns:35px 1fr;gap:10px;padding:27px 0 36px}.article-number{font-size:10px}.article-byline{margin-top:16px}.category-pills span{font-size:10px;padding:10px}.platform-article{padding:36px 0 42px}.platform-article-meta{font-size:9px;flex-wrap:wrap}.platform-article-body p{font-size:17px;line-height:1.75;margin-bottom:25px}.metrics-grid{grid-template-columns:1fr;gap:12px}.metric-card{min-height:220px;padding:23px}.metric-card strong{font-size:67px;margin:16px 0 8px}.investor-grid{grid-template-columns:1fr;gap:12px}.investor-grid>a{min-height:220px}.investor-grid h3{margin-top:42px}.detail-intro h2{font-size:42px}.platform-footer-inner{grid-template-columns:1fr;gap:23px}.platform-footer nav{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-footer-end{grid-column:auto}.platform-home-links{padding:20px 0}.platform-home-links>div{grid-template-columns:1fr 1fr}.platform-home-links a{font-size:11px;padding:12px}}
