@@ -148,6 +148,7 @@ export default async function Home() {
                 <Link className="dxj-text-link" href="/activities">See the build log <Arrow /></Link>
               </div>
               <p className="dxj-small-note">VINSS & CAREL · ACTIVE DEVELOPMENT DIRECTIONS</p>
+              <div className="dxj-tablet-brief"><div><span>VINSS / WEB3</span><strong>Private digital agreements</strong></div><div><span>CAREL / AI</span><strong>Intelligent finance research</strong></div></div>
             </div>
             <div className="dxj-hero-visual">
               <NetworkGraphic />
