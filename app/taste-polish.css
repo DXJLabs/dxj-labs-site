@@ -1,0 +1,120 @@
+/*
+ * DXJ Labs Taste Skill refinement
+ * Based on actual v2.5.1 gate and Chrome audit findings.
+ * This file is owned by DXJ Labs. Bundled Taste Skill motion/moment files
+ * remain byte-for-byte unmodified under app/taste-motion.css and public/taste.
+ */
+:root{--font-display:var(--font);--display-weight:700;--display-tracking:-.065em;--t-h2:clamp(50px,5vw,70px);--ease:cubic-bezier(.2,.8,.2,1)}
+.brand{white-space:nowrap;min-height:44px}
+.brand-wordmark,.brand-wordmark small{white-space:nowrap}
+.platform-header .site-nav a{white-space:nowrap}
+.site-header .header-inner{min-width:0}
+.eyebrow-index,.hero-bottomline,.hero-description,.hero .hero-copy .hero-description{color:#344639}
+.hero-bottomline>span{color:#435447}
+.hero-description{font-size:17px}
+.section-intro>p,.home-journal-head>p,.studio-right>p,.approach-steps p,.secondary-project-body>p{color:#364a39}
+.section-intro h2,.home-journal-head h2,.studio-right h2,.approach-grid h2{font-size:clamp(50px,4.9vw,72px)!important;line-height:1.06}
+.featured-copy .featured-wordmark{font-size:clamp(76px,7vw,105px);letter-spacing:-.085em;line-height:1;font-weight:750;margin:20px 0 15px}
+.featured-wordmark span{font-size:28px;color:var(--lime);vertical-align:top;letter-spacing:0;margin-left:8px}
+.signal-workspace-intro .signal-headline{font-size:clamp(37px,3.6vw,52px);letter-spacing:-.075em;line-height:1.02;font-weight:750;margin:14px 0 8px}
+.footer-feature .footer-callout{font-size:clamp(106px,12vw,190px);letter-spacing:-.095em;line-height:.84;font-weight:700;margin:0}
+.footer-callout em{font-family:var(--serif);font-weight:400;color:var(--lime);letter-spacing:-.04em}
+.footer-disclosure{border-top:1px solid #39493b;border-bottom:1px solid #39493b;padding:21px 0;color:#b3c9b0;font:12px/1.65 var(--font);margin:0 0 24px}
+.hero{padding-bottom:18px}
+.hero-source-showcase .signal-graph-label.label-carel{right:9%}
+.hero-source-showcase .signal-graph-label.label-next{right:11%}
+.hero-source-showcase .signal-graph-label.label-vinss{left:11%}
+.signal-workspace-bar,.signal-workspace-intro>span,.signal-workspace-intro>p,.signal-project-selector button small,.signal-project-data .signal-data-head,.signal-workspace-bottom{color:#34503b}
+.signal-project-selector button:not([aria-selected=true]){color:#344b39}
+.signal-workspace-intro>p{color:#34503b}
+.signal-data-meta{color:#485e4b}
+.signal-project-data{background:transparent;border:0;border-top:1px solid #b8cdb2;border-radius:0;padding:17px 0 12px;min-height:164px}
+.signal-project-data>a{min-height:44px;align-items:center;padding-top:9px}
+.signal-workspace-body{background:#edf2e8}
+.signal-workspace{box-shadow:0 27px 72px #07150a9c}
+.signal-workspace-intro{max-width:440px}
+.signal-project-selector button{min-height:63px}
+.signal-project-selector button:focus-visible{outline:2px solid #142917;outline-offset:2px}
+.signal-motion-toggle{position:absolute;right:0;bottom:0;z-index:4;color:#d9eacf;border:1px solid #7ba16c8a;background:#15291bdc;min-height:36px;min-width:100px;padding:10px 13px;font:10px var(--mono);cursor:pointer;transition:background .15s}
+.signal-motion-toggle:hover,.signal-motion-toggle:focus-visible{background:#294e2d}
+.signal-scene.is-paused .signal-orbit-ring-in,.signal-scene.is-paused .signal-wire-flow{animation-play-state:paused!important}
+.hero-source-showcase:has(.signal-scene.is-paused)::after{animation-play-state:paused!important}
+.screen-disclaimer{display:none!important}
+.vinss-screen,.featured-project:hover .vinss-screen{transform:none!important;box-shadow:0 17px 44px #0411099c}
+.grow-garden,.card-grow:hover .grow-garden{transform:translateX(-50%)!important}
+.grow-hill,.hill-one,.hill-two{transform:none!important}
+.card-carel:hover .carel-ui-card{transform:translateY(-2px)}
+.featured-project:hover,.secondary-project:hover{transform:none}
+.featured-project,.secondary-project{border-radius:0}
+.home-journal-card{overflow:hidden}
+.journal-mark{width:62px;height:62px;display:block;color:#48794d;margin-top:37px;flex-shrink:0}
+.home-journal-card-activity .journal-mark{color:#c8f376}
+.home-journal-card h3{font-size:clamp(35px,3vw,46px);margin:22px 0 14px}
+.home-journal-card{min-height:425px}
+.studio-network-visual{width:100%;max-width:370px;margin:30px 0 0 -6px;min-height:300px}
+.studio-network-visual svg{display:block;max-width:100%;width:100%;height:auto}
+.approach-flow-visual{display:block;margin:42px 0 0;width:min(100%,380px);height:auto;max-height:150px}
+.approach-cta{display:inline-flex;align-items:center;gap:28px;margin-top:31px;min-height:48px;padding:14px 18px;background:#18291c;color:#fff;font-size:13px;font-weight:750;transition:transform .15s ease,background .15s ease}
+.approach-cta:hover{transform:translateY(-2px);background:#38673d}
+.taste-moment-section{
+  --bg:#15291c;--ink:#e5f4e0;--accent:#c8f376;--font-display:var(--font);
+  --display-weight:650;--display-tracking:-.06em;--t-h2:clamp(52px,6.2vw,100px);
+  background:var(--bg);color:var(--ink);display:flex;align-items:center;
+  min-height:100svh;padding:110px 0;
+}
+.taste-moment-section>.layout{width:100%;display:flex;flex-direction:column;align-items:flex-start}
+.taste-moment-label{font:13px var(--mono);color:#afcaa8;margin:0 0 55px}
+.taste-moment-section .mo-wh__text{font-size:clamp(47px,6vw,89px);line-height:1.15;font-weight:650;letter-spacing:-.065em;max-width:1270px;color:var(--ink);margin:0}
+.taste-moment-section .mo-wh strong{font-weight:inherit}
+.taste-moment-action{display:inline-flex;align-items:center;gap:24px;min-height:48px;border-bottom:1px solid #9ebc97;margin-top:45px;padding-bottom:12px;font-size:15px;font-weight:650}
+.taste-moment-action:hover{color:var(--accent)}
+.platform-home-links a,.project-action,.footer-end a,.footer-feature>a{min-height:44px;align-items:center}
+.project-action{padding-block:9px}
+.platform-proof-grid>div span,.public-commit-item p,.studio-facts strong{color:#405640}
+.taste-moment-section .mo-wh .mo-w{color:color-mix(in oklab, var(--ink) 50%, var(--bg))}
+.taste-moment-section .mo-wh strong .mo-w.is-on{color:var(--accent)}
+@media(max-width:900px){
+  .studio-network-visual{max-width:270px;min-height:0;margin-top:5px}
+  .studio-left{flex-direction:row;align-items:center;gap:20px}
+  .taste-moment-section{min-height:93svh}
+}
+@media(max-width:650px){
+  .site-header .brand,.site-header .menu-toggle{min-height:44px}
+  .hero{padding-bottom:10px}
+  .hero-copy .hero-description{font-size:16px;line-height:1.6}
+  .hero .hero-source-showcase{padding:20px 14px 32px;min-height:585px}
+  .hero-source-showcase .signal-graph-label{display:none}
+  .signal-workspace{box-shadow:0 17px 40px #07150a80}
+  .signal-workspace-intro .signal-headline{font-size:34px}
+  .signal-project-data{min-height:169px}
+  .signal-motion-toggle{min-width:90px;font-size:9px;padding-inline:9px;min-height:33px}
+  .section-intro h2,.home-journal-head h2,.studio-right h2,.approach-grid h2{font-size:clamp(43px,10.6vw,55px)!important}
+  .featured-copy .featured-wordmark{font-size:64px}
+  .secondary-project-body h3{font-size:36px}
+  .home-journal-card{min-height:360px}
+  .home-journal-card h3{font-size:35px}
+  .journal-mark{width:45px;height:45px;margin-top:22px}
+  .studio-left{display:flex;align-items:center}
+  .studio-network-visual{max-width:150px;margin:0}
+  .studio-network-visual svg{height:auto}
+  .approach-flow-visual{margin-top:24px;width:100%;max-width:340px}
+  .taste-moment-section{min-height:92svh;padding:70px 0}
+  .taste-moment-label{font-size:10px;margin-bottom:27px}
+  .taste-moment-section .mo-wh__text{font-size:clamp(41px,10vw,57px);line-height:1.16}
+  .taste-moment-action{font-size:13px;margin-top:30px}
+  .footer-feature .footer-callout{font-size:clamp(82px,20vw,125px)}
+  .footer-disclosure{font-size:11px}
+  .vinss-screen,.featured-project:hover .vinss-screen{transform:none!important}
+  .deal-compose{margin-bottom:9px}
+  .featured-visual{padding-bottom:25px}
+}
+@media(max-width:365px){
+  .hero .hero-source-showcase{min-height:590px}
+  .taste-moment-section .mo-wh__text{font-size:38px}
+  .signal-workspace-body{padding:12px}
+  .signal-workspace-bar{font-size:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  .taste-moment-section .mo-wh .mo-w{color:var(--ink)!important}
+  .taste-moment-section .mo-wh strong .mo-w{color:var(--accent)!important}
+}
