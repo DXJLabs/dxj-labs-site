@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./platform.css";
+import "./living.css";
 
 export const metadata: Metadata = {
   title: "DXJ Labs — Multi-Chain Web3 Product Ecosystem",
