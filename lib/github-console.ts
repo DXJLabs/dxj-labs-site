@@ -105,8 +105,10 @@ async function readRepository(config: TrackedRepository): Promise<RepositoryReco
     getJson<ApiRepository>(base),
     getJson<ApiCommit[]>(base + "/commits?per_page=5"),
   ]);
-  const metadata = metaResult.data && typeof metaResult.data.full_name === "string" ? metaResult.data : null;
-  const rawCommits = Array.isArray(commitsResult.data) ? commitsResult.data : [];
+  const rawMetadata = metaResult.data && typeof metaResult.data.full_name === "string" ? metaResult.data : null;
+  // Only surface public repository data, even if an optional server token has private access.
+  const metadata = rawMetadata?.private === false ? rawMetadata : null;
+  const rawCommits = metadata && Array.isArray(commitsResult.data) ? commitsResult.data : [];
   const commits: CommitRecord[] = rawCommits
     .filter(c => c && typeof c.sha === "string" && c.commit && typeof c.commit.message === "string")
     .map(c => ({
@@ -123,8 +125,8 @@ async function readRepository(config: TrackedRepository): Promise<RepositoryReco
     config,
     metadata,
     commits,
-    metadataError: metaResult.error || (metadata ? null : "Repository metadata unavailable."),
-    activityError: commitsResult.error || (Array.isArray(commitsResult.data) ? null : "Commit history unavailable."),
+    metadataError: rawMetadata?.private ? "Private repository data is not exposed." : metaResult.error || (metadata ? null : "Repository metadata unavailable."),
+    activityError: rawMetadata?.private ? "Private repository activity is not displayed." : commitsResult.error || (metadata && Array.isArray(commitsResult.data) ? null : "Commit history unavailable."),
   };
 }
 
