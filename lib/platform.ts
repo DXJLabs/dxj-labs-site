@@ -9,6 +9,8 @@ export type Project = {
   affiliation: "dxjlabs" | "candidate";
   description: string;
   repositoryUrl?: string;
+  appUrl?: string;
+  proof?: { label: string; value: string; href: string; explanation: string }[];
   token: { status: TokenStage; note: string };
   networks: { name: string; stage: NetworkStage; note: string }[];
 };
@@ -20,10 +22,15 @@ export const projects: Project[] = [
     affiliation: "dxjlabs",
     area: "Privacy / Web3",
     stage: "in-development",
-    description: "Private deal room exploring confidential negotiation, private payments and digital settlement.",
+    description: "Private deal rooms connecting encrypted messaging, structured agreements, shielded escrow and verifiable settlement on Starknet.",
     repositoryUrl: "https://github.com/DXJLabs/vinss",
+    proof: [
+      { label: "DEPLOYMENT", value: "Starknet Mainnet", href: "https://github.com/DXJLabs/vinss#mainnet-verification", explanation: "Mainnet verification documented in VINSS repository." },
+      { label: "CONTRACT EVIDENCE", value: "7 listed contracts", href: "https://github.com/DXJLabs/vinss#mainnet-contracts", explanation: "Seven distinct contract addresses listed in project README." },
+      { label: "SETTLEMENT", value: "On-chain evidence", href: "https://github.com/DXJLabs/vinss/blob/main/strk20.json", explanation: "Machine-readable project evidence and transaction references." },
+    ],
     token: { status: "not-issued", note: "No verified project token announced." },
-    networks: [{ name: "Starknet", stage: "testing", note: "Integration work / testing; no production deployment claimed." }],
+    networks: [{ name: "Starknet Mainnet", stage: "live", note: "Deployment and workflow verification documented in official project README. Dashboard indexing is not yet connected." }],
   },
   {
     slug: "carel",
@@ -31,10 +38,16 @@ export const projects: Project[] = [
     affiliation: "dxjlabs",
     area: "AI / Digital finance",
     stage: "exploration",
-    description: "Exploring intelligent interfaces and new approaches to digital financial products.",
+    description: "Agentic DeFi workspace routing user goals through reviewed Swap, Bridge, Staking and Lending execution flows with wallet approval.",
     repositoryUrl: "https://github.com/DXJLabs/Carel",
+    appUrl: "https://carel-v2-mock.vercel.app",
+    proof: [
+      { label: "PUBLIC APP", value: "Open CAREL", href: "https://carel-v2-mock.vercel.app", explanation: "Application URL published in the CAREL repository." },
+      { label: "INTEGRATION MODEL", value: "AVNU · Vesu · Endur · STRK20", href: "https://github.com/DXJLabs/Carel#current-integrations", explanation: "Execution providers documented by the project." },
+      { label: "REGRESSION", value: "117 tests reported", href: "https://github.com/DXJLabs/Carel#verified-baseline", explanation: "Repository reports 117/117 tests. Site does not independently attest this number." },
+    ],
     token: { status: "not-issued", note: "No verified project token announced." },
-    networks: [{ name: "Multi-chain", stage: "planned", note: "Networks and integrations have not been confirmed." }],
+    networks: [{ name: "Starknet Mainnet", stage: "live", note: "Mainnet integrations documented in project README; availability varies by feature." },{ name: "Starknet Sepolia", stage: "testing", note: "Testnet integration documented for bridge and privacy workflows." },{ name: "Additional chains", stage: "planned", note: "Multi-ecosystem architecture exists; no unsupported networks claimed live." }],
   },
   {
     slug: "growhaven",
