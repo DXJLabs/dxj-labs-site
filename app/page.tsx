@@ -1,4 +1,6 @@
 import PlatformHeader from "../components/PlatformHeader";
+import HeroSignal from "../components/HeroSignal";
+import MotionLayer from "../components/MotionLayer";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
 import { articles, activities } from "../lib/platform";
 
@@ -85,6 +87,7 @@ export default async function Home() {
   return (
     <main id="main-content">
       <PlatformHeader />
+      <MotionLayer />
 
       <section className="hero">
         <div className="layout hero-grid">
@@ -99,25 +102,19 @@ export default async function Home() {
             <div className="hero-bottomline"><span>VINSS</span><span>CAREL</span><span>PUBLIC BUILD LOG</span><span className="hero-bottom-no">2026 / DXJ LABS</span></div>
           </div>
           <div className="hero-showcase hero-source-showcase">
-            <div className="hero-feed-top"><span>DXJ / ENGINEERING SIGNAL</span><span>PUBLIC GITHUB DATA ↗</span></div>
-            <div className="hero-feed-card">
-              <div className="hero-feed-header"><span>PROJECT ACTIVITY / 2026</span><span className="feed-status">● SOURCE LINKED</span></div>
-              <div className="hero-feed-heading"><h2>Work you can verify.</h2><p>Latest development changes from our official repositories.</p></div>
-              <div className="hero-feed-projects">
-                {featuredRepos.map(repo => (
-                  <div className="hero-feed-project" key={repo.config.slug}>
-                    <div className="hero-feed-project-head">
-                      <span>{repo.config.label}</span>
-                      <span>{repo.metadata ? "PUBLIC REPOSITORY" : "SOURCE UNAVAILABLE"}</span>
-                    </div>
-                    {repo.commits[0] ? <a href={repo.commits[0].url} target="_blank" rel="noopener noreferrer">{repo.commits[0].title}<span aria-hidden="true">↗</span></a> : <p>Recent activity unavailable from GitHub.</p>}
-                    <time dateTime={repo.commits[0]?.date || undefined}>{readableDate(repo.commits[0]?.date || null)}</time>
-                  </div>
-                ))}
-              </div>
-              <div className="hero-feed-summary"><span>GitHub REST API · cached 5 min</span><a href="/activities">Read activity log ↗</a></div>
-            </div>
-            <div className="hero-feed-note"><span>NO SIMULATED USERS, VOLUME OR REVENUE</span><span>EST. 2026</span></div>
+            <div className="hero-feed-top"><span>DXJ / ECOSYSTEM SIGNAL</span><span>DESIGNED TO EVOLVE ↗</span></div>
+            <HeroSignal projects={featuredRepos.map(repo => ({
+              name: repo.config.label,
+              slug: repo.config.slug,
+              category: repo.config.slug === "vinss" ? "PRIVACY / WEB3" : "AI / FINANCE",
+              stage: repo.config.slug === "vinss" ? "IN DEVELOPMENT" : "EXPLORATION",
+              headline: repo.commits[0]?.title ?? null,
+              commitUrl: repo.commits[0]?.url ?? null,
+              updated: readableDate(repo.commits[0]?.date || null),
+              repositoryUrl: "https://github.com/" + repo.config.owner + "/" + repo.config.name,
+              available: !!repo.metadata && !!repo.commits[0],
+            }))} />
+            <div className="hero-feed-note"><span>BUILDING ACROSS NETWORKS</span><span>NO FICTIONAL CHAIN ACTIVITY</span></div>
           </div>
         </div>
       </section>
@@ -135,12 +132,12 @@ export default async function Home() {
 
       <section className="work-section" id="work">
         <div className="layout">
-          <div className="section-intro">
+          <div className="section-intro" data-reveal>
             <div><p className="section-tag">01 / SELECTED WORK</p><h2>Proof of <em>curiosity.</em></h2></div>
             <p>Real ideas in different stages of development. We&apos;re more interested in building useful things than pretending every experiment is a finished product.</p>
           </div>
 
-          <article className="featured-project">
+          <article className="featured-project" data-reveal>
             <div className="featured-copy">
               <div className="project-overline"><span>01 — FEATURED BUILD</span><span className="project-stage"><i /> IN DEVELOPMENT</span></div>
               <div><p className="project-category">PRIVACY / WEB3 / DIGITAL TRUST</p><h3>VINSS<span>↗</span></h3><p>Private deal rooms for conversations, agreements, and settlement. Exploring how digital trust can work without giving up privacy.</p><a className="project-action" href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">View the project <Arrow diagonal /></a></div>
@@ -150,11 +147,11 @@ export default async function Home() {
           </article>
 
           <div className="secondary-project-grid">
-            <article className="secondary-project card-carel">
+            <article className="secondary-project card-carel" data-reveal>
               <CarelPreview />
               <div className="secondary-project-body"><div className="project-overline"><span>02 / AI &amp; FINANCE</span><span className="project-stage"><i /> EXPERIMENTAL</span></div><h3>CAREL</h3><p>Exploring intelligent interfaces and new ways to navigate decentralized finance.</p><a className="project-action" href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">View repository <Arrow diagonal /></a></div>
             </article>
-            <article className="secondary-project card-grow">
+            <article className="secondary-project card-grow" data-reveal>
               <GrowhavenPreview />
               <div className="secondary-project-body"><div className="project-overline"><span>03 / GAMES &amp; EXPERIENCES</span><span className="project-stage"><i /> PROTOTYPE</span></div><h3>Growhaven</h3><p>An experimental game world built around playful ideas, exploration, and iteration.</p><span className="project-action muted-action">Prototype in development <Arrow /></span></div>
             </article>
@@ -166,7 +163,7 @@ export default async function Home() {
       <section className="home-journal-section" id="updates">
         <div className="layout">
           <div className="home-journal-head"><div><p className="section-tag">02 / PUBLISHING & ACTIVITY</p><h2>From the studio.</h2></div><p>Follow documented development, research, and what happens across DXJ Labs.</p></div>
-          <div className="home-journal-grid">
+          <div className="home-journal-grid" data-reveal>
             {article && <a className="home-journal-card" href={"/blog/" + article.slug}><span>BLOG / {article.category.toUpperCase()}</span><h3>{article.title}</h3><p>{article.excerpt}</p><div><time dateTime={article.publishedAt}>{article.publishedAt}</time><b>Read article ↗</b></div></a>}
             {activity && <a className="home-journal-card home-journal-card-activity" href="/activities"><span>ACTIVITY / {activity.category.toUpperCase()}</span><h3>{activity.title}</h3><p>{activity.summary}</p><div><time dateTime={activity.date}>{activity.date}</time><b>See activity ↗</b></div></a>}
           </div>
@@ -176,14 +173,14 @@ export default async function Home() {
       <section className="studio-section" id="studio">
         <div className="layout studio-grid">
           <div className="studio-left"><p className="section-tag">03 / ABOUT DXJ LABS</p><span className="studio-insignia">D<span>✳</span></span></div>
-          <div className="studio-right"><h2>Independent minds.<br /><em>Real-world ambition.</em></h2><p>DXJ Labs is an independent product studio based in East Kalimantan, Indonesia. We move between research, product design, engineering, and experimentation to turn promising ideas into working systems.</p><div className="studio-facts"><div><span>LOCATION</span><strong>East Kalimantan, Indonesia</strong></div><div><span>WAY OF WORKING</span><strong>Research → Build → Validate</strong></div><div><span>FOCUS</span><strong>Products, not pitch decks</strong></div></div></div>
+          <div className="studio-right" data-reveal><h2>Independent minds.<br /><em>Real-world ambition.</em></h2><p>DXJ Labs is an independent product studio based in East Kalimantan, Indonesia. We move between research, product design, engineering, and experimentation to turn promising ideas into working systems.</p><div className="studio-facts"><div><span>LOCATION</span><strong>East Kalimantan, Indonesia</strong></div><div><span>WAY OF WORKING</span><strong>Research → Build → Validate</strong></div><div><span>FOCUS</span><strong>Products, not pitch decks</strong></div></div></div>
         </div>
       </section>
 
       <section className="approach-section" id="approach">
         <div className="layout approach-grid">
           <div><p className="section-tag">04 / OUR APPROACH</p><h2>Less talk.<br /><em>More making.</em></h2></div>
-          <div className="approach-steps">
+          <div className="approach-steps" data-reveal>
             <div><span>01</span><h3>Find the question</h3><p>Start with a problem worth understanding, not a trend worth chasing.</p></div>
             <div><span>02</span><h3>Build something tangible</h3><p>Prototype early. Make the idea concrete enough to test and learn from.</p></div>
             <div><span>03</span><h3>Let reality shape it</h3><p>Improve through feedback, useful constraints, and honest iteration.</p></div>
