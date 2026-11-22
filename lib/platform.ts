@@ -6,6 +6,7 @@ export type Project = {
   name: string;
   area: string;
   stage: ProductStage;
+  affiliation: "dxjlabs" | "candidate";
   description: string;
   repositoryUrl?: string;
   token: { status: TokenStage; note: string };
@@ -16,6 +17,7 @@ export const projects: Project[] = [
   {
     slug: "vinss",
     name: "VINSS",
+    affiliation: "dxjlabs",
     area: "Privacy / Web3",
     stage: "in-development",
     description: "Private deal room exploring confidential negotiation, private payments and digital settlement.",
@@ -26,6 +28,7 @@ export const projects: Project[] = [
   {
     slug: "carel",
     name: "CAREL",
+    affiliation: "dxjlabs",
     area: "AI / Digital finance",
     stage: "exploration",
     description: "Exploring intelligent interfaces and new approaches to digital financial products.",
@@ -36,6 +39,7 @@ export const projects: Project[] = [
   {
     slug: "growhaven",
     name: "Growhaven",
+    affiliation: "candidate",
     area: "Games / Interactive",
     stage: "prototype",
     description: "An experimental game concept, currently being validated before entering the official product lineup.",
