@@ -14,7 +14,8 @@ const navigation = [
 export default function PlatformHeader() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="site-header platform-header">
+    <header id="top" className="site-header platform-header">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="layout header-inner">
         <Link href="/" className="brand" aria-label="DXJ Labs home" onClick={() => setOpen(false)}>
           <span className="brand-monogram" aria-hidden="true"><span>D</span><i /></span>
