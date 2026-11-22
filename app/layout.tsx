@@ -18,6 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   <head>
     <meta name="page-type" content="software" />
     <meta name="site-kind" content="software" />
+    <link rel="stylesheet" href="/taste/motion/motion.css" />
     <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add(\'m-enter\');setTimeout(()=>document.documentElement.classList.add(\'m-enter-done\'),700);" }} />
   </head>
   <body>{children}</body>
