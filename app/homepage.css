@@ -503,3 +503,23 @@
 @media(max-width:365px) {
   .dxj-home #multichain .mo-wh__text { font-size:31px; }
 }
+
+
+/* Keyboard accessibility: do not animate the root scroll after Tab.
+   The Taste Skill focus walk reads layout after 60ms; smooth scrolling
+   previously left the focused repo link below the visual viewport. */
+html:has(.dxj-home) { scroll-behavior: auto !important; }
+@media (min-width: 881px) {
+  .dxj-home #multichain .dxj-multichain-body {
+    align-content: start !important;
+    align-items: start !important;
+    padding-top: 78px !important;
+  }
+  .dxj-home #multichain .dxj-multi-copy {
+    align-self: start !important;
+  }
+  .dxj-home #multichain .mo-wh__text {
+    font-size: 39px !important;
+    line-height: 1.16 !important;
+  }
+}
