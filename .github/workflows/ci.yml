@@ -1,0 +1,50 @@
+name: CI — build & route verification
+
+on:
+  push:
+    branches:
+      - design/studio-rebrand-v4
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dxj-platform-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-build:
+    name: Production build and public routes
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run build
+      - name: Smoke test public pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run start -- --hostname 127.0.0.1 --port 3000 > /tmp/dxjlabs-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 60); do
+            curl --silent --fail http://127.0.0.1:3000/ > /dev/null && break
+            sleep 1
+          done
+          for route in / /ecosystem /ecosystem/vinss /ecosystem/carel /activities /blog /analytics /investors /api/console/overview; do
+            status=$(curl --max-time 30 --silent --output /dev/null --write-out "%{http_code}" "http://127.0.0.1:3000$route")
+            echo "$route -> $status"
+            test "$status" = "200"
+          done
+          echo "CI passed: website built and all core public routes returned HTTP 200" >> "$GITHUB_STEP_SUMMARY"
