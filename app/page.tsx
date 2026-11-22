@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import PlatformHeader from "../components/PlatformHeader";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true" className="arrow-glyph">{diagonal ? "↗" : "→"}</span>;
@@ -76,25 +76,9 @@ function GrowhavenPreview() {
 }
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const close = () => setMenuOpen(false);
-
   return (
     <main id="top">
-      <header className="site-header">
-        <div className="layout header-inner">
-          <Brand />
-          <nav className={menuOpen ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
-            <a href="#work" onClick={close}>Selected work</a>
-            <a href="#studio" onClick={close}>The studio</a>
-            <a href="#approach" onClick={close}>Approach</a>
-            <a className="nav-cta" href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" onClick={close}>GitHub <Arrow diagonal /></a>
-          </nav>
-          <button className="menu-toggle" type="button" aria-expanded={menuOpen} aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen(!menuOpen)}>
-            <span>{menuOpen ? "Close" : "Menu"}</span><span className="menu-glyph">{menuOpen ? "×" : "+"}</span>
-          </button>
-        </div>
-      </header>
+      <PlatformHeader />
 
       <section className="hero">
         <div className="layout hero-grid">
@@ -122,6 +106,14 @@ export default function Home() {
       </section>
 
       <div className="expertise-ribbon" aria-label="Focus areas"><div className="layout expertise-inner"><span>PRODUCT ENGINEERING</span><i>✳</i><span>PRIVACY &amp; WEB3</span><i>✳</i><span>AI &amp; EXPERIMENTATION</span><i>✳</i><span>INTERACTIVE WORLDS</span></div></div>
+
+      <section className="platform-home-links" aria-label="Explore the DXJ Labs ecosystem"><div className="layout">
+        <a href="/ecosystem">Ecosystem <span aria-hidden="true">↗</span></a>
+        <a href="/activities">Activities <span aria-hidden="true">↗</span></a>
+        <a href="/blog">Blog & Research <span aria-hidden="true">↗</span></a>
+        <a href="/analytics">Analytics <span aria-hidden="true">↗</span></a>
+        <a href="/investors">Investor Overview <span aria-hidden="true">↗</span></a>
+      </div></section>
 
       <section className="work-section" id="work">
         <div className="layout">
