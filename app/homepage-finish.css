@@ -360,3 +360,15 @@
 @media(prefers-reduced-motion:reduce) {
   .dxj-home .dxj-feature-choices button { transition:none!important; }
 }
+
+
+/* Desktop panels participate directly in the original two-column product grid.
+ * Mobile keeps individual panels so selection can hide inactive content. */
+@media(min-width:651px) {
+  .dxj-home .dxj-feature-panels .dxj-feature-panel { display:contents; }
+}
+@media(max-width:650px) {
+  .dxj-home .dxj-feature-choices button span { opacity:1; }
+  .dxj-home .dxj-feature-choices button:not(.is-current) span { color:#23462b; }
+  .dxj-home .dxj-feature-choices button.is-current span { color:#f1ffe7; }
+}
