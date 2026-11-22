@@ -17,7 +17,7 @@ function Arrow() {
 
 function StudioNav() {
   return (
-    <header className="dxj-nav nav">
+    <header className="dxj-home dxj-nav nav">
       <div className="wrap dxj-nav-inner">
       <Link className="dxj-logo" href="/" aria-label="DXJ Labs homepage">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
       <nav className="dxj-nav-links" aria-label="Site navigation">
@@ -129,15 +129,15 @@ export default async function Home() {
   const activity = activities[0] ?? null;
 
   return (
-    <div className="dxj-home">
+    <>
     <StudioNav />
-    <main id="main-content" className="dxj-main">
+    <main id="main-content" className="dxj-home dxj-main">
       <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive"/>
       <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive"/>
 
       <section id="top" className="dxj-screen dxj-hero hero" data-enter>
         <div className="wrap dxj-wrap dxj-hero-wrap">
-          <div className="dxj-split dxj-hero-body">
+          <div className="dxj-split dxj-hero-body hero-text">
             <div className="dxj-hero-copy">
               <p className="dxj-kicker"><span className="dxj-live-dot"/> EAST KALIMANTAN · INDONESIA / PRODUCT STUDIO</p>
               <h1>Building<br/><em>useful Web3.</em></h1>
@@ -164,14 +164,14 @@ export default async function Home() {
             <article className="dxj-product">
               <VinssGraphic />
               <div className="dxj-project-details">
-                <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
+                <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS deal room</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
                 <a href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
               </div>
             </article>
             <article className="dxj-product">
               <CarelGraphic />
               <div className="dxj-project-details">
-                <div><span className="dxj-project-category">AI · FINANCIAL RESEARCH</span><h3>CAREL</h3><p>Exploring AI-assisted research and digital financial interfaces.</p></div>
+                <div><span className="dxj-project-category">AI · FINANCIAL RESEARCH</span><h3>CAREL research</h3><p>Exploring AI-assisted research and digital financial interfaces.</p></div>
                 <a href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
               </div>
             </article>
@@ -204,14 +204,15 @@ export default async function Home() {
           <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>DXJ Labs development.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
           <div className="dxj-publishing-grid">
             <article className="dxj-activity-feature">
+
+              <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>DXJ Labs source changes.</h3>
+                {latest.length ? <div className="dxj-commits">{latest.map(item => <a href={item.url} key={item.sha} target="_blank" rel="noopener noreferrer"><span>{item.project} · {readableDate(item.date)}</span>{item.title}<Arrow /></a>)}</div> : <p>Public GitHub activity is temporarily unavailable. See the linked repositories for updates.</p>}
+              </div>
               <svg viewBox="0 0 480 160" role="img" aria-label="Source code and development illustration" className="dxj-publishing-art">
                 <rect x="20" y="21" width="440" height="121" rx="6" fill="#20402a"/>
                 <path d="M134 46 L95 81 L134 116 M210 46 L249 81 L210 116 M189 41 L156 120" fill="none" stroke="#d0f1b0" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M314 55 H425 M314 82 H403 M314 109 H425" fill="none" stroke="#81b16e" strokeWidth="6" strokeLinecap="round"/>
               </svg>
-              <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>Recent source changes.</h3>
-                {latest.length ? <div className="dxj-commits">{latest.map(item => <a href={item.url} key={item.sha} target="_blank" rel="noopener noreferrer"><span>{item.project} · {readableDate(item.date)}</span>{item.title}<Arrow /></a>)}</div> : <p>Public GitHub activity is temporarily unavailable. See the linked repositories for updates.</p>}
-              </div>
             </article>
             <article className="dxj-journal-feature">
               <svg viewBox="0 0 480 160" role="img" aria-label="Technical journal illustration" className="dxj-publishing-art">
@@ -267,6 +268,6 @@ export default async function Home() {
         </div>
       </section>
     </main>
-    </div>
+    </>
   );
 }
