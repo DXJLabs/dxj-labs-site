@@ -8,7 +8,7 @@ export default function PlatformPage({ number, tag, title, description, children
   return (
     <>
       <PlatformHeader />
-      <main className="platform-main">
+      <main id="main-content" className="platform-main">
         <div className="layout">
           <section className="platform-hero">
             <div className="platform-hero-meta"><span>{number} / {tag}</span><span>DXJ LABS · MULTI-CHAIN ECOSYSTEM</span></div>
