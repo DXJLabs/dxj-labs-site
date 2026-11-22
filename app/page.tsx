@@ -18,6 +18,7 @@ function Arrow() {
 function StudioNav() {
   return (
     <header className="dxj-nav nav">
+      <div className="wrap dxj-nav-inner">
       <Link className="dxj-logo" href="/" aria-label="DXJ Labs homepage">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
       <nav className="dxj-nav-links" aria-label="Site navigation">
         <Link href="/ecosystem">Ecosystem</Link>
@@ -38,6 +39,7 @@ function StudioNav() {
           <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
         </nav>
       </details>
+      </div>
     </header>
   );
 }
@@ -127,13 +129,14 @@ export default async function Home() {
   const activity = activities[0] ?? null;
 
   return (
+    <>
+    <StudioNav />
     <main id="main-content" className="dxj-home">
       <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive"/>
       <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive"/>
 
       <section id="top" className="dxj-screen dxj-hero hero" data-enter>
         <div className="wrap dxj-wrap dxj-hero-wrap">
-          <StudioNav />
           <div className="dxj-split dxj-hero-body">
             <div className="dxj-hero-copy">
               <p className="dxj-kicker"><span className="dxj-live-dot"/> EAST KALIMANTAN · INDONESIA / PRODUCT STUDIO</p>
@@ -156,7 +159,7 @@ export default async function Home() {
 
       <section id="work" className="dxj-screen dxj-work">
         <div className="wrap dxj-wrap dxj-section-wrap">
-          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>Projects taking shape.</h2></div><Link className="dxj-text-link" href="/ecosystem">All projects <Arrow /></Link></div>
+          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div><Link className="dxj-text-link" href="/ecosystem">All projects <Arrow /></Link></div>
           <div className="dxj-projects">
             <article className="dxj-product">
               <VinssGraphic />
@@ -181,7 +184,8 @@ export default async function Home() {
         <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
           <div className="dxj-multi-copy">
             <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
-            <h2 className="mo-wh__text">Different products deserve different infrastructure. DXJ Labs builds across networks with <strong>real utility</strong> as the starting point.</h2>
+            <h2 className="dxj-multichain-heading">Multi-chain development.</h2>
+            <p className="mo-wh__text">Different products deserve different infrastructure. DXJ Labs builds across networks with <strong>real utility</strong> as the starting point.</p>
             <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
           </div>
           <div className="dxj-multi-visual">
@@ -197,7 +201,7 @@ export default async function Home() {
 
       <section id="activity" className="dxj-screen dxj-publishing">
         <div className="wrap dxj-wrap dxj-section-wrap">
-          <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>Proof in the work.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
+          <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>DXJ Labs development.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
           <div className="dxj-publishing-grid">
             <article className="dxj-activity-feature">
               <svg viewBox="0 0 480 160" role="img" aria-label="Source code and development illustration" className="dxj-publishing-art">
@@ -231,7 +235,7 @@ export default async function Home() {
           <div className="dxj-split dxj-closing-main">
             <div>
               <p className="dxj-section-no">05 / TRANSPARENCY & PARTNERSHIPS</p>
-              <h2>Progress you<br/><em>can trace.</em></h2>
+              <h2>DXJ Labs<br/><em>transparency.</em></h2>
               <p>Explore our development progress today. Verified cross-chain metrics, financial reports, and private investor access will be published when their data sources and controls are ready.</p>
               <div className="dxj-actions">
                 <Link className="btn btn--primary btn--xl dxj-button" href="/analytics">View public metrics <Arrow /></Link>
@@ -263,5 +267,6 @@ export default async function Home() {
         </div>
       </section>
     </main>
+    </>
   );
 }
