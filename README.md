@@ -10,6 +10,12 @@ DXJ Labs is an independent product studio and an emerging multi-chain Web3 ecosy
 |---|---|---|
 | `/` | Studio landing & portfolio | Implemented |
 | `/ecosystem` | Multi-chain product catalog | Implemented / curated |
+| `/console` | Public GitHub-backed engineering dashboard | Implemented / real GitHub API |
+| `/console/projects` | Detailed official repository telemetry | Implemented / real GitHub API |
+| `/console/activity` | Source-linked commit history feed | Implemented / real GitHub API |
+| `/console/networks` | Planned/testing network registry | Implemented / curated, not connected |
+| `/console/sources` | Data provenance and methodology | Implemented |
+| `/api/console/overview` | Public JSON source telemetry | Implemented / real GitHub API |
 | `/ecosystem/[slug]` | Product status and documented network direction | Implemented |
 | `/activities` | Dated development updates with evidence | Implemented / curated |
 | `/blog` | Studio Journal and research index | Implemented |
@@ -22,7 +28,9 @@ DXJ Labs is an independent product studio and an emerging multi-chain Web3 ecosy
 - Next.js App Router, React, TypeScript and CSS.
 - Responsive desktop/tablet/mobile editorial interface.
 - Shared `PlatformHeader`, `PlatformFooter`, `PlatformPage`.
-- Typed curated datasets in `lib/platform.ts`. Replace them with verified sources before public metric claims.
+- Typed curated product/content datasets in `lib/platform.ts`.
+- GitHub-backed **server-side** telemetry in `lib/github-console.ts`, cached up to five minutes with explicit unavailable states and public JSON API.
+- Engineering activity is **not** blockchain analytics, adoption, revenue, or financial performance.
 - No generated fake token data, price charts, security rights or fundraising claims.
 - The illustrated product interfaces on the landing page are labelled as **conceptual**, not actual product UI.
 
@@ -37,6 +45,7 @@ DXJ Labs is an independent product studio and an emerging multi-chain Web3 ecosy
 For detailed plans see:
 - [Product Requirements V1](docs/PRODUCT_REQUIREMENTS_V1.md)
 - [Sitemap & Architecture V1](docs/SITEMAP_AND_ARCHITECTURE.md)
+- [Live GitHub Console Integration](docs/CONSOLE_GITHUB_INTEGRATION.md)
 
 ## Deployment
 
