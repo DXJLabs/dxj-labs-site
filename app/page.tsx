@@ -107,18 +107,28 @@ function VinssGraphic() {
 
 function CarelGraphic() {
   return (
-    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Illustrative CAREL AI financial research interface">
-      <rect width="590" height="310" fill="#252133" rx="7"/>
-      <circle cx="460" cy="105" r="91" fill="#554765" opacity=".4"/>
-      <circle cx="460" cy="105" r="60" fill="none" stroke="#a78dc2" strokeWidth="1.5" opacity=".7"/>
-      <path d="M460 55 V155 M410 105 H510 M424 69 L496 141 M424 141 L496 69" stroke="#e2b9fb" strokeWidth="1.6"/>
-      <text x="31" y="46" fill="#eedafa" fontFamily="Arial,sans-serif" fontSize="25" fontWeight="700">carel ✳</text>
-      <text x="31" y="93" fill="#ceb5e6" fontFamily="Arial,sans-serif" fontSize="11">RESEARCH / INTELLIGENCE</text>
-      <text x="31" y="158" fill="#f3e6ff" fontFamily="Arial,sans-serif" fontSize="38" fontWeight="700">Insights,</text>
-      <text x="31" y="202" fill="#f3e6ff" fontFamily="Arial,sans-serif" fontSize="38" fontWeight="700">not noise.</text>
-      <rect x="31" y="245" rx="4" width="528" height="43" fill="#e2d0f0"/>
-      <text x="49" y="272" fill="#4c3960" fontFamily="Arial,sans-serif" fontSize="14">Explore an AI research workflow</text>
-      <text x="534" y="272" fill="#4c3960" fontFamily="Arial,sans-serif" fontSize="23" textAnchor="end">↗</text>
+    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Conceptual CAREL workflow: user goal, route review, and explicit wallet approval">
+      <rect width="590" height="310" rx="7" fill="#201c2e"/>
+      <rect x="0" y="0" width="590" height="54" rx="7" fill="#30273c"/>
+      <text x="26" y="35" fill="#f2e6ff" fontFamily="Arial,sans-serif" fontSize="23" fontWeight="700">carel ✳</text>
+      <text x="562" y="34" fill="#c6b8d5" fontFamily="Arial,sans-serif" fontSize="12" textAnchor="end">AGENTIC DeFi / FLOW CONCEPT</text>
+      <text x="26" y="84" fill="#d8c7e8" fontFamily="Arial,sans-serif" fontSize="12">GOAL-DRIVEN EXECUTION</text>
+      <rect x="26" y="99" width="537" height="65" rx="4" fill="#e8d9f0"/>
+      <text x="44" y="123" fill="#715586" fontFamily="Arial,sans-serif" fontSize="11">USER GOAL</text>
+      <text x="44" y="147" fill="#322441" fontFamily="Arial,sans-serif" fontSize="19" fontWeight="700">Swap 10 STRK for USDC</text>
+      <path d="M107 177 H500" stroke="#8c729f" strokeWidth="2.5" strokeDasharray="7 8"/>
+      <path d="M493 169 L505 177 L493 185" stroke="#d4b9e9" fill="none" strokeWidth="2.5"/>
+      <rect x="26" y="195" width="170" height="65" rx="3" fill="#483a59" stroke="#9477ac"/>
+      <rect x="209" y="195" width="171" height="65" rx="3" fill="#483a59" stroke="#9477ac"/>
+      <rect x="393" y="195" width="170" height="65" rx="3" fill="#6e5680" stroke="#d1a9e8"/>
+      <text x="40" y="215" fontFamily="Arial,sans-serif" fill="#c9aedb" fontSize="11">01 / INTENT</text>
+      <text x="40" y="241" fontFamily="Arial,sans-serif" fill="#fff0ff" fontSize="16" fontWeight="700">Parse goal</text>
+      <text x="223" y="215" fontFamily="Arial,sans-serif" fill="#c9aedb" fontSize="11">02 / ROUTE</text>
+      <text x="223" y="241" fontFamily="Arial,sans-serif" fill="#fff0ff" fontSize="16" fontWeight="700">Review quote</text>
+      <text x="407" y="215" fontFamily="Arial,sans-serif" fill="#e1c9ec" fontSize="11">03 / CONTROL</text>
+      <text x="407" y="241" fontFamily="Arial,sans-serif" fill="#fff8ff" fontSize="16" fontWeight="700">Wallet approve</text>
+      <circle cx="34" cy="284" r="4" fill="#c49bdf"/>
+      <text x="47" y="289" fontFamily="Arial,sans-serif" fill="#d7c4e5" fontSize="12">User approval is required. No autonomous wallet signing.</text>
     </svg>
   );
 }
@@ -176,7 +186,7 @@ export default async function Home() {
             <article className="dxj-product">
               <CarelGraphic />
               <div className="dxj-project-details">
-                <div><span className="dxj-project-category">AI · FINANCIAL RESEARCH</span><h3>CAREL research</h3><p>Exploring AI-assisted research and digital financial interfaces.</p></div>
+                <div><span className="dxj-project-category">AGENTIC DEFI · WALLET APPROVAL</span><h3>CAREL DeFi agent</h3><p>Turn financial goals into reviewed execution flows while keeping approval with the wallet owner.</p></div>
                 <FocusScrollLink href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
             </article>
