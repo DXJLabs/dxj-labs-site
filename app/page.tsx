@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
+import FocusScrollLink from "../components/FocusScrollLink";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
 import { activities, publishedArticles } from "../lib/platform";
 import "./homepage.css";
@@ -165,14 +166,14 @@ export default async function Home() {
               <VinssGraphic />
               <div className="dxj-project-details">
                 <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS deal room</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
-                <a href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
+                <FocusScrollLink href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
             </article>
             <article className="dxj-product">
               <CarelGraphic />
               <div className="dxj-project-details">
                 <div><span className="dxj-project-category">AI · FINANCIAL RESEARCH</span><h3>CAREL research</h3><p>Exploring AI-assisted research and digital financial interfaces.</p></div>
-                <a href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></a>
+                <FocusScrollLink href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
             </article>
           </div>
@@ -184,7 +185,8 @@ export default async function Home() {
         <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
           <div className="dxj-multi-copy">
             <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
-            <h2 className="mo-wh__text">DXJ Labs builds across multiple networks. <strong>Real utility comes first.</strong> Public progress makes every product accountable.</h2>
+            <h2 className="dxj-multichain-heading">Multi-chain infrastructure.</h2>
+            <p className="mo-wh__text">Every DXJ Labs product needs the right network. <strong>Real utility</strong> guides research, engineering, and validation.</p>
             <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
           </div>
           <div className="dxj-multi-visual">
