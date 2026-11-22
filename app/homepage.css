@@ -322,3 +322,55 @@
 @media(max-width:365px) {
  .dxj-home .dxj-multichain { height:200svh; }
 }
+
+
+/* Final Taste layout corrections: standalone header, source content and focus. */
+.dxj-home.dxj-nav {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  display:block;
+  z-index:12;
+  width:100%;
+  height:94px;
+  border:0;
+  padding:0;
+  box-shadow:none;
+  background:transparent;
+}
+.dxj-home .dxj-hero-foot { padding-bottom:14px; }
+.dxj-home #work .dxj-section-wrap { justify-content:flex-start; padding-top:91px; }
+.dxj-home #multichain .dxj-multichain-body { padding-top:120px; align-items:center; }
+.dxj-home #multichain .dxj-multi-copy { align-self:center; }
+.dxj-home #work .dxj-section-head>a:focus-visible {
+  display:inline-flex;
+  background:#11341b!important;
+  color:#fff!important;
+  outline:4px solid #11341b!important;
+  outline-offset:5px;
+  box-shadow:0 0 0 5px #f4f2eb!important;
+  padding-inline:12px;
+}
+.dxj-home #activity .dxj-activity-feature>div { flex:0 0 auto; }
+.dxj-home #activity .dxj-activity-feature .dxj-publishing-art {
+  margin-top:auto;
+  background:#c8e1bb;
+}
+.dxj-home #activity .dxj-activity-feature { background:#e0ecda; }
+.dxj-home #activity .dxj-activity-feature .dxj-commits a,
+.dxj-home #activity .dxj-activity-feature p,
+.dxj-home #activity .dxj-activity-feature h3 {
+  color:#183220;
+}
+@media(max-width:880px){
+ .dxj-home.dxj-nav{height:70px}
+ .dxj-home #work .dxj-section-wrap{padding-top:55px}
+ .dxj-home #multichain .dxj-multichain-body{padding-top:80px}
+}
+@media(max-width:650px){
+ .dxj-home.dxj-nav{height:67px}
+ .dxj-home #work .dxj-section-wrap{padding-top:65px;justify-content:center}
+ .dxj-home #multichain .dxj-multichain-body{padding-top:16px}
+ .dxj-home #activity .dxj-activity-feature>div{flex:0 0 auto}
+}
