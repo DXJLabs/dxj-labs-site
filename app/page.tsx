@@ -190,7 +190,8 @@ export default async function Home() {
                 <FocusScrollLink href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
             </article>}
-          />Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
+          />
+          <p className="dxj-disclaimer">Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
         </div>
       </section>
 
@@ -234,7 +235,8 @@ export default async function Home() {
                 <Link href={article ? "/blog/" + article.slug : "/blog"}>Read the journal <Arrow /></Link>
               </div>
             </article>}
-          />{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
+          />
+          <div className="dxj-update-foot">{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
         </div>
       </section>
 
