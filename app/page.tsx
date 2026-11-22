@@ -87,7 +87,7 @@ export default function Home() {
             <h1>Ideas<br />deserve to<br /><em>be built.</em></h1>
             <p className="hero-description">An independent multi-chain Web3 product ecosystem—building products, publishing research, and opening up real development data.</p>
             <div className="hero-actions">
-              <a className="button-primary" href="/console">Open live console <Arrow diagonal /></a>
+              <a className="button-primary" href="/console">Development console <Arrow diagonal /></a>
               <a className="button-text" href="#work">Explore our work <Arrow /></a>
             </div>
             <div className="hero-bottomline"><span>RESEARCH</span><span>DESIGN</span><span>ENGINEERING</span><span className="hero-bottom-no">001 — 026</span></div>
