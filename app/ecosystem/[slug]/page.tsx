@@ -20,7 +20,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
   return (
     <PlatformPage number="01" tag={product.area.toUpperCase()} title={product.name} description={product.description}>
       <section className="platform-section detail-panel">
-        <div className="detail-intro"><span className="section-tag">CURRENT STATUS</span><h2>{stageName[product.stage]}</h2><p>Product stages describe development progress, not availability of a released commercial service.</p></div>
+        <div className="detail-intro"><span className="section-tag">CURRENT STATUS</span><h2>{stageName[product.stage]}</h2><p>Product stages describe development progress, not availability of a released commercial service.</p>{product.affiliation === "candidate" && <p><strong>Candidate only:</strong> this prototype has not yet been transferred into the DXJ Labs organization.</p>}</div>
         <div className="detail-content"><h3>Networks and integrations</h3>{product.networks.map(network => <div className="chain-row" key={network.name}><strong>{network.name}</strong><span>{networkName[network.stage]}</span><small>{network.note}</small></div>)}
         <h3>Token status</h3><p><strong>Not issued.</strong> {product.token.note}</p>
         <h3>Public development evidence</h3>
