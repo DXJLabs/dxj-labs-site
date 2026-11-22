@@ -18,7 +18,7 @@ export default function FocusScrollLink({
         event.currentTarget.scrollIntoView({
           block: "center",
           inline: "nearest",
-          behavior: "auto",
+          behavior: "instant" as ScrollBehavior,
         });
         props.onFocus?.(event);
       }}
