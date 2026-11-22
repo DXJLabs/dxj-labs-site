@@ -159,7 +159,7 @@ export default async function Home() {
 
       <section id="work" className="dxj-screen dxj-work">
         <div className="wrap dxj-wrap dxj-section-wrap">
-          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div><Link className="dxj-text-link" href="/ecosystem">All projects <Arrow /></Link></div>
+          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div></div>
           <div className="dxj-projects">
             <article className="dxj-product">
               <VinssGraphic />
@@ -184,8 +184,7 @@ export default async function Home() {
         <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
           <div className="dxj-multi-copy">
             <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
-            <h2 className="dxj-multichain-heading">Multi-chain development.</h2>
-            <p className="mo-wh__text">Different products deserve different infrastructure. DXJ Labs builds across networks with <strong>real utility</strong> as the starting point.</p>
+            <h2 className="mo-wh__text">Across networks, DXJ Labs designs products around <strong>real utility</strong> and accountable progress.</h2>
             <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
           </div>
           <div className="dxj-multi-visual">
