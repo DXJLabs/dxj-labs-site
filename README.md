@@ -1,17 +1,30 @@
-# DXJ Labs — Studio Website V1
+# DXJ Labs — Living Interface (V2)
 
-A polished, mobile-responsive Next.js website for DXJ Labs. Includes selected explorations (VINSS, CAREL, Growhaven), a custom CSS orbital graphic, and studio positioning.
+Premium Next.js site for DXJ Labs with animated orbital hero, kinetic work visuals, scrolling practice ticker, scroll-driven reveals, subtle mouse-follow light, and reduced-motion accessibility. No extra runtime dependencies.
 
-## Getting started
+## Run locally
 
 ```bash
 npm install
-npm run dev
 npm run build
+npm run dev
 ```
 
-## Publish from Termux
+## Update deployed Termux project
 
-Unzip to a *new* folder (or back up your old `~/dxjlabs` first). Then use `git init`, `git add .`, `git commit`, and GitHub CLI (`gh repo create DXJLabs/dxj-labs-site --public --source=. --remote=origin --push`) if the organization permissions permit it. For Vercel use `npx vercel --prod` and link this folder to its own Vercel project. Never link to VINSS/CAREL deployment projects.
+This ZIP contains files at the root. Extract into the existing `~/dxjlabs-premium` Git directory.
 
-The site intentionally labels all projects as experiments/prototypes, not commercial launches. Only VINSS has a confirmed public repository link; add other links once verified.
+```bash
+cd ~/dxjlabs-premium
+cp app/page.tsx app/page.tsx.v1.bak
+cp app/globals.css app/globals.css.v1.bak
+unzip -o ~/storage/downloads/dxjlabs-living-v2.zip -d .
+npm run build
+git add app/page.tsx app/globals.css README.md
+git commit -m "feat: bring DXJ Labs studio interface to life"
+git push origin main
+```
+
+Vercel should auto-deploy the connected main branch after GitHub receives the push.
+
+Visual elements and labels are illustrative; project stages are not claimed to be launched products.
