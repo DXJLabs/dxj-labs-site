@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./platform.css";
 
 export const metadata: Metadata = {
-  title: "DXJ Labs — Independent Digital Product Studio",
-  description: "DXJ Labs is an independent product studio exploring privacy, AI, digital infrastructure and interactive experiences. Based in East Kalimantan, Indonesia.",
-  openGraph: { title: "DXJ Labs — Ideas Into Systems", description: "Independent digital product studio. Research, design, build.", type: "website" },
+  title: "DXJ Labs — Multi-Chain Web3 Product Ecosystem",
+  description: "DXJ Labs is an independent multi-chain Web3 product studio building products, documenting activities and research, and preparing transparent ecosystem reporting.",
+  openGraph: { title: "DXJ Labs — Ideas Deserve to Be Built", description: "Independent multi-chain Web3 product ecosystem. Research, design, build.", type: "website" },
   robots: { index: true, follow: true },
 };
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#0a0d0b" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#f4f2eb" };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
  return <html lang="en"><body>{children}</body></html>;
 }
