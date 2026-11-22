@@ -1,97 +1,183 @@
 "use client";
-import { useEffect, useState } from "react";
 
-type Project = { num: string; name: string; category: string; stage: string; description: string; visual: string; href?: string };
-const projects: Project[] = [
-  { num: "01", name: "VINSS", category: "PRIVACY / WEB3", stage: "IN DEVELOPMENT", description: "A private deal room exploring confidential negotiation and settlement on decentralized infrastructure.", visual: "vinss", href: "https://github.com/DXJLabs/vinss" },
-  { num: "02", name: "CAREL", category: "AI / EXPERIMENTS", stage: "EXPLORATION", description: "An experimental direction at the intersection of intelligent interfaces and decentralized finance.", visual: "carel" },
-  { num: "03", name: "GROWHAVEN", category: "GAMES / INTERACTIVE", stage: "PROTOTYPE", description: "An interactive game concept built to test new ideas, playful systems, and engaging digital worlds.", visual: "growhaven" },
-];
-const capabilities = [
-  { n: "01", title: "Product engineering", desc: "From early concepts to working digital products." },
-  { n: "02", title: "Privacy & infrastructure", desc: "Systems designed with trust and user control in mind." },
-  { n: "03", title: "AI & experimentation", desc: "Prototyping emerging interfaces and intelligent workflows." },
-  { n: "04", title: "Interactive experiences", desc: "Digital ideas that move beyond conventional interfaces." },
-];
-function Arrow({ diagonal = false }: { diagonal?: boolean }) { return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>; }
+import { useState } from "react";
+
+function Arrow({ diagonal = false }: { diagonal?: boolean }) {
+  return <span aria-hidden="true" className="arrow-glyph">{diagonal ? "↗" : "→"}</span>;
+}
+
+function Brand() {
+  return (
+    <a href="#top" className="brand" aria-label="DXJ Labs, back to top">
+      <span className="brand-monogram" aria-hidden="true"><span>D</span><i /></span>
+      <span className="brand-wordmark">DXJ<span>LABS</span><small>INDEPENDENT PRODUCT STUDIO</small></span>
+    </a>
+  );
+}
+
+function VinssPreview() {
+  return (
+    <div className="product-screen vinss-screen" aria-label="Concept visualization of a VINSS private deal room">
+      <div className="screen-topbar"><span className="screen-dots"><i /><i /><i /></span><span>VINSS / WORKSPACE</span><span className="screen-security">◈ PRIVATE SESSION</span></div>
+      <div className="deal-body">
+        <aside className="deal-sidebar">
+          <span className="ui-kicker">WORKSPACE</span>
+          <span className="sidebar-line active">◇ &nbsp; Overview</span>
+          <span className="sidebar-line">≡ &nbsp; Messages</span>
+          <span className="sidebar-line">▣ &nbsp; Agreements</span>
+          <span className="sidebar-line">⬡ &nbsp; Settlement</span>
+          <div className="sidebar-bottom">● &nbsp; Connected securely</div>
+        </aside>
+        <div className="deal-main">
+          <div className="deal-top"><span>DEAL ROOM <b> / 001</b></span><span className="status-chip">● IN PROGRESS</span></div>
+          <h3>Private by design.</h3>
+          <p>One place to discuss, agree, and settle.</p>
+          <div className="deal-metric-row"><div><small>AGREEMENT</small><strong>Pending review</strong></div><div><small>WORKSPACE</small><strong>Encrypted room</strong></div></div>
+          <div className="deal-message"><span className="message-avatar">V</span><div><small>SECURE MESSAGE · JUST NOW</small><p>Proposal details are ready for your review.</p></div><span className="message-check">✓✓</span></div>
+          <div className="deal-compose"><span>Write a private message...</span><b>↑</b></div>
+        </div>
+      </div>
+      <span className="screen-disclaimer">ILLUSTRATIVE INTERFACE · NOT A LIVE PRODUCT SCREENSHOT</span>
+    </div>
+  );
+}
+
+function CarelPreview() {
+  return (
+    <div className="product-screen carel-screen" aria-label="Concept visualization of an AI-assisted financial interface">
+      <div className="carel-ui-top"><span className="carel-ui-brand">carel <i>✳</i></span><span>RESEARCH INTERFACE / 02</span></div>
+      <div className="carel-ui-card">
+        <span className="carel-orbit-icon">✳</span>
+        <span className="ui-kicker">INTELLIGENCE LAYER</span>
+        <h3>Insights, not noise.</h3>
+        <p>What would you like to understand today?</p>
+        <div className="carel-prompt"><span>Analyze this market pattern</span><b>↗</b></div>
+      </div>
+      <div className="carel-ui-bottom"><span><i /> SYSTEM EXPLORATION</span><span>AI / EXPERIMENT</span></div>
+      <span className="screen-disclaimer">ILLUSTRATIVE INTERFACE</span>
+    </div>
+  );
+}
+
+function GrowhavenPreview() {
+  return (
+    <div className="product-screen grow-screen" aria-label="Concept visualization of the Growhaven game world">
+      <div className="grow-hud"><span>GROWHAVEN <i>✦</i></span><span>WORLD / 001</span></div>
+      <div className="grow-scene" aria-hidden="true">
+        <span className="grow-sun" /><span className="grow-hill hill-one" /><span className="grow-hill hill-two" />
+        <div className="grow-garden">
+          {Array.from({ length: 12 }, (_, i) => <span key={i} className={"grow-plot plot-" + (i % 4)}><i /></span>)}
+        </div>
+      </div>
+      <div className="grow-bottom"><span>◈ &nbsp; BUILD YOUR OWN LITTLE WORLD</span><span>EXPLORATION · V0.1</span></div>
+      <span className="screen-disclaimer">ILLUSTRATIVE CONCEPT VISUAL</span>
+    </div>
+  );
+}
+
 export default function Home() {
- const [open, setOpen] = useState(false);
- const close = () => setOpen(false);
- useEffect(() => {
-   const updateProgress = () => {
-     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-     const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-     document.documentElement.style.setProperty("--scroll-progress", String(Math.min(1, Math.max(0, progress))));
-   };
-   let frame = 0;
-   const onScroll = () => {
-     if (frame) return;
-     frame = window.requestAnimationFrame(() => { updateProgress(); frame = 0; });
-   };
-   updateProgress();
-   window.addEventListener("scroll", onScroll, { passive: true });
-   window.addEventListener("resize", onScroll);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const close = () => setMenuOpen(false);
 
-   const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
-   let observer: IntersectionObserver | undefined;
-   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-     observer = new IntersectionObserver((entries) => {
-       entries.forEach((entry) => {
-         if (entry.isIntersecting) {
-           entry.target.classList.add("is-revealed");
-           observer?.unobserve(entry.target);
-         }
-       });
-     }, { threshold: 0.09, rootMargin: "0px 0px -32px 0px" });
-     elements.forEach((el) => {
-       const b = el.getBoundingClientRect();
-       if (b.top < window.innerHeight * 0.94) el.classList.add("is-revealed");
-       else { el.classList.add("reveal-pending"); observer?.observe(el); }
-     });
-   }
-   return () => {
-     window.removeEventListener("scroll", onScroll);
-     window.removeEventListener("resize", onScroll);
-     if (frame) window.cancelAnimationFrame(frame);
-     observer?.disconnect();
-     document.documentElement.style.removeProperty("--scroll-progress");
-   };
- }, []);
- return <main id="top">
-  <div className="scroll-progress" aria-hidden="true" />
-  <header className="site-header">
-    <div className="container header-inner">
-      <a className="brand" href="#top" aria-label="DXJ Labs, home" onClick={close}><span className="brand-symbol">D<span>✳</span></span><span className="brand-name">DXJ<span className="brand-light">LABS</span><small>INDEPENDENT PRODUCT STUDIO</small></span></a>
-      <nav className={open ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
-        <a href="#work" onClick={close}>Work</a><a href="#studio" onClick={close}>Studio</a><a href="#approach" onClick={close}>Approach</a>
-        <a className="nav-contact" href="#contact" onClick={close}>Let’s connect <Arrow diagonal /></a>
-      </nav>
-      <button className="mobile-toggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Close ×" : "Menu +"}</button>
-    </div>
-  </header>
+  return (
+    <main id="top">
+      <header className="site-header">
+        <div className="layout header-inner">
+          <Brand />
+          <nav className={menuOpen ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
+            <a href="#work" onClick={close}>Selected work</a>
+            <a href="#studio" onClick={close}>The studio</a>
+            <a href="#approach" onClick={close}>Approach</a>
+            <a className="nav-cta" href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" onClick={close}>GitHub <Arrow diagonal /></a>
+          </nav>
+          <button className="menu-toggle" type="button" aria-expanded={menuOpen} aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen(!menuOpen)}>
+            <span>{menuOpen ? "Close" : "Menu"}</span><span className="menu-glyph">{menuOpen ? "×" : "+"}</span>
+          </button>
+        </div>
+      </header>
 
-  <section className="hero container" aria-labelledby="hero-title">
-    <div className="hero-topline"><span><i className="live-dot" /> INDEPENDENT DIGITAL PRODUCT STUDIO</span><span className="hero-location">BASED IN EAST KALIMANTAN, INDONESIA <span>↗</span></span></div>
-    <div className="hero-main">
-      <div className="hero-copy"><p className="mono eyebrow">RESEARCH <span>/</span> DESIGN <span>/</span> BUILD</p><h1 id="hero-title">Ideas into<br/><em>systems<span className="punctuation">.</span></em></h1><p className="hero-lede">We explore what’s possible, challenge what’s expected, and turn ambitious ideas into meaningful digital products.</p><a className="pill-link" href="#work">Explore selected work <span><Arrow diagonal /></span></a></div>
-      <div className="hero-art" onPointerMove={(e) => { const box = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--pointer-x", `${e.clientX - box.left}px`); e.currentTarget.style.setProperty("--pointer-y", `${e.clientY - box.top}px`); }} aria-label="Abstract DXJ Labs orbital identity" role="img"><div className="orbit orbit-a"/><div className="orbit orbit-b"/><div className="orbit orbit-c"/><div className="orbit orbit-d"/><div className="orbit-dot dot-a"/><div className="orbit-dot dot-b"/><div className="orbit-dot dot-c"/><div className="core-ring"><span>DXJ<span className="core-star">✳</span></span><small>LABS / EST. 2026</small></div><div className="art-label art-label-one">FIG 01 — EXPLORATION</div><div className="art-label art-label-two">DESIGNED TO EVOLVE</div>
-      <div className="signal-panel signal-panel-a" aria-hidden="true"><span>LAB / OPERATING MODE</span><strong><i /> EXPERIMENTING</strong><small>DESIGN — BUILD — ITERATE</small></div>
-      <div className="signal-panel signal-panel-b" aria-hidden="true"><span>SYSTEM / DXJ — 001</span><div className="signal-bars"><i/><i/><i/><i/><i/><i/><i/><i/><i/></div><small>EVERY IDEA STARTS SOMEWHERE</small></div></div>
-    </div>
-    <div className="hero-bottom"><span>INDEPENDENT BY DESIGN. CURIOUS BY DEFAULT.</span><a href="#studio">SCROLL TO EXPLORE <span>↓</span></a></div>
-  </section>
+      <section className="hero">
+        <div className="layout hero-grid">
+          <div className="hero-copy">
+            <p className="eyebrow"><span className="status-indicator" /> FROM EAST KALIMANTAN, INDONESIA <span className="eyebrow-index">/ EST. 2026</span></p>
+            <h1>Ideas<br />deserve to<br /><em>be built.</em></h1>
+            <p className="hero-description">We&apos;re an independent product studio turning emerging technology into practical digital experiences.</p>
+            <div className="hero-actions">
+              <a className="button-primary" href="#work">Explore our work <Arrow diagonal /></a>
+              <a className="button-text" href="#studio">Meet the studio <Arrow /></a>
+            </div>
+            <div className="hero-bottomline"><span>RESEARCH</span><span>DESIGN</span><span>ENGINEERING</span><span className="hero-bottom-no">001 — 026</span></div>
+          </div>
+          <div className="hero-showcase">
+            <div className="showcase-orbit orbit-one" /><div className="showcase-orbit orbit-two" />
+            <div className="showcase-label"><span>DXJ / 001</span><span>INDEPENDENTLY BUILT</span></div>
+            <div className="showcase-main">
+              <div className="showcase-window-head"><span>EXPERIMENT LOG</span><span className="live-tag"><i /> IN PROGRESS</span></div>
+              <div className="showcase-window-body"><span className="small-label">THE DXJ LABS METHOD</span><strong>Question.<br />Prototype.<br /><span>Make real.</span></strong><div className="showcase-stats"><span>01 / RESEARCH</span><span>02 / BUILD</span><span>03 / ITERATE</span></div></div>
+            </div>
+            <div className="showcase-floating"><span>FIELD NOTES / 26</span><strong>What if we tried?</strong><div><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div></div>
+            <span className="showcase-footer">BUILDING THE THINGS WE WISH EXISTED. &nbsp; ↗</span>
+          </div>
+        </div>
+      </section>
 
-  <div className="studio-ticker" aria-label="Our practice: product engineering, experimental technology, creative coding, and interactive experiences"><div className="ticker-track" aria-hidden="true">{Array.from({ length: 2 }, (_, i) => <div className="ticker-set" key={i}><span>PRODUCT ENGINEERING</span><b>✳</b><span>EXPERIMENTAL TECHNOLOGY</span><b>✳</b><span>CREATIVE CODE</span><b>✳</b><span>INTERACTIVE EXPERIENCES</span><b>✳</b></div>)}</div></div>
+      <div className="expertise-ribbon" aria-label="Focus areas"><div className="layout expertise-inner"><span>PRODUCT ENGINEERING</span><i>✳</i><span>PRIVACY &amp; WEB3</span><i>✳</i><span>AI &amp; EXPERIMENTATION</span><i>✳</i><span>INTERACTIVE WORLDS</span></div></div>
 
-  <section id="studio" className="statement-section section-line"><div className="container statement-grid" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 01 / THE STUDIO</div><div className="statement-body"><p className="statement">Not just another tech company. <span>We're a space for bold thinking, practical building, and ideas worth testing.</span></p><div className="statement-bottom"><p>DXJ Labs is an independent product studio working across software, emerging technology, and digital experiences. We believe the best way to discover what matters is to build, learn, and keep improving.</p><div className="signature">DXJ<span>✳</span></div></div></div></div></section>
+      <section className="work-section" id="work">
+        <div className="layout">
+          <div className="section-intro">
+            <div><p className="section-tag">01 / SELECTED WORK</p><h2>Proof of <em>curiosity.</em></h2></div>
+            <p>Real ideas in different stages of development. We&apos;re more interested in building useful things than pretending every experiment is a finished product.</p>
+          </div>
 
-  <section id="work" className="work-section section-line"><div className="container"><div className="section-heading" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 02 / SELECTED WORK</div><div><h2>Work in <em>motion.</em></h2><p>An evolving selection of prototypes, experiments, and products in development. We share the process, not just the polished outcome.</p></div><span className="count-label">[ 001 — 003 ]</span></div><div className="work-grid">{projects.map(p => <article className={`project-card ${p.visual}`} data-reveal="" key={p.name} onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX-r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY-r.top}px`); }}><div className="project-art"><div className="project-art-top"><span>DXJ / {p.num}</span><span>EXPERIMENTAL DIVISION</span></div>{p.visual === "vinss" ? <div className="art-vinss"><div className="shield-outer"><div className="shield-inner">V</div></div><span className="trace trace-1"/><span className="trace trace-2"/><span className="trace trace-3"/></div> : p.visual === "carel" ? <div className="art-carel"><div className="carel-halo halo-1"/><div className="carel-halo halo-2"/><div className="carel-halo halo-3"/><strong>C<span>✳</span></strong></div> : <div className="art-grow"><div className="sun"/><div className="mountain mountain-1"/><div className="mountain mountain-2"/><div className="grow-mark">G<span>✦</span></div></div>}<span className="visual-footer">BUILD / TEST / ITERATE</span></div><div className="project-meta"><div className="project-tags"><span>{p.category}</span><span className="stage"><i/>{p.stage}</span></div><div className="project-title-row"><h3>{p.name}</h3>{p.href ? <a className="round-arrow" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`View ${p.name} on GitHub`}><Arrow diagonal /></a> : <span className="round-arrow inactive" aria-hidden="true"><Arrow diagonal /></span>}</div><p>{p.description}</p></div></article>)}</div><p className="work-footnote">* Projects are early-stage and presented as explorations, not commercial releases.</p></div></section>
+          <article className="featured-project">
+            <div className="featured-copy">
+              <div className="project-overline"><span>01 — FEATURED BUILD</span><span className="project-stage"><i /> IN DEVELOPMENT</span></div>
+              <div><p className="project-category">PRIVACY / WEB3 / DIGITAL TRUST</p><h3>VINSS<span>↗</span></h3><p>Private deal rooms for conversations, agreements, and settlement. Exploring how digital trust can work without giving up privacy.</p><a className="project-action" href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">View the project <Arrow diagonal /></a></div>
+              <div className="project-bottom-index">DXJ LABS <span>/</span> PRODUCT EXPERIMENT 001</div>
+            </div>
+            <div className="featured-visual"><VinssPreview /></div>
+          </article>
 
-  <section id="approach" className="approach-section section-line"><div className="container"><div className="section-heading approach-heading" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 03 / WHAT DRIVES US</div><div><h2>Built with<br/><em>intention.</em></h2></div><p>Different disciplines. A shared mindset. Every meaningful product begins with a question worth asking.</p></div><div className="capability-list" data-reveal="">{capabilities.map(c => <div className="capability" key={c.n}><span className="cap-num">{c.n}</span><h3>{c.title}</h3><p>{c.desc}</p><span className="cap-arrow">↗</span></div>)}</div></div></section>
+          <div className="secondary-project-grid">
+            <article className="secondary-project card-carel">
+              <CarelPreview />
+              <div className="secondary-project-body"><div className="project-overline"><span>02 / AI &amp; FINANCE</span><span className="project-stage"><i /> EXPERIMENTAL</span></div><h3>CAREL</h3><p>Exploring intelligent interfaces and new ways to navigate decentralized finance.</p><a className="project-action" href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">View repository <Arrow diagonal /></a></div>
+            </article>
+            <article className="secondary-project card-grow">
+              <GrowhavenPreview />
+              <div className="secondary-project-body"><div className="project-overline"><span>03 / GAMES &amp; EXPERIENCES</span><span className="project-stage"><i /> PROTOTYPE</span></div><h3>Growhaven</h3><p>An experimental game world built around playful ideas, exploration, and iteration.</p><span className="project-action muted-action">Prototype in development <Arrow /></span></div>
+            </article>
+          </div>
+          <p className="work-note">* The interface previews above are conceptual visualizations. Project maturity varies; they are not claims of released commercial products.</p>
+        </div>
+      </section>
 
-  <section className="manifesto-section section-line"><div className="container manifesto" data-reveal=""><div className="manifesto-label">OUR WORKING PHILOSOPHY <span>✳</span></div><p>Stay curious.<br/><span>Make it real.</span><br/>Keep moving<span className="accent">↗</span></p><div className="manifesto-bottom"><span>GOOD IDEAS NEED MORE THAN GOOD INTENTIONS.</span><span>DXJ LABS — 2026</span></div></div></section>
+      <section className="studio-section" id="studio">
+        <div className="layout studio-grid">
+          <div className="studio-left"><p className="section-tag">02 / ABOUT DXJ LABS</p><span className="studio-insignia">D<span>✳</span></span></div>
+          <div className="studio-right"><h2>Independent minds.<br /><em>Real-world ambition.</em></h2><p>DXJ Labs is an independent product studio based in East Kalimantan, Indonesia. We move between research, product design, engineering, and experimentation to turn promising ideas into working systems.</p><div className="studio-facts"><div><span>LOCATION</span><strong>East Kalimantan, Indonesia</strong></div><div><span>WAY OF WORKING</span><strong>Research → Build → Validate</strong></div><div><span>FOCUS</span><strong>Products, not pitch decks</strong></div></div></div>
+        </div>
+      </section>
 
-  <section id="contact" className="contact-section section-line"><div className="container contact-grid" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 04 / WHAT'S NEXT</div><div><p className="mono eyebrow">LET'S MAKE SOMETHING MATTER.</p><h2>Have an idea?<br/><em>Let’s talk.</em></h2><p>We're always open to meaningful conversations, interesting ideas, and new possibilities.</p><a className="contact-cta" href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Find us on GitHub <span>↗</span></a></div></div></section>
-  <footer className="footer"><div className="container footer-inner"><a href="#top" className="footer-logo">DXJ<span>✳</span>LABS</a><span>INDEPENDENT PRODUCT STUDIO<br/>EAST KALIMANTAN, INDONESIA</span><div className="footer-links"><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span className="copyright">© {new Date().getFullYear()} DXJ LABS</span></div></footer>
- </main>;
+      <section className="approach-section" id="approach">
+        <div className="layout approach-grid">
+          <div><p className="section-tag">03 / OUR APPROACH</p><h2>Less talk.<br /><em>More making.</em></h2></div>
+          <div className="approach-steps">
+            <div><span>01</span><h3>Find the question</h3><p>Start with a problem worth understanding, not a trend worth chasing.</p></div>
+            <div><span>02</span><h3>Build something tangible</h3><p>Prototype early. Make the idea concrete enough to test and learn from.</p></div>
+            <div><span>03</span><h3>Let reality shape it</h3><p>Improve through feedback, useful constraints, and honest iteration.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="footer" id="contact">
+        <div className="layout">
+          <div className="footer-top"><p className="section-tag">04 / STAY CURIOUS</p><p>NEW IDEAS. REAL EXPERIMENTS.</p></div>
+          <div className="footer-feature"><h2>What&apos;s<br /><em>next?</em></h2><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" aria-label="Explore DXJ Labs on GitHub"><Arrow diagonal /></a></div>
+          <div className="footer-end"><Brand /><p>Independent product studio<br />East Kalimantan, Indonesia</p><div><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span>© {new Date().getFullYear()} DXJ LABS</span></div>
+        </div>
+      </footer>
+    </main>
+  );
 }
