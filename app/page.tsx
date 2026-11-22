@@ -129,9 +129,9 @@ export default async function Home() {
   const activity = activities[0] ?? null;
 
   return (
-    <>
+    <div className="dxj-home">
     <StudioNav />
-    <main id="main-content" className="dxj-home">
+    <main id="main-content" className="dxj-main">
       <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive"/>
       <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive"/>
 
@@ -267,6 +267,6 @@ export default async function Home() {
         </div>
       </section>
     </main>
-    </>
+    </div>
   );
 }
