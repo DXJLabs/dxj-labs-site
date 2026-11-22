@@ -5,6 +5,7 @@ import FocusScrollLink from "../components/FocusScrollLink";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
 import { activities, publishedArticles } from "../lib/platform";
 import "./homepage.css";
+import "./homepage-finish.css";
 
 export const revalidate = 300;
 export const metadata: Metadata = {
@@ -200,7 +201,7 @@ export default async function Home() {
       <section id="activity" className="dxj-screen dxj-publishing">
         <div className="wrap dxj-wrap dxj-section-wrap">
           <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>DXJ Labs development.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
-          <div className="dxj-publishing-grid">
+          <div className="dxj-publishing-grid" role="region" tabIndex={0} aria-label="Development and journal previews, scroll horizontally on mobile">
             <article className="dxj-activity-feature">
 
               <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>DXJ Labs source changes.</h3>
