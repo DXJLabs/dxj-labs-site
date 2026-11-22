@@ -1,30 +1,53 @@
-# DXJ Labs — Living Interface (V2)
+# DXJ Labs — Multi-Chain Web3 Product Ecosystem
 
-Premium Next.js site for DXJ Labs with animated orbital hero, kinetic work visuals, scrolling practice ticker, scroll-driven reveals, subtle mouse-follow light, and reduced-motion accessibility. No extra runtime dependencies.
+DXJ Labs is an independent product studio and an emerging multi-chain Web3 ecosystem. The public platform documents its products, technical experiments, activities, editorial notes, and its approach to future verified reporting.
 
-## Run locally
+**Status:** Public information platform in development. Investor data room, chain indexers, governance, token infrastructure and wallet functionality are not live.
 
-```bash
-npm install
-npm run build
-npm run dev
-```
+## Pages
 
-## Update deployed Termux project
+| Path | Contents | State |
+|---|---|---|
+| `/` | Studio landing & portfolio | Implemented |
+| `/ecosystem` | Multi-chain product catalog | Implemented / curated |
+| `/ecosystem/[slug]` | Product status and documented network direction | Implemented |
+| `/activities` | Dated development updates with evidence | Implemented / curated |
+| `/blog` | Studio Journal and research index | Implemented |
+| `/blog/[slug]` | Editorial article | Implemented |
+| `/analytics` | Metric methodology and availability states | UI only; no data pipeline |
+| `/investors` | Public information and due-diligence direction | UI only; no restricted portal |
 
-This ZIP contains files at the root. Extract into the existing `~/dxjlabs-premium` Git directory.
+## Design & implementation
 
-```bash
-cd ~/dxjlabs-premium
-cp app/page.tsx app/page.tsx.v1.bak
-cp app/globals.css app/globals.css.v1.bak
-unzip -o ~/storage/downloads/dxjlabs-living-v2.zip -d .
-npm run build
-git add app/page.tsx app/globals.css README.md
-git commit -m "feat: bring DXJ Labs studio interface to life"
-git push origin main
-```
+- Next.js App Router, React, TypeScript and CSS.
+- Responsive desktop/tablet/mobile editorial interface.
+- Shared `PlatformHeader`, `PlatformFooter`, `PlatformPage`.
+- Typed curated datasets in `lib/platform.ts`. Replace them with verified sources before public metric claims.
+- No generated fake token data, price charts, security rights or fundraising claims.
+- The illustrated product interfaces on the landing page are labelled as **conceptual**, not actual product UI.
 
-Vercel should auto-deploy the connected main branch after GitHub receives the push.
+## Product and architecture decisions
 
-Visual elements and labels are illustrative; project stages are not claimed to be launched products.
+- DXJ Labs is chain-neutral. Each product can use appropriate blockchains; network support is explicitly identified as planned, testing or live.
+- The DXJ token is **not issued**; project tokens are not assumed to exist.
+- Verified investor financial and operational records must use authenticated backend access, role-based authorization and audit trails.
+- Activities must be grounded in evidence. A planned event is not presented as confirmed without an organizer and date.
+- Articles have authors, category, publication date and editorial status.
+
+For detailed plans see:
+- [Product Requirements V1](docs/PRODUCT_REQUIREMENTS_V1.md)
+- [Sitemap & Architecture V1](docs/SITEMAP_AND_ARCHITECTURE.md)
+
+## Deployment
+
+The site is connected to GitHub and Vercel. `main` is production. Work is prepared in a branch / draft pull request first and should be reviewed through a **Vercel preview deployment** before merging.
+
+No Termux build is required for normal updates; cloud builds are handled by Vercel. Local checks are optional for developers with a conventional development environment.
+
+## Outstanding product decisions
+
+1. Confirm content editor and article-approval process.
+2. Document deployed smart-contract addresses and verifiable networks for each product.
+3. Select CMS and provenance-aware analytics storage.
+4. Define investor authentication, permission management and legal requirements.
+5. Review token utility and compliance before any on-chain issuance.
