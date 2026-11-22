@@ -17,7 +17,7 @@ export default function EcosystemPage() {
           {projects.map((product, index) => (
             <article key={product.slug} className="ecosystem-item">
               <div className="ecosystem-item-number">0{index + 1} / {product.area.toUpperCase()}</div>
-              <div className="ecosystem-item-main"><h3>{product.name}</h3><p>{product.description}</p><span className="platform-status">{stageName[product.stage]}</span></div>
+              <div className="ecosystem-item-main"><h3>{product.name}</h3><p>{product.description}</p><span className="platform-status">{stageName[product.stage]}</span>{product.affiliation === "candidate" && <span className="candidate-label">Candidate · not yet transferred to DXJ Labs</span>}</div>
               <div className="ecosystem-item-info"><span className="info-label">NETWORKS</span>{product.networks.map(network => <div className="chain-row" key={network.name}><strong>{network.name}</strong><span>{networkName[network.stage]}</span><small>{network.note}</small></div>)}<div className="token-summary"><span className="info-label">PRODUCT TOKEN</span><strong>Not issued</strong><small>{product.token.note}</small></div></div>
               <div className="ecosystem-item-action"><Link href={`/ecosystem/${product.slug}`}>Project details <span aria-hidden="true">↗</span></Link></div>
             </article>
