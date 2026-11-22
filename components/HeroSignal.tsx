@@ -65,7 +65,7 @@ export default function HeroSignal({ projects }: { projects: HeroSignalProject[]
         <div className="signal-workspace-body">
           <div className="signal-workspace-intro">
             <span>01 / PRODUCT ACTIVITY</span>
-            <h2>Built in public.</h2>
+            <p className="signal-headline">Latest project commits.</p>
             <p>Follow verified source-code changes across our projects.</p>
           </div>
 
