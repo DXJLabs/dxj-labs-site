@@ -130,8 +130,8 @@
 .real-browser-dots i{display:block;width:7px;height:7px;border-radius:50%;background:#ad9eaf}
 .real-browser-dots i:first-child{background:#e0a6aa}
 .real-browser-toolbar>a{margin-left:auto;font-size:15px;color:#59446b}
-.real-browser-window{height:355px;background:#191522 url("/proof/carel-app.png") center top/cover no-repeat;position:relative;box-shadow:0 30px 60px #12091d7f;border:1px solid #392c44;border-top:0;overflow:hidden}
-.real-browser-fallback{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(0deg,#120d2166,transparent 65%);color:#fff;pointer-events:none}
+.real-browser-window{height:355px;background:#191522 url("/proof/carel-app.png") left top/cover no-repeat;position:relative;box-shadow:0 30px 60px #12091d7f;border:1px solid #392c44;border-top:0;overflow:hidden}
+.real-browser-fallback{display:none;position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;background:linear-gradient(0deg,#120d2166,transparent 65%);color:#fff;pointer-events:none}
 .real-browser-fallback strong{font-size:70px;font-weight:700;letter-spacing:-.09em;line-height:1;color:#f4ecff;text-shadow:0 3px 22px #0009}
 .real-browser-fallback strong span{font-size:25px;color:#d6b0ff}
 .real-browser-fallback p{font-size:15px;color:#b7a7c7}
