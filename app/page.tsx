@@ -85,10 +85,10 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow"><span className="status-indicator" /> FROM EAST KALIMANTAN, INDONESIA <span className="eyebrow-index">/ EST. 2026</span></p>
             <h1>Ideas<br />deserve to<br /><em>be built.</em></h1>
-            <p className="hero-description">We&apos;re an independent product studio turning emerging technology into practical digital experiences.</p>
+            <p className="hero-description">An independent multi-chain Web3 product ecosystem—building products, publishing research, and opening up real development data.</p>
             <div className="hero-actions">
-              <a className="button-primary" href="#work">Explore our work <Arrow diagonal /></a>
-              <a className="button-text" href="#studio">Meet the studio <Arrow /></a>
+              <a className="button-primary" href="/console">Open live console <Arrow diagonal /></a>
+              <a className="button-text" href="#work">Explore our work <Arrow /></a>
             </div>
             <div className="hero-bottomline"><span>RESEARCH</span><span>DESIGN</span><span>ENGINEERING</span><span className="hero-bottom-no">001 — 026</span></div>
           </div>
@@ -108,6 +108,7 @@ export default function Home() {
       <div className="expertise-ribbon" aria-label="Focus areas"><div className="layout expertise-inner"><span>PRODUCT ENGINEERING</span><i>✳</i><span>PRIVACY &amp; WEB3</span><i>✳</i><span>AI &amp; EXPERIMENTATION</span><i>✳</i><span>INTERACTIVE WORLDS</span></div></div>
 
       <section className="platform-home-links" aria-label="Explore the DXJ Labs ecosystem"><div className="layout">
+        <a href="/console">Live Console <span aria-hidden="true">↗</span></a>
         <a href="/ecosystem">Ecosystem <span aria-hidden="true">↗</span></a>
         <a href="/activities">Activities <span aria-hidden="true">↗</span></a>
         <a href="/blog">Blog & Research <span aria-hidden="true">↗</span></a>
