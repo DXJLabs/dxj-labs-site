@@ -1,6 +1,8 @@
-"use client";
-
 import PlatformHeader from "../components/PlatformHeader";
+import { getConsoleSnapshot, readableDate } from "../lib/github-console";
+import { articles, activities } from "../lib/platform";
+
+export const revalidate = 300;
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true" className="arrow-glyph">{diagonal ? "↗" : "→"}</span>;
@@ -75,46 +77,61 @@ function GrowhavenPreview() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const snapshot = await getConsoleSnapshot();
+  const featuredRepos = snapshot.repositories.filter(repo => repo.config.slug === "vinss" || repo.config.slug === "carel");
+  const article = articles.find(item => item.status === "published");
+  const activity = activities[0];
   return (
-    <main id="top">
+    <main id="main-content">
       <PlatformHeader />
 
       <section className="hero">
         <div className="layout hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="status-indicator" /> FROM EAST KALIMANTAN, INDONESIA <span className="eyebrow-index">/ EST. 2026</span></p>
-            <h1>Ideas<br />deserve to<br /><em>be built.</em></h1>
-            <p className="hero-description">An independent multi-chain Web3 product ecosystem—building products, publishing research, and opening up real development data.</p>
+            <p className="eyebrow"><span className="status-indicator" /> MULTI-CHAIN WEB3 PRODUCT STUDIO <span className="eyebrow-index">/ EAST KALIMANTAN, INDONESIA</span></p>
+            <h1>Web3 products.<br /><em>One studio.</em></h1>
+            <p className="hero-description">DXJ Labs develops VINSS and CAREL across emerging technology. Explore each product, its blockchain plans, and development activity sourced from GitHub.</p>
             <div className="hero-actions">
-              <a className="button-primary" href="/console">Development console <Arrow diagonal /></a>
-              <a className="button-text" href="#work">Explore our work <Arrow /></a>
+              <a className="button-primary" href="/ecosystem">View our products <Arrow diagonal /></a>
+              <a className="button-text" href="/activities">See development updates <Arrow /></a>
             </div>
-            <div className="hero-bottomline"><span>RESEARCH</span><span>DESIGN</span><span>ENGINEERING</span><span className="hero-bottom-no">001 — 026</span></div>
+            <div className="hero-bottomline"><span>VINSS</span><span>CAREL</span><span>PUBLIC BUILD LOG</span><span className="hero-bottom-no">2026 / DXJ LABS</span></div>
           </div>
-          <div className="hero-showcase">
-            <div className="showcase-orbit orbit-one" /><div className="showcase-orbit orbit-two" />
-            <div className="showcase-label"><span>DXJ / 001</span><span>INDEPENDENTLY BUILT</span></div>
-            <div className="showcase-main">
-              <div className="showcase-window-head"><span>EXPERIMENT LOG</span><span className="live-tag"><i /> IN PROGRESS</span></div>
-              <div className="showcase-window-body"><span className="small-label">THE DXJ LABS METHOD</span><strong>Question.<br />Prototype.<br /><span>Make real.</span></strong><div className="showcase-stats"><span>01 / RESEARCH</span><span>02 / BUILD</span><span>03 / ITERATE</span></div></div>
+          <div className="hero-showcase hero-source-showcase">
+            <div className="hero-feed-top"><span>DXJ / ENGINEERING SIGNAL</span><span>PUBLIC GITHUB DATA ↗</span></div>
+            <div className="hero-feed-card">
+              <div className="hero-feed-header"><span>PROJECT ACTIVITY / 2026</span><span className="feed-status">● SOURCE LINKED</span></div>
+              <div className="hero-feed-heading"><h2>Work you can verify.</h2><p>Latest development changes from our official repositories.</p></div>
+              <div className="hero-feed-projects">
+                {featuredRepos.map(repo => (
+                  <div className="hero-feed-project" key={repo.config.slug}>
+                    <div className="hero-feed-project-head">
+                      <span>{repo.config.label}</span>
+                      <span>{repo.metadata ? "PUBLIC REPOSITORY" : "SOURCE UNAVAILABLE"}</span>
+                    </div>
+                    {repo.commits[0] ? <a href={repo.commits[0].url} target="_blank" rel="noopener noreferrer">{repo.commits[0].title}<span aria-hidden="true">↗</span></a> : <p>Recent activity unavailable from GitHub.</p>}
+                    <time dateTime={repo.commits[0]?.date || undefined}>{readableDate(repo.commits[0]?.date || null)}</time>
+                  </div>
+                ))}
+              </div>
+              <div className="hero-feed-summary"><span>GitHub REST API · cached 5 min</span><a href="/activities">Read activity log ↗</a></div>
             </div>
-            <div className="showcase-floating"><span>FIELD NOTES / 26</span><strong>What if we tried?</strong><div><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /></div></div>
-            <span className="showcase-footer">BUILDING THE THINGS WE WISH EXISTED. &nbsp; ↗</span>
+            <div className="hero-feed-note"><span>NO SIMULATED USERS, VOLUME OR REVENUE</span><span>EST. 2026</span></div>
           </div>
         </div>
       </section>
 
       <div className="expertise-ribbon" aria-label="Focus areas"><div className="layout expertise-inner"><span>PRODUCT ENGINEERING</span><i>✳</i><span>PRIVACY &amp; WEB3</span><i>✳</i><span>AI &amp; EXPERIMENTATION</span><i>✳</i><span>INTERACTIVE WORLDS</span></div></div>
 
-      <section className="platform-home-links" aria-label="Explore the DXJ Labs ecosystem"><div className="layout">
-        <a href="/console">Live Console <span aria-hidden="true">↗</span></a>
-        <a href="/ecosystem">Ecosystem <span aria-hidden="true">↗</span></a>
-        <a href="/activities">Activities <span aria-hidden="true">↗</span></a>
-        <a href="/blog">Blog & Research <span aria-hidden="true">↗</span></a>
-        <a href="/analytics">Analytics <span aria-hidden="true">↗</span></a>
-        <a href="/investors">Investor Overview <span aria-hidden="true">↗</span></a>
-      </div></section>
+      <div className="platform-proof-band" aria-label="Verified product information">
+        <div className="layout platform-proof-grid">
+          <div><strong>02</strong><span>Official product repositories<br />VINSS + CAREL</span></div>
+          <div><strong>{snapshot.repositories.filter(r => r.metadata).length}/{snapshot.repositories.length}</strong><span>Tracked public repositories<br />accessible from GitHub</span></div>
+          <div><strong>5 min</strong><span>GitHub data refresh interval<br />with source links</span></div>
+          <a href="/ecosystem">Explore the ecosystem <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
 
       <section className="work-section" id="work">
         <div className="layout">
@@ -146,16 +163,26 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="home-journal-section" id="updates">
+        <div className="layout">
+          <div className="home-journal-head"><div><p className="section-tag">02 / PUBLISHING & ACTIVITY</p><h2>From the studio.</h2></div><p>Follow documented development, research, and what happens across DXJ Labs.</p></div>
+          <div className="home-journal-grid">
+            {article && <a className="home-journal-card" href={"/blog/" + article.slug}><span>BLOG / {article.category.toUpperCase()}</span><h3>{article.title}</h3><p>{article.excerpt}</p><div><time dateTime={article.publishedAt}>{article.publishedAt}</time><b>Read article ↗</b></div></a>}
+            {activity && <a className="home-journal-card home-journal-card-activity" href="/activities"><span>ACTIVITY / {activity.category.toUpperCase()}</span><h3>{activity.title}</h3><p>{activity.summary}</p><div><time dateTime={activity.date}>{activity.date}</time><b>See activity ↗</b></div></a>}
+          </div>
+        </div>
+      </section>
+
       <section className="studio-section" id="studio">
         <div className="layout studio-grid">
-          <div className="studio-left"><p className="section-tag">02 / ABOUT DXJ LABS</p><span className="studio-insignia">D<span>✳</span></span></div>
+          <div className="studio-left"><p className="section-tag">03 / ABOUT DXJ LABS</p><span className="studio-insignia">D<span>✳</span></span></div>
           <div className="studio-right"><h2>Independent minds.<br /><em>Real-world ambition.</em></h2><p>DXJ Labs is an independent product studio based in East Kalimantan, Indonesia. We move between research, product design, engineering, and experimentation to turn promising ideas into working systems.</p><div className="studio-facts"><div><span>LOCATION</span><strong>East Kalimantan, Indonesia</strong></div><div><span>WAY OF WORKING</span><strong>Research → Build → Validate</strong></div><div><span>FOCUS</span><strong>Products, not pitch decks</strong></div></div></div>
         </div>
       </section>
 
       <section className="approach-section" id="approach">
         <div className="layout approach-grid">
-          <div><p className="section-tag">03 / OUR APPROACH</p><h2>Less talk.<br /><em>More making.</em></h2></div>
+          <div><p className="section-tag">04 / OUR APPROACH</p><h2>Less talk.<br /><em>More making.</em></h2></div>
           <div className="approach-steps">
             <div><span>01</span><h3>Find the question</h3><p>Start with a problem worth understanding, not a trend worth chasing.</p></div>
             <div><span>02</span><h3>Build something tangible</h3><p>Prototype early. Make the idea concrete enough to test and learn from.</p></div>
@@ -166,7 +193,7 @@ export default function Home() {
 
       <footer className="footer" id="contact">
         <div className="layout">
-          <div className="footer-top"><p className="section-tag">04 / STAY CURIOUS</p><p>NEW IDEAS. REAL EXPERIMENTS.</p></div>
+          <div className="footer-top"><p className="section-tag">05 / STAY CURIOUS</p><p>NEW IDEAS. REAL EXPERIMENTS.</p></div>
           <div className="footer-feature"><h2>What&apos;s<br /><em>next?</em></h2><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" aria-label="Explore DXJ Labs on GitHub"><Arrow diagonal /></a></div>
           <div className="footer-end"><Brand /><p>Independent product studio<br />East Kalimantan, Indonesia</p><div><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span>© {new Date().getFullYear()} DXJ LABS</span></div>
         </div>
