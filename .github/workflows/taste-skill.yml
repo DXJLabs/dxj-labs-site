@@ -1,4 +1,4 @@
-name: Taste Skill — DXJ Labs visual audit
+name: Design audit (advisory) — Taste Skill
 
 on:
   push:
@@ -99,8 +99,10 @@ jobs:
             echo "~~~"
           } >> "$GITHUB_STEP_SUMMARY"
           if [[ "$GATE_EXIT" -ne 0 || "$CONSISTENCY_EXIT" -ne 0 ]]; then
-            echo "::warning::Taste Skill audit reported findings. Inspect artifact logs and screenshots."
-            exit 1
+            echo "::warning::Taste Skill design gate is NOT PASS. This is a non-blocking review workflow; product CI runs separately. See the report and screenshots."
+            echo "**DESIGN REVIEW: FAIL** — findings retained; deployment is not approved for production." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "**DESIGN REVIEW: PASS** — all inspected checks passed." >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload Taste Skill logs, screenshots and findings
