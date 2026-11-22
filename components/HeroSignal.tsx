@@ -20,10 +20,11 @@ export type HeroSignalProject = {
  */
 export default function HeroSignal({ projects }: { projects: HeroSignalProject[] }) {
   const [active, setActive] = useState(0);
+  const [motionPlaying, setMotionPlaying] = useState(true);
   const project = projects[active] ?? null;
 
   return (
-    <div className="signal-scene">
+    <div className={motionPlaying ? "signal-scene" : "signal-scene is-paused"}>
       <div className="signal-orbit-field" aria-hidden="true">
         <svg viewBox="0 0 600 410" preserveAspectRatio="xMidYMid meet" role="presentation">
           <defs>
@@ -119,6 +120,7 @@ export default function HeroSignal({ projects }: { projects: HeroSignalProject[]
         </div>
       </div>
       <div className="signal-scene-bottom"><span className="signal-beacon" /> NETWORK MAP IS ILLUSTRATIVE · NOT LIVE CHAIN TELEMETRY</div>
+      <button type="button" className="signal-motion-toggle" aria-pressed={!motionPlaying} onClick={() => setMotionPlaying(value => !value)}>{motionPlaying ? "Pause motion" : "Resume motion"}</button>
     </div>
   );
 }
