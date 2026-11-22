@@ -98,32 +98,20 @@ jobs:
             tail -n 34 taste-audit/gate.log
             echo "~~~"
           } >> "$GITHUB_STEP_SUMMARY"
-          # Taste Skill scripts may return exit 0 even when reports contain FAILs.
-          # Enforce their actual results rather than trusting only process status.
-          if [[ "$GATE_EXIT" -ne 0 ]] || ! grep -Eq '^GATE: PASS[[:space:]]*
-
-      - name: Upload Taste Skill logs, screenshots and findings
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dxjlabs-taste-skill-report
-          path: |
-            taste-audit/
-            .taste-skill/
-          if-no-files-found: warn
- taste-audit/gate.log; then
-            echo "::error::Taste Skill gate did not pass; inspect gate.log."
-            echo "**DESIGN REVIEW: FAIL** — Taste gate did not pass." >> "$GITHUB_STEP_SUMMARY"
+          # Checker processes can exit 0 while the actual report still says FAIL.
+          if [[ "$GATE_EXIT" -ne 0 ]] || ! grep -Eq '^GATE: PASS[[:space:]]*$' taste-audit/gate.log; then
+            echo "::error::Taste Skill Gate is not PASS (see gate.log artifact)."
+            echo "**DESIGN REVIEW: FAIL** — Gate did not pass." >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
           if [[ "$CONSISTENCY_EXIT" -ne 0 ]] || ! grep -Eq '^total[[:space:]]+0 FAIL([[:space:]]|$)' taste-audit/consistency.log; then
-            echo "::error::Taste Skill viewport consistency still has FAILs; inspect consistency.log."
-            echo "**DESIGN REVIEW: FAIL** — viewport consistency did not pass." >> "$GITHUB_STEP_SUMMARY"
+            echo "::error::Multi-viewport consistency contains FAIL findings."
+            echo "**DESIGN REVIEW: FAIL** — multi-width consistency did not pass." >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
           test -s taste-audit/shots/desktop-1440.png
           test -s taste-audit/shots/mobile-390.png
-          echo "**DESIGN REVIEW: PASS** — Gate PASS, 0 multi-width FAIL, screenshots captured." >> "$GITHUB_STEP_SUMMARY"
+          echo "**DESIGN REVIEW: PASS** — Gate PASS, 0 viewport FAIL, screenshots captured." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload Taste Skill logs, screenshots and findings
         if: always()
