@@ -213,7 +213,7 @@ export default async function Home() {
       <footer className="footer" id="contact">
         <div className="layout">
           <div className="footer-top"><p className="section-tag">05 / STAY CURIOUS</p><p>NEW IDEAS. REAL EXPERIMENTS.</p></div>
-          <div className="footer-feature"><h2>Follow<br /><em>our work.</em></h2><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" aria-label="Explore DXJ Labs on GitHub"><Arrow diagonal /></a></div>
+          <div className="footer-feature"><p className="footer-callout">Follow<br /><em>our work.</em></p><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer" aria-label="Explore DXJ Labs on GitHub"><Arrow diagonal /></a></div>
           <p className="footer-disclosure">Product visuals are illustrative concepts, not live application screenshots. Token issuance and investor data remain in planning.</p><div className="footer-end"><Brand /><p>Independent product studio<br />East Kalimantan, Indonesia</p><div><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span>© {new Date().getFullYear()} DXJ LABS</span></div>
         </div>
       </footer>
