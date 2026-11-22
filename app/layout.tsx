@@ -4,6 +4,7 @@ import "./platform.css";
 import "./living.css";
 import "./taste-motion.css";
 import "./taste-polish.css";
+import "./real-platform.css";
 
 export const metadata: Metadata = {
   title: "DXJ Labs — Multi-Chain Web3 Product Ecosystem",
