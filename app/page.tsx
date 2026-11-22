@@ -19,6 +19,7 @@ function Arrow() {
 function StudioNav() {
   return (
     <header className="dxj-home dxj-nav nav">
+      <a className="dxj-skip" href="#main-content">Skip to content</a>
       <div className="wrap dxj-nav-inner">
       <Link className="dxj-logo" href="/" aria-label="DXJ Labs homepage">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
       <nav className="dxj-nav-links" aria-label="Site navigation">
@@ -28,7 +29,7 @@ function StudioNav() {
         <Link href="/analytics">Analytics</Link>
         <Link href="/investors">Investors</Link>
       </nav>
-      <Link href="/ecosystem" className="dxj-nav-action">Explore projects <Arrow /></Link>
+      <Link href="/ecosystem" className="dxj-nav-action">Explore our ecosystem <Arrow /></Link>
       <details className="dxj-mobile-menu">
         <summary aria-label="Toggle navigation">Menu <span aria-hidden="true">☰</span></summary>
         <nav aria-label="Mobile navigation">
@@ -147,12 +148,12 @@ export default async function Home() {
                 <Link className="btn btn--primary btn--xl dxj-button" href="/ecosystem">Explore our ecosystem <Arrow /></Link>
                 <Link className="dxj-text-link" href="/activities">See the build log <Arrow /></Link>
               </div>
-              <p className="dxj-small-note">VINSS & CAREL · ACTIVE DEVELOPMENT DIRECTIONS</p>
+              <p className="dxj-small-note">VINSS & CAREL · DEVELOPMENT / NETWORK DIAGRAM IS ILLUSTRATIVE</p>
               <div className="dxj-tablet-brief"><div><span>VINSS / WEB3</span><strong>Private digital agreements</strong></div><div><span>CAREL / AI</span><strong>Intelligent finance research</strong></div></div>
             </div>
             <div className="dxj-hero-visual">
               <NetworkGraphic />
-              <div className="dxj-evidence-label"><span>DXJ / SYSTEM MAP</span><span>VISUAL CONCEPT</span></div>
+              
             </div>
           </div>
           <div className="dxj-hero-foot"><span>01 / PRODUCT STUDIO</span><span>SCROLL TO EXPLORE ↓</span></div>
@@ -162,7 +163,8 @@ export default async function Home() {
       <section id="work" className="dxj-screen dxj-work">
         <div className="wrap dxj-wrap dxj-section-wrap">
           <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div></div>
-          <div className="dxj-projects">
+          <div className="dxj-product-swipe-hint">EXPLORE PRODUCTS <span aria-hidden="true">SWIPE →</span></div>
+          <div className="dxj-projects" tabIndex={0} role="region" aria-label="VINSS and CAREL product showcase, scroll horizontally on mobile">
             <article className="dxj-product">
               <VinssGraphic />
               <div className="dxj-project-details">
@@ -188,16 +190,10 @@ export default async function Home() {
             <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
             <h2 className="dxj-multichain-heading">Multi-chain infrastructure.</h2>
             <p className="mo-wh__text">Every DXJ Labs product needs the right network. <strong>Real utility</strong> guides research, engineering, and validation.</p>
+            <div className="dxj-multi-sources" aria-label="Network and token status"><span>STARKNET · DEVELOPMENT</span><span>MULTI-CHAIN · PLANNED</span><span>DXJ TOKEN · NOT ISSUED</span></div>
             <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
           </div>
-          <div className="dxj-multi-visual">
-            <NetworkGraphic />
-            <div className="dxj-multi-sources">
-              <span>STARKNET · DEVELOPMENT</span>
-              <span>MULTI-CHAIN · PLANNED</span>
-              <span>DXJ TOKEN · NOT ISSUED</span>
-            </div>
-          </div>
+          <div className="dxj-multi-visual"><NetworkGraphic /></div>
         </div>
       </section>
 
