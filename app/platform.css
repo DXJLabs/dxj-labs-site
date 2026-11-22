@@ -188,3 +188,26 @@
 
 .skip-link{position:absolute;top:-70px;left:18px;z-index:90;background:#c8f376;color:#132019!important;padding:12px 18px;font-size:13px;font-weight:700;border:2px solid #1c3022}
 .skip-link:focus{top:8px;outline:2px solid #254829}
+
+/* Real evidence views — mainnet source records, not concept metrics */
+.ecosystem-item-action{display:flex;flex-direction:column;align-items:flex-start;gap:18px;min-width:0}
+.ecosystem-item-action>a{white-space:normal;font-size:12px;line-height:1.5;display:inline-flex;gap:11px;align-items:center;min-height:35px;border-bottom:1px solid #587b59}
+.ecosystem-proof-count{font:10px/1.6 var(--mono);color:#638260;margin:0}
+.detail-proof-link{display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:20px 0;border-bottom:1px solid #becebd;transition:color .15s}
+.detail-proof-link:hover{color:#4c7c4b}
+.detail-proof-link>span{font:10px var(--mono);color:#5c7d56}
+.detail-proof-link>strong{font-size:23px;line-height:1.2;letter-spacing:-.04em}
+.detail-proof-link>small{font-size:12px;color:#6b7a6b;line-height:1.6}
+.detail-contracts>p{font-size:14px;line-height:1.7;color:#5b735f;max-width:740px;margin:0 0 27px}
+.detail-contract-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-bottom:28px}
+.detail-contract-grid>a{display:flex;flex-direction:column;gap:11px;border:1px solid #b9d0b6;background:#e5ecdf;padding:21px;min-height:141px;transition:background .16s,transform .16s}
+.detail-contract-grid>a:hover{background:#d6e7d0;transform:translateY(-2px)}
+.detail-contract-grid span{font:9px var(--mono);color:#527852;line-height:1.5}
+.detail-contract-grid strong{font-size:17px;line-height:1.3;letter-spacing:-.035em;overflow-wrap:anywhere}
+.detail-contract-grid code{font:10px var(--mono);color:#607a61;overflow-wrap:anywhere}
+@media(max-width:650px){
+ .detail-contract-grid{grid-template-columns:1fr;gap:9px}
+ .detail-contract-grid>a{padding:17px;min-height:0}
+ .detail-proof-link>strong{font-size:20px}
+ .ecosystem-item-action{gap:8px}
+}
