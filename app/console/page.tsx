@@ -19,7 +19,7 @@ export default async function ConsolePage() {
   const lastPush = available.map(r => r.metadata?.pushed_at).filter((x): x is string => !!x).sort().at(-1) || null;
   const covered = available.length === snapshot.repositories.length ? "ALL PUBLIC REPOS" : available.length + " OF " + snapshot.repositories.length + " AVAILABLE";
   return (
-    <ConsoleShell active="overview" eyebrow="OVERVIEW / GITHUB CONNECTED SYSTEM" title="Build in the open." description="Real development signals from the DXJ Labs organization. Explore repository health, published code activity, and integration plans without fabricated blockchain statistics.">
+    <ConsoleShell active="overview" eyebrow="OVERVIEW / GITHUB DEVELOPMENT DATA" title="Build in the open." description="Real development signals from the DXJ Labs organization. Explore repository health, published code activity, and integration plans without fabricated blockchain statistics.">
       <SourceNote checkedAt={snapshot.checkedAt} warning={!complete} />
       <section className="console-section">
         <div className="console-section-top"><h2>Repository pulse</h2><span>GITHUB REST API · 5-MIN CACHE</span></div>
