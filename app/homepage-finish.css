@@ -1,0 +1,374 @@
+/*
+ * DXJ Labs / mobile finishing pass
+ * Source: inspected Chrome Taste Skill PASS report + 390px/1440px screenshots.
+ * The goal is to resolve empty two-screen mobile chapters, improve readability,
+ * and make project/source information useful without fabricating metrics.
+ */
+
+.dxj-home .dxj-skip {
+  position:absolute;
+  top:-90px;
+  left:var(--dxj-space);
+  z-index:100;
+  background:#c9f28f;
+  color:#14291b;
+  border:2px solid #163920;
+  padding:13px 19px;
+  font:700 14px/1.3 "DM Sans",Arial,sans-serif;
+}
+.dxj-home .dxj-skip:focus-visible {
+  top:8px;
+  outline:3px solid #14291b;
+  outline-offset:2px;
+}
+
+/* Source badges belong to the explanation, not under the network illustration. */
+.dxj-home .dxj-multi-copy .dxj-multi-sources {
+  justify-content:flex-start;
+  margin:15px 0 22px;
+  gap:8px;
+}
+.dxj-home .dxj-multi-copy .dxj-multi-sources span {
+  color:#def4d8;
+  border-color:#638b63;
+  font-size:10px;
+  padding:9px 11px;
+}
+.dxj-home .dxj-multi-visual {
+  align-self:center;
+}
+
+/* One consistent affordance for editorial text links. */
+.dxj-home .dxj-text-link,
+.dxj-home .dxj-project-details a,
+.dxj-home .dxj-journal-feature>div>a,
+.dxj-home .dxj-update-foot a {
+  border-bottom:2px solid currentColor;
+  font-weight:700;
+}
+.dxj-home .dxj-update-foot a {
+  padding:7px 0;
+  width:max-content;
+  max-width:100%;
+}
+.dxj-home .dxj-commits a:hover,
+.dxj-home .dxj-update-foot a:hover,
+.dxj-home .dxj-journal-feature>div>a:hover {
+  text-decoration:underline;
+  text-underline-offset:5px;
+}
+.dxj-home .dxj-product-swipe-hint {
+  display:none;
+}
+
+@media(max-width:650px) {
+  /* An 844px phone no longer wastes 2×844px on two small product cards.
+     A visible sliver of the second project invites a horizontal swipe. */
+  .dxj-home #work.dxj-work,
+  .dxj-home #activity.dxj-publishing {
+    height:100svh;
+    min-height:0;
+  }
+  .dxj-home #work .dxj-section-wrap,
+  .dxj-home #activity .dxj-section-wrap {
+    display:flex;
+    justify-content:center;
+    padding-top:0;
+    padding-bottom:0;
+  }
+  .dxj-home #work .dxj-section-head,
+  .dxj-home #activity .dxj-section-head {
+    margin-bottom:13px;
+  }
+  .dxj-home #work .dxj-section-head h2,
+  .dxj-home #activity .dxj-section-head h2 {
+    font-size:clamp(34px,9.6vw,41px);
+    line-height:1.06;
+    margin-top:9px;
+  }
+  .dxj-home .dxj-lead {
+    font-size:16px;
+    line-height:1.5;
+  }
+  .dxj-home .dxj-product-swipe-hint {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font:10px/1.4 "DM Mono",monospace;
+    color:#345b3b;
+    margin:3px 0 10px;
+  }
+  .dxj-home .dxj-product-swipe-hint span {
+    font-weight:700;
+  }
+  .dxj-home .dxj-projects,
+  .dxj-home .dxj-publishing-grid {
+    display:flex;
+    flex-direction:row;
+    gap:12px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-inline:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:#8fae81 transparent;
+    padding:0 0 13px;
+    width:100%;
+    min-height:0;
+  }
+  .dxj-home .dxj-projects:focus-visible,
+  .dxj-home .dxj-publishing-grid:focus-visible {
+    outline:3px solid #20492a;
+    outline-offset:-3px;
+  }
+  .dxj-home .dxj-projects .dxj-product,
+  .dxj-home .dxj-publishing-grid>article {
+    min-width:0;
+    flex:0 0 calc(100% - 45px);
+    scroll-snap-align:start;
+    scroll-snap-stop:normal;
+    display:flex;
+    flex-direction:column;
+  }
+  .dxj-home .dxj-product-art {
+    display:block;
+    max-height:none;
+    height:auto;
+    aspect-ratio:590/310;
+    width:100%;
+  }
+  .dxj-home .dxj-project-details {
+    min-height:190px;
+    flex:1;
+    gap:12px;
+    padding:16px 2px 10px;
+  }
+  .dxj-home .dxj-project-details h3 {
+    font-size:30px;
+    line-height:1.06;
+    margin:8px 0;
+  }
+  .dxj-home .dxj-project-details p {
+    font-size:15px;
+    line-height:1.5;
+  }
+  .dxj-home .dxj-project-details a {
+    font-size:13px;
+    min-height:44px;
+  }
+  .dxj-home .dxj-disclaimer {
+    font-size:11px;
+    line-height:1.5;
+    margin:8px 0 0;
+    max-width:340px;
+  }
+
+  /* Development and journal share one visual row of two swipeable panels. */
+  .dxj-home #activity .dxj-section-head>.dxj-text-link {
+    margin-top:11px;
+    font-size:12px;
+  }
+  .dxj-home .dxj-publishing-grid>article {
+    background:#e0ecda;
+    border:1px solid #aec5a5;
+    height:430px;
+    min-height:0;
+    max-height:430px;
+    overflow:hidden;
+  }
+  .dxj-home #activity .dxj-activity-feature>div,
+  .dxj-home #activity .dxj-journal-feature>div {
+    flex:1 1 auto;
+    min-height:0;
+    padding:20px 18px 12px;
+    gap:12px;
+    justify-content:flex-start;
+  }
+  .dxj-home #activity .dxj-activity-feature .dxj-publishing-art {
+    flex:0 0 auto;
+    margin-top:auto;
+  }
+  .dxj-home #activity .dxj-publishing-art {
+    max-height:132px;
+    height:auto;
+    aspect-ratio:480/160;
+    object-fit:cover;
+    width:100%;
+    flex:0 0 auto;
+  }
+  .dxj-home #activity .dxj-publishing-grid h3 {
+    font-size:27px;
+    line-height:1.13;
+  }
+  .dxj-home #activity .dxj-commits a {
+    min-height:46px;
+    font-size:12px;
+    padding:10px 0;
+  }
+  .dxj-home #activity .dxj-journal-feature>div>a {
+    margin-top:auto;
+    min-height:44px;
+    font-size:13px;
+  }
+  .dxj-home #activity .dxj-update-foot {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-top:12px;
+  }
+  .dxj-home #activity .dxj-update-foot a {
+    width:auto;
+    font-size:10px;
+    line-height:1.4;
+    padding:5px 0;
+    min-height:44px;
+  }
+  .dxj-home #activity .dxj-update-foot>span {
+    display:none;
+  }
+  .dxj-home .dxj-multi-copy .dxj-multi-sources {
+    margin:11px 0 15px;
+  }
+  .dxj-home .dxj-multi-copy .dxj-multi-sources span {
+    font-size:9px;
+    padding:6px 9px;
+  }
+  .dxj-home .dxj-hero-foot {
+    padding-bottom:5px;
+  }
+}
+
+@media(max-width:650px) and (max-height:720px) {
+  /* Preserve readable content on unusually short phones. */
+  .dxj-home #activity .dxj-publishing-grid>article {
+    height:335px;
+    max-height:335px;
+  }
+  .dxj-home #activity .dxj-publishing-art {
+    max-height:95px;
+  }
+  .dxj-home #activity .dxj-activity-feature>div,
+  .dxj-home #activity .dxj-journal-feature>div {
+    padding:11px 12px 7px;
+    gap:6px;
+  }
+  .dxj-home #activity .dxj-commits a {
+    padding:6px 0;
+  }
+  .dxj-home #activity .dxj-publishing-grid h3 { font-size:23px; }
+  .dxj-home #work .dxj-project-details { min-height:0; padding:10px 0 0; }
+  .dxj-home #work .dxj-project-details p { font-size:13px; }
+  .dxj-home #work .dxj-section-head h2,
+  .dxj-home #activity .dxj-section-head h2 { font-size:31px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .dxj-home .dxj-projects,
+  .dxj-home .dxj-publishing-grid { scroll-behavior:auto!important; }
+}
+
+
+/*
+ * Accessible mobile switcher.
+ * Replaces the clipped peek-a-card layout rejected by Taste Skill. Both full
+ * cards remain visible on desktop; only the selected card renders on mobile.
+ */
+.dxj-home .dxj-feature-choices { display:none; }
+.dxj-home .dxj-feature-panel { min-width:0; width:100%; }
+.dxj-home .dxj-feature-panel>article { width:100%; height:100%; }
+@media(max-width:650px) {
+  .dxj-home .dxj-feature-choices {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    width:100%;
+    margin-bottom:14px;
+  }
+  .dxj-home .dxj-feature-choices button {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:10px;
+    min-height:48px;
+    width:100%;
+    padding:10px 13px;
+    border:1px solid #92b08e;
+    border-radius:0;
+    background:#edf5e8;
+    color:#25462d;
+    cursor:pointer;
+    font:700 13px/1.3 "DM Sans",Arial,sans-serif;
+    transition:background .15s ease,color .15s ease;
+  }
+  .dxj-home .dxj-feature-choices button span {
+    font:11px/1 "DM Mono",monospace;
+    color:inherit;
+    opacity:.7;
+  }
+  .dxj-home .dxj-feature-choices button.is-current {
+    background:#173d24;
+    border-color:#173d24;
+    color:#f1ffe7;
+  }
+  .dxj-home .dxj-feature-choices button:focus-visible {
+    outline:3px solid #335b3a!important;
+    outline-offset:3px!important;
+    box-shadow:0 0 0 3px #ebf4df!important;
+  }
+  .dxj-home #work .dxj-feature-panels.dxj-projects,
+  .dxj-home #activity .dxj-feature-panels.dxj-publishing-grid {
+    display:block;
+    width:100%;
+    overflow:visible;
+    padding:0;
+    min-height:0;
+    scroll-snap-type:none;
+  }
+  .dxj-home .dxj-feature-panel { display:none; }
+  .dxj-home .dxj-feature-panel.is-current { display:block; }
+  .dxj-home #work .dxj-projects .dxj-feature-panel>article {
+    width:100%;
+    flex:none;
+    margin:0;
+  }
+  .dxj-home #activity .dxj-publishing-grid .dxj-feature-panel>article {
+    width:100%;
+    min-height:0;
+    height:430px;
+    max-height:430px;
+    display:flex;
+    flex-direction:column;
+    border:1px solid #aec5a5;
+    background:#e0ecda;
+    color:#142b1d;
+    overflow:hidden;
+  }
+  .dxj-home #work .dxj-project-details {
+    min-height:180px;
+  }
+}
+@media(max-width:650px) and (max-height:720px) {
+  .dxj-home #activity .dxj-publishing-grid .dxj-feature-panel>article {
+    height:335px;
+    max-height:335px;
+  }
+  .dxj-home #work .dxj-project-details { min-height:0; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .dxj-home .dxj-feature-choices button { transition:none!important; }
+}
+
+
+/* Desktop panels participate directly in the original two-column product grid.
+ * Mobile keeps individual panels so selection can hide inactive content. */
+@media(min-width:651px) {
+  .dxj-home .dxj-feature-panels .dxj-feature-panel { display:contents; }
+}
+@media(max-width:650px) {
+  .dxj-home .dxj-feature-choices button span { opacity:1; }
+  .dxj-home .dxj-feature-choices button:not(.is-current) span { color:#23462b; }
+  .dxj-home .dxj-feature-choices button.is-current span { color:#f1ffe7; }
+}

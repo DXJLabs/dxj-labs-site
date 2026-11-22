@@ -1,0 +1,124 @@
+name: Taste Skill — mandatory design gate
+
+on:
+  push:
+    branches:
+      - design/studio-rebrand-v4
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: taste-skill-dxjlabs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Check out DXJ Labs (no persisted Git credentials)
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install project dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Build Next.js for browser inspection
+        run: npm run build
+
+      - name: Fetch pinned Taste Skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          git init "$RUNNER_TEMP/taste-skill"
+          git -C "$RUNNER_TEMP/taste-skill" remote add origin https://github.com/Leonxlnx/taste-skill.git
+          git -C "$RUNNER_TEMP/taste-skill" fetch --no-tags --depth 1 origin f6b76575f949707b4e3c37cd86cb44b0b98643e8
+          git -C "$RUNNER_TEMP/taste-skill" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/taste-skill" rev-parse HEAD)" = "f6b76575f949707b4e3c37cd86cb44b0b98643e8"
+          test -f "$RUNNER_TEMP/taste-skill/skills/taste-skill/scripts/gate.mjs"
+          echo "Taste Skill source pinned: f6b76575f949707b4e3c37cd86cb44b0b98643e8"
+
+      - name: Locate Chrome for Taste Skill
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$CHROME" ]]; then
+            echo "::error::Chrome/Chromium not installed on runner"
+            exit 1
+          fi
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          "$CHROME" --version
+
+      - name: Run real-browser Taste Skill audit
+        shell: bash
+        env:
+          TASTE_SKILL: ${{ runner.temp }}/taste-skill/skills/taste-skill
+        run: |
+          set -euo pipefail
+          mkdir -p taste-audit/shots
+          npm run start -- --hostname 127.0.0.1 --port 3000 > taste-audit/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --silent --fail http://127.0.0.1:3000/ >/dev/null; then break; fi
+            sleep 2
+          done
+          curl --fail --silent --output /dev/null http://127.0.0.1:3000/
+          set +e
+          node "$TASTE_SKILL/scripts/gate.mjs" --start http://127.0.0.1:3000/ --kind software --category "multi-chain Web3 product studio" --primary "View our products" --new > taste-audit/arm.log 2>&1
+          node "$TASTE_SKILL/scripts/gate.mjs" http://127.0.0.1:3000/ > taste-audit/gate.log 2>&1
+          GATE_EXIT=$?
+          node "$TASTE_SKILL/scripts/shoot.mjs" --url http://127.0.0.1:3000/ --w 1440 --out taste-audit/shots/desktop-1440.png > taste-audit/shoot-desktop.log 2>&1
+          node "$TASTE_SKILL/scripts/shoot.mjs" --url http://127.0.0.1:3000/ --w 390 --out taste-audit/shots/mobile-390.png > taste-audit/shoot-mobile.log 2>&1
+          node "$TASTE_SKILL/scripts/consistency.mjs" http://127.0.0.1:3000/ --quick --page software --category "multi-chain Web3 product studio" --primary "View our products" --widths 1440,1024,768,390 --out taste-audit/consistency > taste-audit/consistency.log 2>&1
+          CONSISTENCY_EXIT=$?
+          set -e
+          {
+            echo "### Taste Skill audit"
+            echo "- Source: Leonxlnx/taste-skill @ f6b76575"
+            echo "- Page: DXJ Labs homepage — software"
+            echo "- Gate exit: $GATE_EXIT (0 = PASS)"
+            echo "- Multi-viewport consistency exit: $CONSISTENCY_EXIT (0 = no FAIL)"
+            echo "- Breakpoints: 1440, 1024, 768, 390"
+            echo ""
+            echo "~~~"
+            tail -n 34 taste-audit/gate.log
+            echo "~~~"
+          } >> "$GITHUB_STEP_SUMMARY"
+          # Checker processes can exit 0 while the actual report still says FAIL.
+          if [[ "$GATE_EXIT" -ne 0 ]] || ! grep -Eq '^GATE: PASS[[:space:]]*$' taste-audit/gate.log; then
+            echo "::error::Taste Skill Gate is not PASS (see gate.log artifact)."
+            echo "**DESIGN REVIEW: FAIL** — Gate did not pass." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          if [[ "$CONSISTENCY_EXIT" -ne 0 ]] || ! grep -Eq '^total[[:space:]]+0 FAIL([[:space:]]|$)' taste-audit/consistency.log; then
+            echo "::error::Multi-viewport consistency contains FAIL findings."
+            echo "**DESIGN REVIEW: FAIL** — multi-width consistency did not pass." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          test -s taste-audit/shots/desktop-1440.png
+          test -s taste-audit/shots/mobile-390.png
+          echo "**DESIGN REVIEW: PASS** — Gate PASS, 0 viewport FAIL, screenshots captured." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Taste Skill logs, screenshots and findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dxjlabs-taste-skill-report
+          path: |
+            taste-audit/
+            .taste-skill/
+          if-no-files-found: warn

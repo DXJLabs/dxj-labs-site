@@ -1,97 +1,282 @@
-"use client";
-import { useEffect, useState } from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import Script from "next/script";
+import FocusScrollLink from "../components/FocusScrollLink";
+import FeatureSwitcher from "../components/FeatureSwitcher";
+import { getConsoleSnapshot, readableDate } from "../lib/github-console";
+import { activities, publishedArticles } from "../lib/platform";
+import "./homepage.css";
+import "./homepage-finish.css";
 
-type Project = { num: string; name: string; category: string; stage: string; description: string; visual: string; href?: string };
-const projects: Project[] = [
-  { num: "01", name: "VINSS", category: "PRIVACY / WEB3", stage: "IN DEVELOPMENT", description: "A private deal room exploring confidential negotiation and settlement on decentralized infrastructure.", visual: "vinss", href: "https://github.com/DXJLabs/vinss" },
-  { num: "02", name: "CAREL", category: "AI / EXPERIMENTS", stage: "EXPLORATION", description: "An experimental direction at the intersection of intelligent interfaces and decentralized finance.", visual: "carel" },
-  { num: "03", name: "GROWHAVEN", category: "GAMES / INTERACTIVE", stage: "PROTOTYPE", description: "An interactive game concept built to test new ideas, playful systems, and engaging digital worlds.", visual: "growhaven" },
-];
-const capabilities = [
-  { n: "01", title: "Product engineering", desc: "From early concepts to working digital products." },
-  { n: "02", title: "Privacy & infrastructure", desc: "Systems designed with trust and user control in mind." },
-  { n: "03", title: "AI & experimentation", desc: "Prototyping emerging interfaces and intelligent workflows." },
-  { n: "04", title: "Interactive experiences", desc: "Digital ideas that move beyond conventional interfaces." },
-];
-function Arrow({ diagonal = false }: { diagonal?: boolean }) { return <span aria-hidden="true">{diagonal ? "↗" : "→"}</span>; }
-export default function Home() {
- const [open, setOpen] = useState(false);
- const close = () => setOpen(false);
- useEffect(() => {
-   const updateProgress = () => {
-     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-     const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-     document.documentElement.style.setProperty("--scroll-progress", String(Math.min(1, Math.max(0, progress))));
-   };
-   let frame = 0;
-   const onScroll = () => {
-     if (frame) return;
-     frame = window.requestAnimationFrame(() => { updateProgress(); frame = 0; });
-   };
-   updateProgress();
-   window.addEventListener("scroll", onScroll, { passive: true });
-   window.addEventListener("resize", onScroll);
+export const revalidate = 300;
+export const metadata: Metadata = {
+  title: "DXJ Labs — Multi-Chain Product Studio",
+  description: "DXJ Labs builds privacy-first Web3 products and explores AI, finance, and interactive experiences across blockchain networks. Explore projects, public development progress, and research.",
+};
 
-   const elements = document.querySelectorAll<HTMLElement>("[data-reveal]");
-   let observer: IntersectionObserver | undefined;
-   if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-     observer = new IntersectionObserver((entries) => {
-       entries.forEach((entry) => {
-         if (entry.isIntersecting) {
-           entry.target.classList.add("is-revealed");
-           observer?.unobserve(entry.target);
-         }
-       });
-     }, { threshold: 0.09, rootMargin: "0px 0px -32px 0px" });
-     elements.forEach((el) => {
-       const b = el.getBoundingClientRect();
-       if (b.top < window.innerHeight * 0.94) el.classList.add("is-revealed");
-       else { el.classList.add("reveal-pending"); observer?.observe(el); }
-     });
-   }
-   return () => {
-     window.removeEventListener("scroll", onScroll);
-     window.removeEventListener("resize", onScroll);
-     if (frame) window.cancelAnimationFrame(frame);
-     observer?.disconnect();
-     document.documentElement.style.removeProperty("--scroll-progress");
-   };
- }, []);
- return <main id="top">
-  <div className="scroll-progress" aria-hidden="true" />
-  <header className="site-header">
-    <div className="container header-inner">
-      <a className="brand" href="#top" aria-label="DXJ Labs, home" onClick={close}><span className="brand-symbol">D<span>✳</span></span><span className="brand-name">DXJ<span className="brand-light">LABS</span><small>INDEPENDENT PRODUCT STUDIO</small></span></a>
-      <nav className={open ? "site-nav is-open" : "site-nav"} aria-label="Main navigation">
-        <a href="#work" onClick={close}>Work</a><a href="#studio" onClick={close}>Studio</a><a href="#approach" onClick={close}>Approach</a>
-        <a className="nav-contact" href="#contact" onClick={close}>Let’s connect <Arrow diagonal /></a>
+function Arrow() {
+  return <span className="dxj-arrow" aria-hidden="true">↗</span>;
+}
+
+function StudioNav() {
+  return (
+    <header className="dxj-home dxj-nav nav">
+      <a className="dxj-skip" href="#main-content">Skip to content</a>
+      <div className="wrap dxj-nav-inner">
+      <Link className="dxj-logo" href="/" aria-label="DXJ Labs homepage">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
+      <nav className="dxj-nav-links" aria-label="Site navigation">
+        <Link href="/ecosystem">Ecosystem</Link>
+        <Link href="/activities">Activities</Link>
+        <Link href="/blog">Journal</Link>
+        <Link href="/analytics">Analytics</Link>
+        <Link href="/investors">Investors</Link>
       </nav>
-      <button className="mobile-toggle" type="button" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Close ×" : "Menu +"}</button>
-    </div>
-  </header>
+      <Link href="/ecosystem" className="dxj-nav-action">Explore our ecosystem <Arrow /></Link>
+      <details className="dxj-mobile-menu">
+        <summary aria-label="Toggle navigation">Menu <span aria-hidden="true">☰</span></summary>
+        <nav aria-label="Mobile navigation">
+          <Link href="/ecosystem">Ecosystem</Link>
+          <Link href="/activities">Activities</Link>
+          <Link href="/blog">Blog & Research</Link>
+          <Link href="/analytics">Analytics</Link>
+          <Link href="/investors">Investor Overview</Link>
+          <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+      </details>
+      </div>
+    </header>
+  );
+}
 
-  <section className="hero container" aria-labelledby="hero-title">
-    <div className="hero-topline"><span><i className="live-dot" /> INDEPENDENT DIGITAL PRODUCT STUDIO</span><span className="hero-location">BASED IN EAST KALIMANTAN, INDONESIA <span>↗</span></span></div>
-    <div className="hero-main">
-      <div className="hero-copy"><p className="mono eyebrow">RESEARCH <span>/</span> DESIGN <span>/</span> BUILD</p><h1 id="hero-title">Ideas into<br/><em>systems<span className="punctuation">.</span></em></h1><p className="hero-lede">We explore what’s possible, challenge what’s expected, and turn ambitious ideas into meaningful digital products.</p><a className="pill-link" href="#work">Explore selected work <span><Arrow diagonal /></span></a></div>
-      <div className="hero-art" onPointerMove={(e) => { const box = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--pointer-x", `${e.clientX - box.left}px`); e.currentTarget.style.setProperty("--pointer-y", `${e.clientY - box.top}px`); }} aria-label="Abstract DXJ Labs orbital identity" role="img"><div className="orbit orbit-a"/><div className="orbit orbit-b"/><div className="orbit orbit-c"/><div className="orbit orbit-d"/><div className="orbit-dot dot-a"/><div className="orbit-dot dot-b"/><div className="orbit-dot dot-c"/><div className="core-ring"><span>DXJ<span className="core-star">✳</span></span><small>LABS / EST. 2026</small></div><div className="art-label art-label-one">FIG 01 — EXPLORATION</div><div className="art-label art-label-two">DESIGNED TO EVOLVE</div>
-      <div className="signal-panel signal-panel-a" aria-hidden="true"><span>LAB / OPERATING MODE</span><strong><i /> EXPERIMENTING</strong><small>DESIGN — BUILD — ITERATE</small></div>
-      <div className="signal-panel signal-panel-b" aria-hidden="true"><span>SYSTEM / DXJ — 001</span><div className="signal-bars"><i/><i/><i/><i/><i/><i/><i/><i/><i/></div><small>EVERY IDEA STARTS SOMEWHERE</small></div></div>
-    </div>
-    <div className="hero-bottom"><span>INDEPENDENT BY DESIGN. CURIOUS BY DEFAULT.</span><a href="#studio">SCROLL TO EXPLORE <span>↓</span></a></div>
-  </section>
+function NetworkGraphic() {
+  return (
+    <svg className="dxj-network-art" viewBox="0 0 620 590" role="img" aria-label="DXJ Labs connected to privacy, intelligent finance, and future blockchain products">
+      <defs>
+        <radialGradient id="dxj-node-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#d2fca1" stopOpacity=".36"/><stop offset="100%" stopColor="#d2fca1" stopOpacity="0"/></radialGradient>
+        <linearGradient id="dxj-connect-line" x1="0" x2="1"><stop stopColor="#bdea8c" stopOpacity=".35"/><stop offset="1" stopColor="#bdea8c" stopOpacity=".85"/></linearGradient>
+      </defs>
+      <circle cx="307" cy="298" r="242" fill="none" stroke="#b4df9c" opacity=".15" strokeWidth="1.4"/>
+      <circle cx="307" cy="298" r="184" fill="none" stroke="#a7d693" opacity=".28" strokeDasharray="4 11" strokeWidth="1.2"/>
+      <circle cx="307" cy="298" r="117" fill="none" stroke="#a7d693" opacity=".45" strokeWidth="1.4"/>
+      <circle cx="307" cy="298" r="160" fill="url(#dxj-node-glow)"/>
+      <path d="M307 298 L145 157 M307 298 L487 193 M307 298 L458 455 M307 298 L155 445" stroke="url(#dxj-connect-line)" strokeWidth="2.3" fill="none"/>
+      <circle cx="307" cy="298" r="74" fill="#bce990"/>
+      <circle cx="307" cy="298" r="61" fill="#d9f6b8" stroke="#173c25" strokeWidth="1"/>
+      <text x="307" y="310" fontFamily="Arial,sans-serif" fontSize="39" fill="#173622" fontWeight="800" textAnchor="middle">DXJ</text>
+      <circle cx="145" cy="157" r="37" fill="#203e2a" stroke="#d1f2a6" strokeWidth="2"/>
+      <path d="M130 150 V144 A15 15 0 0 1 160 144 V150 M127 149 H163 V168 H127 Z" fill="none" stroke="#d2f5b3" strokeWidth="2.3"/>
+      <circle cx="487" cy="193" r="37" fill="#283d36" stroke="#d1f2a6" strokeWidth="2"/>
+      <path d="M487 171 L493 184 L507 186 L497 196 L500 210 L487 204 L474 210 L477 196 L467 186 L481 184 Z" fill="none" stroke="#d9f7ba" strokeWidth="2"/>
+      <circle cx="458" cy="455" r="19" fill="#6e985c" stroke="#d1f2a6"/>
+      <circle cx="155" cy="445" r="19" fill="#6e985c" stroke="#d1f2a6"/>
+      <text x="145" y="105" textAnchor="middle" fill="#e6f5e1" fontFamily="Arial,sans-serif" fontSize="17" fontWeight="700">VINSS</text>
+      <text x="487" y="136" textAnchor="middle" fill="#e6f5e1" fontFamily="Arial,sans-serif" fontSize="17" fontWeight="700">CAREL</text>
+      <text x="477" y="502" textAnchor="middle" fill="#bcd9b8" fontFamily="Arial,sans-serif" fontSize="12">FUTURE NETWORKS</text>
+      <text x="155" y="489" textAnchor="middle" fill="#bcd9b8" fontFamily="Arial,sans-serif" fontSize="12">RESEARCH</text>
+    </svg>
+  );
+}
 
-  <div className="studio-ticker" aria-label="Our practice: product engineering, experimental technology, creative coding, and interactive experiences"><div className="ticker-track" aria-hidden="true">{Array.from({ length: 2 }, (_, i) => <div className="ticker-set" key={i}><span>PRODUCT ENGINEERING</span><b>✳</b><span>EXPERIMENTAL TECHNOLOGY</span><b>✳</b><span>CREATIVE CODE</span><b>✳</b><span>INTERACTIVE EXPERIENCES</span><b>✳</b></div>)}</div></div>
+function VinssGraphic() {
+  return (
+    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Illustrative VINSS encrypted deal room interface">
+      <rect width="590" height="310" rx="7" fill="#e9f0e6"/>
+      <rect x="0" width="590" height="41" rx="7" fill="#cddfc8"/>
+      <circle cx="22" cy="21" r="5" fill="#56885b"/><circle cx="39" cy="21" r="5" fill="#789a74"/><circle cx="56" cy="21" r="5" fill="#a1b69c"/>
+      <text x="85" y="26" fill="#24422f" fontFamily="Arial,sans-serif" fontSize="13" fontWeight="700">VINSS / SECURE WORKSPACE</text>
+      <rect x="0" y="41" width="149" height="269" fill="#d7e5d3"/>
+      <text x="19" y="77" fontSize="10" fill="#527357" fontFamily="Arial,sans-serif">WORKSPACE</text>
+      <rect x="12" y="94" width="125" height="32" fill="#b4d1ab" rx="3"/>
+      <text x="25" y="114" fontSize="13" fill="#1d4530" fontFamily="Arial,sans-serif" fontWeight="700">Overview</text>
+      <text x="25" y="154" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Messages</text>
+      <text x="25" y="189" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Agreements</text>
+      <text x="25" y="224" fontSize="12" fill="#4b7054" fontFamily="Arial,sans-serif">Settlement</text>
+      <text x="179" y="81" fontSize="12" fontFamily="Arial,sans-serif" fill="#577b5d">DEAL ROOM  /  001</text>
+      <text x="179" y="127" fontSize="31" fontWeight="700" fontFamily="Arial,sans-serif" fill="#1a3c27">Private by design.</text>
+      <text x="179" y="151" fontSize="13" fontFamily="Arial,sans-serif" fill="#365842">A workspace for confidential agreements</text>
+      <rect x="179" y="178" width="177" height="72" rx="3" fill="#fff" stroke="#bdd3b9"/>
+      <rect x="368" y="178" width="194" height="72" rx="3" fill="#fff" stroke="#bdd3b9"/>
+      <text x="192" y="201" fontSize="11" fill="#486b4e" fontFamily="Arial,sans-serif">AGREEMENT</text>
+      <text x="192" y="230" fontSize="15" fontWeight="700" fill="#1e452d" fontFamily="Arial,sans-serif">Pending review</text>
+      <text x="381" y="201" fontSize="11" fill="#486b4e" fontFamily="Arial,sans-serif">SESSION</text>
+      <text x="381" y="230" fontSize="15" fontWeight="700" fill="#1e452d" fontFamily="Arial,sans-serif">Encrypted room</text>
+      <rect x="179" y="266" width="383" height="29" rx="3" fill="#d4e5d0"/>
+      <text x="193" y="285" fontSize="12" fill="#2c593a" fontFamily="Arial,sans-serif">Proposal ready for review</text>
+    </svg>
+  );
+}
 
-  <section id="studio" className="statement-section section-line"><div className="container statement-grid" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 01 / THE STUDIO</div><div className="statement-body"><p className="statement">Not just another tech company. <span>We're a space for bold thinking, practical building, and ideas worth testing.</span></p><div className="statement-bottom"><p>DXJ Labs is an independent product studio working across software, emerging technology, and digital experiences. We believe the best way to discover what matters is to build, learn, and keep improving.</p><div className="signature">DXJ<span>✳</span></div></div></div></div></section>
+function CarelGraphic() {
+  return (
+    <svg viewBox="0 0 590 310" className="dxj-product-art" role="img" aria-label="Conceptual CAREL workflow: user goal, route review, and explicit wallet approval">
+      <rect width="590" height="310" rx="7" fill="#201c2e"/>
+      <rect x="0" y="0" width="590" height="54" rx="7" fill="#30273c"/>
+      <text x="26" y="35" fill="#f2e6ff" fontFamily="Arial,sans-serif" fontSize="23" fontWeight="700">carel ✳</text>
+      <text x="562" y="34" fill="#c6b8d5" fontFamily="Arial,sans-serif" fontSize="12" textAnchor="end">AGENTIC DeFi / FLOW CONCEPT</text>
+      <text x="26" y="84" fill="#d8c7e8" fontFamily="Arial,sans-serif" fontSize="12">GOAL-DRIVEN EXECUTION</text>
+      <rect x="26" y="99" width="537" height="65" rx="4" fill="#e8d9f0"/>
+      <text x="44" y="123" fill="#715586" fontFamily="Arial,sans-serif" fontSize="11">USER GOAL</text>
+      <text x="44" y="147" fill="#322441" fontFamily="Arial,sans-serif" fontSize="19" fontWeight="700">Swap 10 STRK for USDC</text>
+      <path d="M107 177 H500" stroke="#8c729f" strokeWidth="2.5" strokeDasharray="7 8"/>
+      <path d="M493 169 L505 177 L493 185" stroke="#d4b9e9" fill="none" strokeWidth="2.5"/>
+      <rect x="26" y="195" width="170" height="65" rx="3" fill="#483a59" stroke="#9477ac"/>
+      <rect x="209" y="195" width="171" height="65" rx="3" fill="#483a59" stroke="#9477ac"/>
+      <rect x="393" y="195" width="170" height="65" rx="3" fill="#6e5680" stroke="#d1a9e8"/>
+      <text x="40" y="215" fontFamily="Arial,sans-serif" fill="#c9aedb" fontSize="11">01 / INTENT</text>
+      <text x="40" y="241" fontFamily="Arial,sans-serif" fill="#fff0ff" fontSize="16" fontWeight="700">Parse goal</text>
+      <text x="223" y="215" fontFamily="Arial,sans-serif" fill="#c9aedb" fontSize="11">02 / ROUTE</text>
+      <text x="223" y="241" fontFamily="Arial,sans-serif" fill="#fff0ff" fontSize="16" fontWeight="700">Review quote</text>
+      <text x="407" y="215" fontFamily="Arial,sans-serif" fill="#e1c9ec" fontSize="11">03 / CONTROL</text>
+      <text x="407" y="241" fontFamily="Arial,sans-serif" fill="#fff8ff" fontSize="16" fontWeight="700">Wallet approve</text>
+      <circle cx="34" cy="284" r="4" fill="#c49bdf"/>
+      <text x="47" y="289" fontFamily="Arial,sans-serif" fill="#d7c4e5" fontSize="12">User approval is required. No autonomous wallet signing.</text>
+    </svg>
+  );
+}
 
-  <section id="work" className="work-section section-line"><div className="container"><div className="section-heading" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 02 / SELECTED WORK</div><div><h2>Work in <em>motion.</em></h2><p>An evolving selection of prototypes, experiments, and products in development. We share the process, not just the polished outcome.</p></div><span className="count-label">[ 001 — 003 ]</span></div><div className="work-grid">{projects.map(p => <article className={`project-card ${p.visual}`} data-reveal="" key={p.name} onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX-r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY-r.top}px`); }}><div className="project-art"><div className="project-art-top"><span>DXJ / {p.num}</span><span>EXPERIMENTAL DIVISION</span></div>{p.visual === "vinss" ? <div className="art-vinss"><div className="shield-outer"><div className="shield-inner">V</div></div><span className="trace trace-1"/><span className="trace trace-2"/><span className="trace trace-3"/></div> : p.visual === "carel" ? <div className="art-carel"><div className="carel-halo halo-1"/><div className="carel-halo halo-2"/><div className="carel-halo halo-3"/><strong>C<span>✳</span></strong></div> : <div className="art-grow"><div className="sun"/><div className="mountain mountain-1"/><div className="mountain mountain-2"/><div className="grow-mark">G<span>✦</span></div></div>}<span className="visual-footer">BUILD / TEST / ITERATE</span></div><div className="project-meta"><div className="project-tags"><span>{p.category}</span><span className="stage"><i/>{p.stage}</span></div><div className="project-title-row"><h3>{p.name}</h3>{p.href ? <a className="round-arrow" href={p.href} target="_blank" rel="noopener noreferrer" aria-label={`View ${p.name} on GitHub`}><Arrow diagonal /></a> : <span className="round-arrow inactive" aria-hidden="true"><Arrow diagonal /></span>}</div><p>{p.description}</p></div></article>)}</div><p className="work-footnote">* Projects are early-stage and presented as explorations, not commercial releases.</p></div></section>
+export default async function Home() {
+  const snapshot = await getConsoleSnapshot();
+  const vinss = snapshot.repositories.find(item => item.config.slug === "vinss");
+  const carel = snapshot.repositories.find(item => item.config.slug === "carel");
+  const latest = snapshot.commits.slice(0, 2);
+  const article = publishedArticles[0] ?? null;
+  const activity = activities[0] ?? null;
 
-  <section id="approach" className="approach-section section-line"><div className="container"><div className="section-heading approach-heading" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 03 / WHAT DRIVES US</div><div><h2>Built with<br/><em>intention.</em></h2></div><p>Different disciplines. A shared mindset. Every meaningful product begins with a question worth asking.</p></div><div className="capability-list" data-reveal="">{capabilities.map(c => <div className="capability" key={c.n}><span className="cap-num">{c.n}</span><h3>{c.title}</h3><p>{c.desc}</p><span className="cap-arrow">↗</span></div>)}</div></div></section>
+  return (
+    <>
+    <StudioNav />
+    <main id="main-content" className="dxj-home dxj-main">
+      <Script src="/taste/motion/motion.js" type="module" strategy="afterInteractive"/>
+      <Script src="/taste/moments/moments.js" type="module" strategy="afterInteractive"/>
 
-  <section className="manifesto-section section-line"><div className="container manifesto" data-reveal=""><div className="manifesto-label">OUR WORKING PHILOSOPHY <span>✳</span></div><p>Stay curious.<br/><span>Make it real.</span><br/>Keep moving<span className="accent">↗</span></p><div className="manifesto-bottom"><span>GOOD IDEAS NEED MORE THAN GOOD INTENTIONS.</span><span>DXJ LABS — 2026</span></div></div></section>
+      <section id="top" className="dxj-screen dxj-hero hero" data-enter>
+        <div className="wrap dxj-wrap dxj-hero-wrap">
+          <div className="dxj-split dxj-hero-body hero-text">
+            <div className="dxj-hero-copy">
+              <p className="dxj-kicker"><span className="dxj-live-dot"/> EAST KALIMANTAN · INDONESIA / PRODUCT STUDIO</p>
+              <h1>Building<br/><em>useful Web3.</em></h1>
+              <p className="dxj-lead">Privacy products. Intelligent finance. Experimental experiences. One independent studio building across blockchain networks.</p>
+              <div className="dxj-actions">
+                <Link className="btn btn--primary btn--xl dxj-button" href="/ecosystem">Explore our ecosystem <Arrow /></Link>
+                <Link className="dxj-text-link" href="/activities">See the build log <Arrow /></Link>
+              </div>
+              <p className="dxj-small-note">VINSS & CAREL · DEVELOPMENT / NETWORK DIAGRAM IS ILLUSTRATIVE</p>
+              <div className="dxj-tablet-brief"><div><span>VINSS / WEB3</span><strong>Private digital agreements</strong></div><div><span>CAREL / AI</span><strong>Intelligent finance research</strong></div></div>
+            </div>
+            <div className="dxj-hero-visual">
+              <NetworkGraphic />
+              
+            </div>
+          </div>
+          <div className="dxj-hero-foot"><span>01 / PRODUCT STUDIO</span><span>SCROLL TO EXPLORE ↓</span></div>
+        </div>
+      </section>
 
-  <section id="contact" className="contact-section section-line"><div className="container contact-grid" data-reveal=""><div className="section-aside"><span className="square-bullet"/> 04 / WHAT'S NEXT</div><div><p className="mono eyebrow">LET'S MAKE SOMETHING MATTER.</p><h2>Have an idea?<br/><em>Let’s talk.</em></h2><p>We're always open to meaningful conversations, interesting ideas, and new possibilities.</p><a className="contact-cta" href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">Find us on GitHub <span>↗</span></a></div></div></section>
-  <footer className="footer"><div className="container footer-inner"><a href="#top" className="footer-logo">DXJ<span>✳</span>LABS</a><span>INDEPENDENT PRODUCT STUDIO<br/>EAST KALIMANTAN, INDONESIA</span><div className="footer-links"><a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GITHUB ↗</a><a href="#top">BACK TO TOP ↑</a></div><span className="copyright">© {new Date().getFullYear()} DXJ LABS</span></div></footer>
- </main>;
+      <section id="work" className="dxj-screen dxj-work">
+        <div className="wrap dxj-wrap dxj-section-wrap">
+          <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div></div>
+          <FeatureSwitcher label="Select a DXJ Labs product" options={["VINSS","CAREL"]} className="dxj-projects"
+            first={<article className="dxj-product">
+              <VinssGraphic />
+              <div className="dxj-project-details">
+                <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS deal room</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
+                <FocusScrollLink href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
+              </div>
+            </article>}
+            second={<article className="dxj-product">
+              <CarelGraphic />
+              <div className="dxj-project-details">
+                <div><span className="dxj-project-category">AGENTIC DEFI · WALLET APPROVAL</span><h3>CAREL DeFi agent</h3><p>Turn financial goals into reviewed execution flows while keeping approval with the wallet owner.</p></div>
+                <FocusScrollLink href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
+              </div>
+            </article>}
+          />
+          <p className="dxj-disclaimer">Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
+        </div>
+      </section>
+
+      <section id="multichain" className="dxj-screen dxj-multichain" data-moment="word-highlight">
+        <div className="wrap dxj-wrap dxj-split dxj-multichain-body">
+          <div className="dxj-multi-copy">
+            <p className="dxj-section-no">03 / MULTI-CHAIN FOUNDATION</p>
+            <h2 className="dxj-multichain-heading">Multi-chain infrastructure.</h2>
+            <p className="mo-wh__text">Every DXJ Labs product needs the right network. <strong>Real utility</strong> guides research, engineering, and validation.</p>
+            <div className="dxj-multi-sources" aria-label="Network and token status"><span>STARKNET · DEVELOPMENT</span><span>MULTI-CHAIN · PLANNED</span><span>DXJ TOKEN · NOT ISSUED</span></div>
+            <Link className="dxj-text-link dxj-link-light" href="/ecosystem">See integration stages <Arrow /></Link>
+          </div>
+          <div className="dxj-multi-visual"><NetworkGraphic /></div>
+        </div>
+      </section>
+
+      <section id="activity" className="dxj-screen dxj-publishing">
+        <div className="wrap dxj-wrap dxj-section-wrap">
+          <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>DXJ Labs development.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
+          <FeatureSwitcher label="Select a studio update" options={["Engineering","Journal"]} className="dxj-publishing-grid"
+            first={<article className="dxj-activity-feature">
+
+              <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>DXJ Labs source changes.</h3>
+                {latest.length ? <div className="dxj-commits">{latest.map(item => <a href={item.url} key={item.sha} target="_blank" rel="noopener noreferrer"><span>{item.project} · {readableDate(item.date)}</span>{item.title}<Arrow /></a>)}</div> : <p>Public GitHub activity is temporarily unavailable. See the linked repositories for updates.</p>}
+              </div>
+              <svg viewBox="0 0 480 160" role="img" aria-label="Source code and development illustration" className="dxj-publishing-art">
+                <rect x="20" y="21" width="440" height="121" rx="6" fill="#20402a"/>
+                <path d="M134 46 L95 81 L134 116 M210 46 L249 81 L210 116 M189 41 L156 120" fill="none" stroke="#d0f1b0" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M314 55 H425 M314 82 H403 M314 109 H425" fill="none" stroke="#81b16e" strokeWidth="6" strokeLinecap="round"/>
+              </svg>
+            </article>}
+            second={<article className="dxj-journal-feature">
+              <svg viewBox="0 0 480 160" role="img" aria-label="Technical journal illustration" className="dxj-publishing-art">
+                <rect x="28" y="17" width="180" height="122" rx="5" fill="#cce4b9"/>
+                <rect x="244" y="17" width="208" height="122" rx="5" fill="#b6d4a5"/>
+                <path d="M55 45 H180 M55 69 H165 M55 93 H183 M55 117 H133" stroke="#375e3c" strokeWidth="7" strokeLinecap="square"/>
+                <circle cx="344" cy="78" r="40" stroke="#3c6d43" strokeWidth="7" fill="none"/>
+                <path d="M344 38 V118 M304 78 H384" stroke="#3c6d43" strokeWidth="5"/>
+              </svg>
+              <div><p className="dxj-project-category">JOURNAL / RESEARCH</p><h3>{article?.title || "Research from the studio"}</h3><p>{article?.excerpt || "Engineering notes and research will appear as they're published."}</p>
+                <Link href={article ? "/blog/" + article.slug : "/blog"}>Read the journal <Arrow /></Link>
+              </div>
+            </article>}
+          />
+          <div className="dxj-update-foot">{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
+        </div>
+      </section>
+
+      <section id="investors" className="dxj-screen dxj-closing">
+        <div className="wrap dxj-wrap dxj-closing-wrap">
+          <div className="dxj-split dxj-closing-main">
+            <div>
+              <p className="dxj-section-no">05 / TRANSPARENCY & PARTNERSHIPS</p>
+              <h2>DXJ Labs<br/><em>transparency.</em></h2>
+              <p>Explore our development progress today. Verified cross-chain metrics, financial reports, and private investor access will be published when their data sources and controls are ready.</p>
+              <div className="dxj-actions">
+                <Link className="btn btn--primary btn--xl dxj-button" href="/analytics">View public metrics <Arrow /></Link>
+                <Link className="dxj-text-link dxj-link-light" href="/investors">Investor overview <Arrow /></Link>
+              </div>
+            </div>
+            <div className="dxj-transparency-visual">
+              <svg viewBox="0 0 470 345" role="img" aria-label="Verifiable code updates and analytics provenance diagram">
+                <rect x="27" y="22" width="416" height="298" fill="#193a28" stroke="#658e6a" rx="5" strokeWidth="2"/>
+                <text x="52" y="60" fill="#d8efca" fontFamily="Arial,sans-serif" fontSize="16" fontWeight="700">PUBLIC DEVELOPMENT DATA</text>
+                <text x="52" y="100" fill="#b0d3aa" fontFamily="Arial,sans-serif" fontSize="13">VERIFIABLE GITHUB SOURCES</text>
+                <path d="M55 135 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="173" fill="#effae6" fontFamily="Arial,sans-serif" fontSize="24" fontWeight="700">VINSS</text>
+                <text x="322" y="173" fill="#bbeba1" fontFamily="Arial,sans-serif" fontSize="14">SOURCE ↗</text>
+                <path d="M55 193 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="230" fill="#effae6" fontFamily="Arial,sans-serif" fontSize="24" fontWeight="700">CAREL</text>
+                <text x="322" y="230" fill="#bbeba1" fontFamily="Arial,sans-serif" fontSize="14">SOURCE ↗</text>
+                <path d="M55 249 H412" stroke="#527956" strokeWidth="1.5"/>
+                <text x="57" y="285" fill="#b0d3aa" fontFamily="Arial,sans-serif" fontSize="13">BLOCKCHAIN METRICS: NOT CONNECTED</text>
+              </svg>
+            </div>
+          </div>
+          <footer className="dxj-last-line">
+            <Link href="/" className="dxj-logo">DXJ<span>LABS</span><i aria-hidden="true">✳</i></Link>
+            <span>Independent studio · East Kalimantan, Indonesia</span>
+            <a href="https://github.com/DXJLabs" target="_blank" rel="noopener noreferrer">GitHub <Arrow /></a>
+            <Link href="#top">Back to top ↑</Link>
+          </footer>
+        </div>
+      </section>
+    </main>
+    </>
+  );
 }
