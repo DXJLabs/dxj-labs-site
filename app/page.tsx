@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import FocusScrollLink from "../components/FocusScrollLink";
+import FeatureSwitcher from "../components/FeatureSwitcher";
 import { getConsoleSnapshot, readableDate } from "../lib/github-console";
 import { activities, publishedArticles } from "../lib/platform";
 import "./homepage.css";
@@ -174,24 +175,22 @@ export default async function Home() {
       <section id="work" className="dxj-screen dxj-work">
         <div className="wrap dxj-wrap dxj-section-wrap">
           <div className="dxj-section-head"><div><span className="dxj-section-no">02 / THE ECOSYSTEM</span><h2>DXJ Labs products.</h2></div></div>
-          <div className="dxj-product-swipe-hint">EXPLORE PRODUCTS <span aria-hidden="true">SWIPE →</span></div>
-          <div className="dxj-projects" tabIndex={0} role="region" aria-label="VINSS and CAREL product showcase, scroll horizontally on mobile">
-            <article className="dxj-product">
+          <FeatureSwitcher label="Select a DXJ Labs product" options={["VINSS","CAREL"]} className="dxj-projects"
+            first={<article className="dxj-product">
               <VinssGraphic />
               <div className="dxj-project-details">
                 <div><span className="dxj-project-category">PRIVACY · STARKNET DEVELOPMENT</span><h3>VINSS deal room</h3><p>Confidential deal rooms for digital agreements and settlement.</p></div>
                 <FocusScrollLink href="https://github.com/DXJLabs/vinss" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
-            </article>
-            <article className="dxj-product">
+            </article>}
+            second={<article className="dxj-product">
               <CarelGraphic />
               <div className="dxj-project-details">
                 <div><span className="dxj-project-category">AGENTIC DEFI · WALLET APPROVAL</span><h3>CAREL DeFi agent</h3><p>Turn financial goals into reviewed execution flows while keeping approval with the wallet owner.</p></div>
                 <FocusScrollLink href="https://github.com/DXJLabs/Carel" target="_blank" rel="noopener noreferrer">Source repository <Arrow /></FocusScrollLink>
               </div>
-            </article>
-          </div>
-          <p className="dxj-disclaimer">Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
+            </article>}
+          />Interfaces above are illustrative concepts. Product tokens and deployment availability are separately verified in the Ecosystem directory.</p>
         </div>
       </section>
 
@@ -211,8 +210,8 @@ export default async function Home() {
       <section id="activity" className="dxj-screen dxj-publishing">
         <div className="wrap dxj-wrap dxj-section-wrap">
           <div className="dxj-section-head"><div><span className="dxj-section-no">04 / PUBLIC PROGRESS</span><h2>DXJ Labs development.</h2></div><Link className="dxj-text-link" href="/activities">All activity <Arrow /></Link></div>
-          <div className="dxj-publishing-grid" role="region" tabIndex={0} aria-label="Development and journal previews, scroll horizontally on mobile">
-            <article className="dxj-activity-feature">
+          <FeatureSwitcher label="Select a studio update" options={["Engineering","Journal"]} className="dxj-publishing-grid"
+            first={<article className="dxj-activity-feature">
 
               <div><p className="dxj-project-category">DEVELOPMENT / GITHUB</p><h3>DXJ Labs source changes.</h3>
                 {latest.length ? <div className="dxj-commits">{latest.map(item => <a href={item.url} key={item.sha} target="_blank" rel="noopener noreferrer"><span>{item.project} · {readableDate(item.date)}</span>{item.title}<Arrow /></a>)}</div> : <p>Public GitHub activity is temporarily unavailable. See the linked repositories for updates.</p>}
@@ -222,8 +221,8 @@ export default async function Home() {
                 <path d="M134 46 L95 81 L134 116 M210 46 L249 81 L210 116 M189 41 L156 120" fill="none" stroke="#d0f1b0" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M314 55 H425 M314 82 H403 M314 109 H425" fill="none" stroke="#81b16e" strokeWidth="6" strokeLinecap="round"/>
               </svg>
-            </article>
-            <article className="dxj-journal-feature">
+            </article>}
+            second={<article className="dxj-journal-feature">
               <svg viewBox="0 0 480 160" role="img" aria-label="Technical journal illustration" className="dxj-publishing-art">
                 <rect x="28" y="17" width="180" height="122" rx="5" fill="#cce4b9"/>
                 <rect x="244" y="17" width="208" height="122" rx="5" fill="#b6d4a5"/>
@@ -234,9 +233,8 @@ export default async function Home() {
               <div><p className="dxj-project-category">JOURNAL / RESEARCH</p><h3>{article?.title || "Research from the studio"}</h3><p>{article?.excerpt || "Engineering notes and research will appear as they're published."}</p>
                 <Link href={article ? "/blog/" + article.slug : "/blog"}>Read the journal <Arrow /></Link>
               </div>
-            </article>
-          </div>
-          <div className="dxj-update-foot">{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
+            </article>}
+          />{activity ? <Link href="/activities">Studio activity: {activity.title} <Arrow /></Link> : <Link href="/activities">Browse studio activities <Arrow /></Link>}<span>PUBLIC SOURCE-LINKED RECORDS</span></div>
         </div>
       </section>
 
