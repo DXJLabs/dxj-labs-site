@@ -1,0 +1,50 @@
+name: Product evidence — capture public CAREL app
+
+on:
+  push:
+    branches:
+      - design/studio-rebrand-v4
+    paths:
+      - '.github/workflows/product-evidence.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  capture-public-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: design/studio-rebrand-v4
+          persist-credentials: true
+      - name: Capture actual public CAREL interface
+        shell: bash
+        run: |
+          set -euo pipefail
+          SITE='https://carel-v2-mock.vercel.app'
+          code=$(curl -L -sS --max-time 25 -o /tmp/carel.html -w '%{http_code}' "$SITE")
+          echo "CAREL public app HTTP status: $code"
+          test "$code" = "200"
+          CHROME="$(command -v google-chrome)"
+          mkdir -p public/proof
+          timeout 65 "$CHROME" --headless=new --no-sandbox --disable-dev-shm-usage --hide-scrollbars --window-size=1440,950 --virtual-time-budget=12000 --screenshot=public/proof/carel-app.png "$SITE" >/tmp/chrome-carel.log 2>&1
+          test -s public/proof/carel-app.png
+          BYTES=$(wc -c < public/proof/carel-app.png)
+          echo "Screenshot size: $BYTES bytes"
+          test "$BYTES" -gt 30000
+          if command -v identify >/dev/null; then identify public/proof/carel-app.png; fi
+      - name: Commit screenshot captured from published app to preview branch
+        run: |
+          set -euo pipefail
+          git config user.name 'dxjlabs-evidence-bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/proof/carel-app.png
+          if git diff --staged --quiet; then
+            echo "Screenshot unchanged"
+            exit 0
+          fi
+          git commit -m "assets: capture actual CAREL public app screenshot [skip ci]"
+          git push origin HEAD:design/studio-rebrand-v4
+          echo "Public app screenshot added to branch" >> "$GITHUB_STEP_SUMMARY"
